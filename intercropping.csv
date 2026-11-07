@@ -1,0 +1,7 @@
+crop_1,crop_2,status,reason
+Corn,Pigeon Peas,Supported,"FAO Ecocrop identifies Cajanus cajan in maize-associated cropping systems."
+Corn,Cowpea,Supported,"FAO Ecocrop identifies Vigna unguiculata among maize-associated grain legumes."
+Corn,Peanut,Supported,"FAO Ecocrop lists peanuts in maize intercropping systems."
+Corn,Okra,Supported,"FAO Ecocrop lists okra in maize intercropping systems."
+Corn,Pumpkin,Supported,"FAO Ecocrop lists pumpkins in maize intercropping systems."
+Corn,Watermelon,Potential,"FAO Ecocrop lists melons broadly in maize intercropping systems; species-specific validation should be added."

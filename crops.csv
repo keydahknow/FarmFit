@@ -1,0 +1,14 @@
+crop,family,crop_type,temp_opt_min,temp_opt_max,temp_abs_min,temp_abs_max,rain_opt_min,rain_opt_max,rain_abs_min,rain_abs_max,ph_opt_min,ph_opt_max,ph_abs_min,ph_abs_max,nitrogen_fixing
+Corn,Poaceae,Cereal,18,33,10,47,600,1200,400,1800,5.0,7.0,4.5,8.5,No
+Tomato,Solanaceae,Fruiting Vegetable,20,27,7,35,600,1300,400,1800,5.5,6.8,5.0,7.5,No
+Pigeon Peas,Fabaceae,Legume,18,38,10,45,600,1500,400,4000,5.0,7.0,4.5,8.4,Yes
+Pumpkin,Cucurbitaceae,Cucurbit,20,30,10,40,600,1600,300,2800,5.5,7.5,4.5,8.3,No
+Sweet Potato,Convolvulaceae,Root/Tuber,18,28,10,38,750,2000,350,5000,5.0,7.0,4.0,8.7,No
+Cassava,Euphorbiaceae,Root/Tuber,20,29,10,35,1000,1500,500,5000,5.5,8.0,4.0,9.0,No
+Cowpea,Fabaceae,Legume,20,35,10,40,600,1500,400,4100,5.5,7.5,4.3,8.8,Yes
+Common Bean,Fabaceae,Legume,16,25,7,32,500,2000,300,4300,5.5,7.5,4.0,9.0,Yes
+Peanut,Fabaceae,Legume,22,32,10,45,600,1500,400,4000,5.5,6.5,4.5,8.5,Yes
+Okra,Malvaceae,Fruiting Vegetable,20,30,12,35,600,1200,300,2500,5.5,7.0,4.5,8.7,No
+Cucumber,Cucurbitaceae,Cucurbit,18,32,6,38,1000,1200,400,4300,6.0,7.5,4.5,8.7,No
+Watermelon,Cucurbitaceae,Cucurbit,20,35,15,40,500,700,400,1800,6.0,7.0,5.5,7.5,No
+Eggplant,Solanaceae,Fruiting Vegetable,20,35,9,40,1200,1600,800,4000,5.5,6.8,4.3,8.5,No
