@@ -3,6 +3,10 @@
 .env
 .env.*
 
+# PDF build artifact (generate locally; not stored in the repo)
+GIT_SHEET.pdf
+scripts/_git_sheet_print.html
+
 # Python
 __pycache__/
 *.py[cod]
