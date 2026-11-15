@@ -1,0 +1,59 @@
+name: Refresh NASA data
+
+# Daily during hurricane season (Jun-Nov), weekly (Mondays) the rest of the year.
+# Times are UTC. Also runnable by hand from the Actions tab.
+on:
+  schedule:
+    - cron: "17 9 * 6-11 *"
+    - cron: "17 9 * 1-5,12 1"
+  workflow_dispatch:
+    inputs:
+      quick:
+        description: "Skip the slow AppEEARS (SMAP/NDVI) task"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Refresh datasets
+        env:
+          EARTHDATA_USERNAME: ${{ secrets.EARTHDATA_USERNAME }}
+          EARTHDATA_PASSWORD: ${{ secrets.EARTHDATA_PASSWORD }}
+        run: |
+          if [ "${{ inputs.quick }}" = "true" ]; then
+            python scripts/refresh_data.py --quick
+          else
+            python scripts/refresh_data.py
+          fi
+
+      - name: Commit refreshed data
+        run: |
+          git config user.name "farmfit-data-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "No data changes."
+          else
+            git commit -m "Data refresh $(date -u +%Y-%m-%d)"
+            git push
+          fi
