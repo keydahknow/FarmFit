@@ -120,3 +120,20 @@ def test_datarods_line_parser():
         m = LINE.match(line)
         assert m and float(m.group(4)) == 1.25
     assert LINE.match("Location: lat 18.05") is None
+
+
+def test_water_watch_percentiles_and_ordinals():
+    from fieldshift import water
+    assert water.ordinal(3) == "3rd" and water.ordinal(11) == "11th" and water.ordinal(22) == "22nd"
+    assert water.percentile_rank(5, [1, 2, 3, 4]) == 100.0
+    assert water.classify(5)[1] == "dry2" and water.classify(50)[1] == "normal" and water.classify(95)[1] == "wet2"
+
+
+def test_storm_threat_levels():
+    from fieldshift import stormwatch
+    near = {"lat": 17.0, "lon": -76.0, "dir": 280, "speed_mph": 10}
+    far = {"lat": 30.0, "lon": -50.0, "dir": 45, "speed_mph": 15}
+    assert stormwatch.threat(near, 18.05, -77.72)["level"] == "act now"
+    assert stormwatch.threat(far, 18.05, -77.72)["level"] == "monitor"
+    steps = [s for s, _ in stormwatch.checklist("Plantain", "mature", drainage="Slow")]
+    assert any("prop" in s for s in steps) and any("drains slowly" in s for s in steps)

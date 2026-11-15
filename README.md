@@ -154,13 +154,18 @@ pip install pytest && pytest -q
 
 | Path | Purpose |
 |---|---|
-| `app.py` | Streamlit app: original FarmFit views plus the two new views |
+| `app.py` | Streamlit entry point: masthead, farm picker and five sections (Plan my season, Water watch, Storm ready, After a storm, Data & method) |
+| `legacy_app.py` | The original FarmFit crop-check app, still runnable with `streamlit run legacy_app.py` |
 | `fieldshift/storms.py` | HURDAT2 loading, interpolation, wind-at-farm, monthly exposure |
 | `fieldshift/power.py` | NASA POWER fetch and cache, climate normals, ET₀, field-shift statistics |
 | `fieldshift/soil_terrain.py` | SoilGrids, SRTM slope, USDA texture, RUSLE slope factor |
 | `fieldshift/planner.py` | Crop table, rotation enumeration, scoring, strategy generation, explanations, stress tests |
 | `fieldshift/recovery.py` | Gemini photo assessment, field-state rules, staged recovery |
 | `fieldshift/ui.py` | Streamlit views, calendars, maps, charts |
+| `fieldshift/art.py` | Almanac visual identity: palette, fonts, hand-drawn SVG artwork, chart theme |
+| `fieldshift/water.py` | Water watch: rain and soil-wetness percentiles vs 30 years, 7-day irrigation advice |
+| `fieldshift/stormwatch.py` | Live NOAA NHC active-storm feed, threat level, crop-specific preparation checklist |
+| `static/fonts/` | Fraunces and Inter (SIL Open Font License) |
 | `data/crops_fieldshift.csv` | 25 Caribbean crops and cover crops with ranges, Kc, stage vulnerability and sources |
 | `data/hurdat2_caribbean.csv` | NOAA HURDAT2 subset (1950-2025) |
 | `fieldshift/earthdata.py` | NASA Earthdata access: IMERG data rods, AppEEARS SMAP / NDVI |
