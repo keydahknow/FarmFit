@@ -112,3 +112,11 @@ def test_flood_contact_blocks_food_and_flags_contamination():
     stages = recovery.recovery_stages(state, 10)
     assert "Do not harvest" in stages[0]["actions"][0]
     assert "Pak Choi" not in stages[2]["crops"]
+
+
+def test_datarods_line_parser():
+    from fieldshift.earthdata import LINE
+    for line in ("2025-10-28T00:00:00\t1.25", "2025-10-28 00Z 1.25", "2025-10-28T00:30 1.25e0"):
+        m = LINE.match(line)
+        assert m and float(m.group(4)) == 1.25
+    assert LINE.match("Location: lat 18.05") is None

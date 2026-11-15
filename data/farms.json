@@ -1,0 +1,7 @@
+{
+  "_comment": "Farms refreshed automatically by .github/workflows/refresh-data.yml. Add pilot farms here (id, label, lat, lon).",
+  "farms": [
+    {"id": "jamaica", "label": "St Elizabeth, Jamaica", "lat": 18.05, "lon": -77.72, "storm_dates": ["2025-10-28"]},
+    {"id": "trinidad", "label": "Caroni plains, Trinidad", "lat": 10.60, "lon": -61.38, "storm_dates": ["1993-08-07"]}
+  ]
+}

@@ -1,7 +1,9 @@
 """Streamlit views for FarmFit · Hurricane to Harvest."""
 
+import json
 import os
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
+from pathlib import Path
 from urllib.parse import quote
 
 import altair as alt
@@ -14,6 +16,44 @@ from streamlit_folium import st_folium
 from . import planner, power, recovery, soil_terrain, storms
 
 MONTHS = planner.MONTHS
+CACHE_DIR = power.CACHE_DIR
+
+
+def manifest():
+    try:
+        return json.loads((CACHE_DIR / "manifest.json").read_text())
+    except Exception:  # noqa: BLE001
+        return {}
+
+
+def freshness(name):
+    """'refreshed 3 days ago' for a dataset in the manifest, or None."""
+    entry = manifest().get("datasets", {}).get(name)
+    if not entry or entry.get("status") not in ("ok", "partial"):
+        return None
+    try:
+        then = datetime.fromisoformat(entry["updated"])
+        days = (datetime.now(timezone.utc) - then).days
+        return "refreshed today" if days == 0 else f"refreshed {days} day{'s' if days != 1 else ''} ago"
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def satellite_pulse(farm_id):
+    """Cached SMAP / NDVI (AppEEARS) and IMERG series for a watched farm."""
+    out = {}
+    path = CACHE_DIR / "appeears_points.csv"
+    if path.exists():
+        df = pd.read_csv(path, parse_dates=["date"])
+        df = df[df["id"] == farm_id]
+        for key, needle in (("smap", "soil_moisture"), ("ndvi", "NDVI")):
+            part = df[df["layer"].str.contains(needle, case=False)]
+            if len(part):
+                out[key] = part.set_index("date")["value"].sort_index()
+    ip = CACHE_DIR / f"imerg_{farm_id}.csv"
+    if ip.exists():
+        out["imerg"] = pd.read_csv(ip, parse_dates=["date"]).set_index("date")["imerg_mm"]
+    return out
 
 DEMO_SITES = {
     "jamaica": {
@@ -222,6 +262,17 @@ def data_passport(bundle):
         ["NASA GIBS: SMAP, GPM IMERG, MODIS", "Map overlays for soil moisture, rain, vegetation", "9 km / 0.1° / 250 m", "Pick a date", "🗺️ map layer"],
         ["FAO ECOCROP + FAO-56", "Crop climate ranges and crop water coefficients", "Crop level", "-", "✅ bundled"],
     ]
+    fresh = {0: "NASA POWER", 1: "NOAA IBTrACS (current season)", 2: "ISRIC SoilGrids", 3: "NASA SRTM"}
+    for i, name in fresh.items():
+        f = freshness(name)
+        if f:
+            rows[i][4] = f"{rows[i][4]} · {f}"
+    for name, label, use, res in [
+        ("GPM IMERG", "NASA GPM IMERG Final (data rods)", "Daily rain at the farm, storm windows", "0.1° (≈ 11 km)"),
+        ("SMAP + MODIS NDVI (AppEEARS)", "NASA SMAP L3 + MODIS NDVI (AppEEARS)", "Soil-moisture and greenness time series", "9 km / 250 m"),
+    ]:
+        f = freshness(name)
+        rows.append([label, use, res, "last 2-3 years", f"✅ {f}" if f else "⏳ needs Earthdata login"])
     return pd.DataFrame(rows, columns=["Dataset", "Used for", "Resolution", "Period", "Status"])
 
 
@@ -418,6 +469,26 @@ def render_profile(bundle):
         st.dataframe(data_passport(bundle), hide_index=True, use_container_width=True)
         st.caption("Satellite and reanalysis cells are much larger than a farm. Treat these as the regional backdrop "
                    "and correct the soil values below if you have a soil test.")
+
+    key, _ = current_demo()
+    pulse = satellite_pulse(key) if key else {}
+    if pulse:
+        st.markdown("#### Satellite pulse: the last few years at this farm")
+        cols = st.columns(len(pulse))
+        specs = {
+            "smap": ("SMAP soil moisture (m³/m³)", "#8C6A43"),
+            "ndvi": ("MODIS NDVI (greenness)", "#2F7D32"),
+            "imerg": ("GPM IMERG daily rain (mm)", "#1d70b8"),
+        }
+        for col, (k, series) in zip(cols, pulse.items()):
+            title, color = specs[k]
+            d = series.reset_index()
+            d.columns = ["date", "value"]
+            mark = alt.Chart(d).mark_bar(color=color) if k == "imerg" else alt.Chart(d).mark_line(color=color, strokeWidth=1.6)
+            with col:
+                st.altair_chart(mark.encode(x=alt.X("date:T", title=None), y=alt.Y("value:Q", title=None),
+                                            tooltip=["date:T", alt.Tooltip("value:Q", format=".2f")])
+                                .properties(height=170, title=title), use_container_width=True)
 
 
 def render_shift(bundle):

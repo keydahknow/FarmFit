@@ -25,6 +25,7 @@ import numpy as np
 import pandas as pd
 
 DATA_FILE = Path(__file__).resolve().parents[1] / "data" / "hurdat2_caribbean.csv"
+RECENT_FILE = Path(__file__).resolve().parents[1] / "data" / "ibtracs_recent.csv"  # written by scripts/refresh_data.py
 START_YEAR = 1971  # satellite era: aircraft + geostationary imagery
 END_YEAR = 2025
 STEP_HOURS = 0.25  # 15-minute steps so the eyewall is not skipped
@@ -61,7 +62,16 @@ def category(wind_kt):
 
 @lru_cache(maxsize=1)
 def load_tracks():
+    """HURDAT2 (final, reviewed) plus any newer provisional IBTrACS storms."""
     df = pd.read_csv(DATA_FILE, parse_dates=["time"])
+    df["provisional"] = False
+    if RECENT_FILE.exists():
+        recent = pd.read_csv(RECENT_FILE, parse_dates=["time"])
+        recent = recent[recent["year"] > df["year"].max()]
+        if len(recent):
+            recent["provisional"] = True
+            df = pd.concat([df, recent[df.columns.intersection(recent.columns)]], ignore_index=True)
+            df["provisional"] = df["provisional"].fillna(False).astype(bool)
     df["rmw_km"] = df["rmw_nm"] * NM_TO_KM
     return df
 
@@ -84,6 +94,7 @@ def hourly_tracks():
                     "storm_id": storm_id,
                     "name": g["name"].iloc[0],
                     "year": int(g["year"].iloc[0]),
+                    "provisional": bool(g["provisional"].iloc[0]),
                     "hour": grid,
                     "lat": np.interp(grid, t, g["lat"].to_numpy()),
                     "lon": np.interp(grid, t, g["lon"].to_numpy()),
@@ -116,7 +127,7 @@ def wind_at_distance(vmax_kt, dist_km, rmw_km):
 
 IMPACT_COLUMNS = [
     "storm_id", "name", "year", "time", "month", "site_wind_kt", "closest_km",
-    "storm_wind_kt", "site_category", "storm_category",
+    "storm_wind_kt", "site_category", "storm_category", "provisional",
 ]
 
 

@@ -101,6 +101,24 @@ Rotations are enumerated exhaustively: cyclic, no same family back-to-back, at m
 - **Markets, labour and prices** are not modelled.
 - **Food safety** after flooding must be confirmed with the Ministry of Agriculture.
 
+## Keeping the data fresh
+
+The data reaches the site in three ways:
+
+| How | Datasets | Key needed |
+|---|---|---|
+| **Live, on every map click** (deployed app) | NASA POWER, ISRIC SoilGrids, NASA SRTM, NASA GIBS map layers | none |
+| **Scheduled refresh**: `.github/workflows/refresh-data.yml` runs `scripts/refresh_data.py` daily June-November and weekly otherwise, commits `data/cache/`, and Streamlit Cloud redeploys | NASA POWER (30-year + last 45 days), GPM IMERG Final at the farm (GES DISC data rods), SMAP soil moisture + MODIS NDVI (LP DAAC AppEEARS), NOAA IBTrACS current-season tracks | free NASA Earthdata Login for IMERG / SMAP / NDVI |
+| **Annual** | NOAA HURDAT2 (new release each spring): run `scripts/build_hurdat2.py` | none |
+
+Farms refreshed on the schedule are listed in `data/farms.json`; add pilot farms there. The app's data passport shows when each dataset was last refreshed.
+
+**Setup**
+1. Create a free account at https://urs.earthdata.nasa.gov.
+2. In the GitHub repo, go to **Settings → Secrets and variables → Actions** and add `EARTHDATA_USERNAME` and `EARTHDATA_PASSWORD`.
+3. Under **Settings → Actions → General → Workflow permissions**, choose **Read and write**.
+4. **Actions → Refresh NASA data → Run workflow** runs the refresh once by hand.
+
 ## Run it
 
 ```bash
@@ -145,7 +163,9 @@ pip install pytest && pytest -q
 | `fieldshift/ui.py` | Streamlit views, calendars, maps, charts |
 | `data/crops_fieldshift.csv` | 25 Caribbean crops and cover crops with ranges, Kc, stage vulnerability and sources |
 | `data/hurdat2_caribbean.csv` | NOAA HURDAT2 subset (1950-2025) |
-| `scripts/` | Data build and cache scripts |
+| `fieldshift/earthdata.py` | NASA Earthdata access: IMERG data rods, AppEEARS SMAP / NDVI |
+| `scripts/` | Data build, cache and scheduled refresh scripts |
+| `.github/workflows/refresh-data.yml` | Scheduled data refresh |
 | `tests/` | Engine tests and synthetic fixture generator |
 | `crops.csv`, `crop_water.csv`, `intercropping.csv`, `farmfit.db` | Original FarmFit data |
 

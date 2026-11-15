@@ -104,12 +104,15 @@ def nearest_cache(kind, lat, lon, tolerance=0.3):
     return best
 
 
-def fetch_daily(lat, lon, start_year=None, end_year=None, allow_network=True):
-    """Return (DataFrame, meta). meta['origin'] is 'live', 'cache' or None."""
+def fetch_daily(lat, lon, start_year=None, end_year=None, allow_network=True, refresh=False):
+    """Return (DataFrame, meta). meta['origin'] is 'live', 'cache' or None.
+
+    refresh=True skips the cache and re-downloads (used by the scheduled refresh).
+    """
     if start_year is None or end_year is None:
         start_year, end_year = default_period()
     path = _cache_path("daily", lat, lon, start_year, end_year)
-    if path.exists():
+    if path.exists() and not refresh:
         raw = json.loads(path.read_text())
         return _to_frame(raw), {"origin": "cache", "source": raw.get("source"), "file": path.name}
 
