@@ -155,7 +155,6 @@ def _soilgrids_wcs(lat, lon, half=0.004):
     and average the valid 250 m pixels."""
     import io
 
-    import numpy as np
     import tifffile
 
     values = {}

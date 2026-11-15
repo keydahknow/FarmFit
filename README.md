@@ -51,6 +51,9 @@ Many farm calendars were handed down from a climate that has since shifted. Farm
   - It publishes storm alerts ("get ready" / "act now" from the NOAA NHC feed) and drought or wet alerts (60-day rain below the 10th or above the 90th percentile) to a free ntfy topic per farm.
   - No phone numbers are stored. Twilio SMS is optional, through `TWILIO_*` and `ALERT_SMS` secrets.
 - **Printable almanac:** a one-page A4 poster per farm with the artwork, the year's calendar, monthly to-dos, the storm checklist and an alert QR code.
+- **Season ahead (El Niño / La Niña):** NOAA's Oceanic Niño Index is tested against the farm's own 30-year NASA POWER rain. Water watch shows what the next three months brought in El Niño, neutral and La Niña years, with the correlation r, so the farmer sees whether ENSO matters at their farm before acting on it.
+- **Plant water stress from space:** MODIS actual ÷ potential evapotranspiration (ET ÷ PET) for the latest 8 days against the same time in other years; SMAP L4 shows whether the top metre of soil is drying.
+- **Flood water seen from space:** After a storm shows MODIS 2-day flood maps for the storm date, and OPERA Sentinel-1 radar water, which sees through hurricane cloud.
 - **Ground-truth soil probe:** ESP32 firmware (`hardware/`) for a low-cost capacitive probe, using the same JSON contract as IFRS. Water watch compares the probe's readings with NASA SMAP and POWER soil wetness as standardised anomalies, with a correlation r.
 
 ## Datasets
@@ -61,7 +64,11 @@ Many farm calendars were handed down from a climate that has since shifted. Farm
 | **HURDAT2** Atlantic best track, 1851-2025 (release 23 Sep 2026) | NOAA National Hurricane Center | Storm exposure at the farm, storm replay, Monte Carlo | 6-hourly fixes | Bundled as `data/hurdat2_caribbean.csv` (1950+, Caribbean / Gulf box), built by `scripts/build_hurdat2.py` |
 | **SoilGrids 2.0** (pH, SOC, clay, sand, silt, N, bulk density) | ISRIC | Soil pH fit, texture, drainage class | 250 m | Live REST API, with ISRIC WCS (map service) fallback when the REST beta is paused; farmer can override |
 | **SRTM GL1** | NASA / USGS via OpenTopoData | Elevation and slope (Horn's method), RUSLE slope factor | 30 m | Live API |
-| **SMAP L4 surface soil moisture**, **GPM IMERG precipitation rate**, **MODIS NDVI and true colour** | NASA GIBS (EOSDIS) | Map layers for any date, including the storm date | 9 km / 0.1° / 250 m | WMTS tiles |
+| **GPM IMERG V07** daily rain (Final, else Late) | NASA GES DISC | Rain at the farm: last 120 days and storm windows | 0.1° | OPeNDAP, scheduled |
+| **SMAP L3** surface soil moisture (SPL3SMP_E) and **SMAP L4** root-zone moisture (SPL4SMGP, top 1 m) | NASA NSIDC via LP DAAC AppEEARS | Soil moisture at the farm, drying of the root zone | 9 km | AppEEARS point tasks, scheduled |
+| **MODIS NDVI** (MOD13Q1) and **MODIS ET / PET** (MOD16A2) | NASA LP DAAC AppEEARS | Crop greenness; plant water stress = ET ÷ PET | 250 m / 500 m, 16 and 8-day | AppEEARS point tasks, scheduled |
+| **SMAP**, **GPM IMERG**, **MODIS NDVI and true colour**, **MODIS flood (2-day)**, **OPERA DSWx-S1** surface water | NASA GIBS (EOSDIS) | Map layers for any date, including where flood water stood after the storm | 9 km to 30 m | WMTS tiles |
+| **Oceanic Niño Index (ONI)** | NOAA Climate Prediction Center | Season-ahead drought signal, tested against the farm's own 30-year rain | Pacific index, monthly | Scheduled |
 | **ECOCROP** crop ranges, **FAO-56** crop coefficients | FAO | Crop climate fit and crop water demand | Crop level | `data/crops_fieldshift.csv` |
 | Crop calendars, stage vulnerability, flood tolerance | FarmFit heuristics from crop architecture (documented per crop) | Wind and flood loss by growth stage | Crop level | `data/crops_fieldshift.csv`, to be validated with CARDI and extension services |
 
@@ -119,7 +126,7 @@ The data reaches the site in three ways:
 | How | Datasets | Key needed |
 |---|---|---|
 | **Live, on every map click** (deployed app) | NASA POWER, ISRIC SoilGrids, NASA SRTM, NASA GIBS map layers | none |
-| **Scheduled refresh**: `.github/workflows/refresh-data.yml` runs `scripts/refresh_data.py` daily June-November and weekly otherwise, commits `data/cache/`, and Streamlit Cloud redeploys | NASA POWER (30-year + last 45 days), GPM IMERG daily rain at the farm (Final, else Late; GES DISC OPeNDAP), SMAP soil moisture + MODIS NDVI (LP DAAC AppEEARS), NOAA IBTrACS current-season tracks | free NASA Earthdata Login for IMERG / SMAP / NDVI |
+| **Scheduled refresh**: `.github/workflows/refresh-data.yml` runs `scripts/refresh_data.py` every day June-November and on Mondays and Thursdays otherwise, commits `data/cache/`, and Streamlit Cloud redeploys | NASA POWER (30-year + last 45 days), GPM IMERG daily rain at the farm (GES DISC OPeNDAP), SMAP surface + root-zone moisture, MODIS NDVI + ET (LP DAAC AppEEARS), NOAA IBTrACS current-season tracks, NOAA ENSO index | free NASA Earthdata Login (approve the **NASA GESDISC DATA ARCHIVE** app in your Earthdata profile) |
 | **Annual** | NOAA HURDAT2 (new release each spring): run `scripts/build_hurdat2.py` | none |
 
 Farms refreshed on the schedule are listed in `data/farms.json`; add pilot farms there. The app's data passport shows when each dataset was last refreshed.
@@ -128,7 +135,10 @@ Farms refreshed on the schedule are listed in `data/farms.json`; add pilot farms
 1. Create a free account at https://urs.earthdata.nasa.gov.
 2. In the GitHub repo, go to **Settings → Secrets and variables → Actions** and add `EARTHDATA_USERNAME` and `EARTHDATA_PASSWORD`.
 3. Under **Settings → Actions → General → Workflow permissions**, choose **Read and write**.
-4. **Actions → Refresh NASA data → Run workflow** runs the refresh once by hand.
+4. In your Earthdata profile, **Applications → Authorized Apps → Approve More Applications**, approve **NASA GESDISC DATA ARCHIVE** (needed for IMERG).
+5. **Actions → Refresh NASA data → Run workflow** runs the refresh once by hand. After that it runs on its own.
+
+AppEEARS requests are queued at NASA, so each run submits them and a later run collects the results (long records weekly, root-zone moisture every 2 days).
 
 ## Run it
 
@@ -174,7 +184,8 @@ pip install pytest && pytest -q
 | `fieldshift/recovery.py` | Gemini photo assessment, field-state rules, staged recovery |
 | `fieldshift/ui.py` | Streamlit views, calendars, maps, charts |
 | `fieldshift/art.py` | Almanac visual identity: palette, fonts, hand-drawn SVG artwork, chart theme |
-| `fieldshift/water.py` | Water watch: rain and soil-wetness percentiles vs 30 years, 7-day irrigation advice |
+| `fieldshift/water.py` | Water watch: rain and soil-wetness percentiles vs 30 years, 7-day irrigation advice, MODIS ET ÷ PET stress, SMAP root-zone trend |
+| `fieldshift/enso.py` | NOAA ENSO index and its measured link to the farm's own seasonal rain |
 | `fieldshift/stormwatch.py` | Live NOAA NHC active-storm feed, threat level, crop-specific preparation checklist |
 | `fieldshift/assistant.py` | Gemini farm assistant: rules and farm briefing |
 | `fieldshift/i18n.py` | English, Spanish, French, Kreyòl interface text |

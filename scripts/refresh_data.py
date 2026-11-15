@@ -8,8 +8,9 @@ For every farm in data/farms.json it refreshes:
   - NASA POWER daily, 30 complete years                 (no key)
   - NASA POWER last 45 days (recent rain, soil wetness)  (no key)
   - ISRIC SoilGrids + NASA SRTM, only if missing         (no key)
-  - GPM IMERG Final daily rain, last 2 years + storm dates  (Earthdata login)
-  - SMAP soil moisture + MODIS NDVI via AppEEARS         (Earthdata login)
+  - GPM IMERG daily rain (Final, else Late), last 120 days + storm dates  (Earthdata login)
+  - SMAP surface + L4 root-zone soil moisture, MODIS NDVI + ET via AppEEARS (Earthdata login)
+  - NOAA CPC Oceanic Nino Index (ENSO), for the season-ahead drought signal  (no key)
 Plus, once for the whole basin:
   - NOAA IBTrACS current-season storm tracks             (no key)
 
@@ -31,7 +32,7 @@ sys.path.insert(0, str(ROOT))
 import pandas as pd  # noqa: E402
 import requests  # noqa: E402
 
-from fieldshift import earthdata, power, soil_terrain  # noqa: E402
+from fieldshift import earthdata, enso, power, soil_terrain  # noqa: E402
 
 CACHE = power.CACHE_DIR  # honours FIELDSHIFT_CACHE_DIR
 FARMS = ROOT / "data" / "farms.json"
@@ -128,55 +129,110 @@ def refresh_imerg(farms, manifest):
            errors=[e[:600] for e in errors[:4]])
 
 
-def refresh_appeears(farms, manifest, max_wait_s):
-    """SMAP + NDVI via AppEEARS without long waits.
+APPEEARS_NAME = "NASA AppEEARS (SMAP, MODIS NDVI + ET)"
+POINTS = CACHE / "appeears_points.csv"
+# Resubmit a group once its last data is this many days old.
+APPEEARS_EVERY = {"core": 7, "et": 7, "rootzone": 2}
 
-    A task submitted in one run is collected in a later run (AppEEARS can queue
-    requests for a long time). The pending task id lives in the manifest.
+
+def merge_points(df):
+    """Replace the products in df inside appeears_points.csv, keep the others."""
+    if POINTS.exists():
+        old = pd.read_csv(POINTS)
+        old = old[~old["product"].isin(df["product"].unique())]
+        df = pd.concat([old, df], ignore_index=True)
+    df.to_csv(POINTS, index=False)
+
+
+def refresh_appeears(farms, manifest, max_wait_s):
+    """SMAP + MODIS via AppEEARS without long waits.
+
+    Each group is a separate task. A task submitted in one run is collected in a
+    later run if AppEEARS is slow; pending task ids live in the manifest.
     """
-    name = "SMAP + MODIS NDVI (AppEEARS)"
     if not earthdata.credentials():
-        record(manifest, name, "skipped", reason="no Earthdata credentials")
+        record(manifest, APPEEARS_NAME, "skipped", reason="no Earthdata credentials")
         return
-    pending = manifest.get("appeears_pending")
-    try:
-        if pending:
-            status = earthdata.task_status(pending["task_id"])
-            print(f"AppEEARS pending task {pending['task_id']}: {status}")
+    tasks = manifest.setdefault("appeears_tasks", {})
+    old = manifest.pop("appeears_pending", None)  # task from the single-group version
+    if old and "core" not in tasks:
+        tasks["core"] = {**old, "state": "pending"}
+    manifest["datasets"].pop("SMAP + MODIS NDVI (AppEEARS)", None)
+    info = manifest["datasets"].get(APPEEARS_NAME, {}).get("groups", {})
+    points = [{"id": f["id"], "lat": f["lat"], "lon": f["lon"]} for f in farms]
+
+    def collect(group, task):
+        df = earthdata.download_points(task["task_id"], task["layers"])
+        merge_points(df)
+        tasks.pop(group, None)
+        info[group] = {"status": "ok", "collected": now(), "rows": len(df),
+                       "layers": sorted({f"{l['product']}:{l['layer']}" for l in task["layers"]}),
+                       "latest": str(df["date"].max())[:10]}
+        print(f"AppEEARS {group}: collected {len(df)} rows")
+
+    # 1. Collect or check pending tasks.
+    for group, task in list(tasks.items()):
+        try:
+            status = earthdata.task_status(task["task_id"])
+            print(f"AppEEARS {group} {task['task_id']}: {status}")
             if status == "done":
-                df = earthdata.download_points(pending["task_id"], pending["layers"])
-                df.to_csv(CACHE / "appeears_points.csv", index=False)
-                manifest.pop("appeears_pending", None)
-                record(manifest, name, "ok", rows=len(df), products=sorted(df["product"].unique().tolist()))
-                return
-            if status in ("error", "expired"):
-                manifest.pop("appeears_pending", None)
+                collect(group, task)
+            elif status in ("error", "expired"):
+                tasks.pop(group)
+                info[group] = {**info.get(group, {}), "status": "failed", "error": f"task {status}"}
             else:
-                prev = manifest["datasets"].get(name, {})
-                manifest["datasets"][name] = {**prev, "pending": pending["task_id"], "pending_status": status}
-                print("Still processing; will collect on the next run.")
-                return
-        task_id, layers = earthdata.submit_points(
-            [{"id": f["id"], "lat": f["lat"], "lon": f["lon"]} for f in farms],
-            start=date.today() - timedelta(days=3 * 365), end=date.today())
-        manifest["appeears_pending"] = {"task_id": task_id, "layers": layers, "submitted": now()}
-        waited = 0
-        while waited < max_wait_s:  # short wait: small requests often finish quickly
-            time.sleep(30)
-            waited += 30
-            status = earthdata.task_status(task_id)
-            if status == "done":
-                df = earthdata.download_points(task_id, layers)
-                df.to_csv(CACHE / "appeears_points.csv", index=False)
-                manifest.pop("appeears_pending", None)
-                record(manifest, name, "ok", rows=len(df), products=sorted(df["product"].unique().tolist()))
-                return
-        prev = manifest["datasets"].get(name, {})
-        manifest["datasets"][name] = {**prev, "pending": task_id}
-        print(f"AppEEARS task {task_id} submitted; it will be collected on the next run.")
+                info[group] = {**info.get(group, {}), "status": "pending", "task_status": status}
+        except Exception as error:  # noqa: BLE001
+            traceback.print_exc()
+            info[group] = {**info.get(group, {}), "status": "failed", "error": str(error)[:300]}
+
+    # 2. Submit groups that are not pending and are due.
+    for group, (days, _) in earthdata.APPEEARS_GROUPS.items():
+        if group in tasks:
+            continue
+        last = info.get(group, {}).get("collected")
+        if last and (pd.Timestamp.now(tz="UTC") - pd.Timestamp(last)).days < APPEEARS_EVERY[group]:
+            continue
+        try:
+            task_id, layers = earthdata.submit_points(
+                points, start=date.today() - timedelta(days=days), end=date.today(), name=f"FarmFit {group}",
+                layers=earthdata.layers_for(earthdata._session(), group))
+            tasks[group] = {"task_id": task_id, "layers": layers, "submitted": now(), "state": "pending"}
+            info[group] = {**info.get(group, {}), "status": "pending", "task_status": "submitted"}
+            print(f"AppEEARS {group}: submitted {task_id}")
+        except Exception as error:  # noqa: BLE001
+            traceback.print_exc()
+            info[group] = {**info.get(group, {}), "status": "failed", "error": str(error)[:300]}
+
+    # 3. Short wait: small point tasks often finish within minutes.
+    waited = 0
+    while tasks and waited < max_wait_s:
+        time.sleep(30)
+        waited += 30
+        for group, task in list(tasks.items()):
+            try:
+                if earthdata.task_status(task["task_id"]) == "done":
+                    collect(group, task)
+            except Exception as error:  # noqa: BLE001
+                info[group] = {**info.get(group, {}), "status": "failed", "error": str(error)[:300]}
+                tasks.pop(group, None)
+
+    states = [g.get("status") for g in info.values()]
+    overall = "ok" if states and all(x == "ok" for x in states) else (
+        "partial" if "ok" in states else ("pending" if "pending" in states else "failed"))
+    record(manifest, APPEEARS_NAME, overall, groups=info, pending=sorted(tasks))
+
+
+def refresh_enso(manifest):
+    """NOAA CPC Oceanic Nino Index (monthly, 3-month running means)."""
+    try:
+        oni = enso.fetch_oni()
+        oni.to_csv(CACHE / "oni.csv", index=False)
+        last = oni.iloc[-1]
+        record(manifest, "NOAA ENSO (ONI)", "ok", latest=f"{last['season']} {int(last['year'])}",
+               anomaly=float(last["anom"]), phase=enso.phase(last["anom"]))
     except Exception as error:  # noqa: BLE001
-        traceback.print_exc()
-        record(manifest, name, "failed", error=str(error)[:300])
+        record(manifest, "NOAA ENSO (ONI)", "failed", error=str(error)[:300])
 
 
 def refresh_ibtracs(manifest):
@@ -234,6 +290,7 @@ def main():
     if not args.quick:
         refresh_appeears(farms, manifest, args.appeears_wait)
     refresh_ibtracs(manifest)
+    refresh_enso(manifest)
 
     manifest["generated"] = now()
     manifest_path.write_text(json.dumps(manifest, indent=2, default=str))

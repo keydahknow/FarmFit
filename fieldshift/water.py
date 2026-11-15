@@ -204,3 +204,36 @@ def cumulative_envelope(record, recent, days=90):
     out["this_year"] = np.nan
     out.loc[: len(cur) - 1, "this_year"] = cur
     return out
+
+
+def crop_stress(et, pet):
+    """MODIS evaporative stress: actual ET / potential ET for the latest 8-day
+    composite, against the same time of year in the other cached years.
+    ~1 = plants transpire freely; below ~0.5 = water-limited."""
+    if et is None or pet is None:
+        return None
+    d = pd.concat({"et": et, "pet": pet}, axis=1).dropna()
+    d = d[d["pet"] > 1]
+    if len(d) < 6:
+        return None
+    d["ratio"] = (d["et"] / d["pet"]).clip(0, 1.2)
+    latest_date = d.index.max()
+    latest = float(d.loc[latest_date, "ratio"])
+    doy = d.index.dayofyear
+    near = (abs(doy - latest_date.dayofyear) <= 12) & (d.index.year < latest_date.year)
+    normal = float(d.loc[near, "ratio"].mean()) if near.any() else None
+    return {"date": latest_date, "ratio": latest, "normal": normal,
+            "et_mm": float(d.loc[latest_date, "et"]), "pet_mm": float(d.loc[latest_date, "pet"]),
+            "label": "water-limited" if latest < 0.5 else ("some stress" if latest < 0.7 else "unstressed")}
+
+
+def rootzone_status(series, lookback=30):
+    """Latest week of SMAP L4 root-zone moisture and its change over `lookback` days."""
+    if series is None or len(series.dropna()) < 10:
+        return None
+    s = series.dropna()
+    end = s.index.max()
+    now = float(s.loc[end - pd.Timedelta(days=6):].mean())
+    before = s.loc[end - pd.Timedelta(days=lookback + 6): end - pd.Timedelta(days=lookback)]
+    change = now - float(before.mean()) if len(before) else None
+    return {"date": end, "value": now, "change": change, "lookback": lookback}

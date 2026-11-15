@@ -256,3 +256,56 @@ def test_poster_renders():
     html = poster.build("Test farm", plans["storm"], cur, site, crops, "<div>cal</div>",
                         {"return_period_storm_force": 4, "peak_months": ["Aug"]}, ["Clear drains"], "https://ntfy.sh/x", "<svg></svg>", "fr")
     assert html.startswith("<!DOCTYPE html>") and "Test farm" in html and "Clear drains" in html and "Planter" not in html
+
+
+def test_enso_outlook_splits_the_farms_own_rain_by_phase():
+    import numpy as np
+    import pandas as pd
+    from fieldshift import enso
+    # 30 years where Dec-Feb rain is high in El Nino years and low in La Nina years
+    days = pd.date_range("1996-01-01", "2025-12-31")
+    oni_rows, rain = [], pd.Series(1.0, index=days)
+    for y in range(1995, 2027):
+        a = [1.2, 0.0, -1.2][y % 3]
+        for i, sname in enumerate(enso.SEASONS):
+            oni_rows.append(f"  {sname} {y}  27.0  {a:.2f}")
+        window = (days >= pd.Timestamp(y, 12, 1)) & (days < pd.Timestamp(y + 1, 3, 1))
+        rain[window] = {1.2: 3.0, 0.0: 2.0, -1.2: 1.0}[a]
+    oni = enso.parse_oni("\n".join(oni_rows))
+    oni = oni[oni["date"] <= "2026-10-01"]
+    o = enso.outlook(pd.DataFrame({"PRECTOTCORR": rain}), oni, today="2026-11-15")
+    assert o["window_months"] == [12, 1, 2]
+    assert o["now"]["season"] == "SON" and o["now"]["year"] == 2026
+    bp = o["by_phase"]
+    assert bp["El Niño"]["pct_normal"] > bp["Neutral"]["pct_normal"] > bp["La Niña"]["pct_normal"]
+    assert o["r"] > 0.9
+    assert enso.phase(0.5) == "El Niño" and enso.phase(-0.5) == "La Niña" and enso.phase(0.2) == "Neutral"
+
+
+def test_appeears_cleaning_scales_et_and_averages_smap_l4():
+    import pandas as pd
+    from fieldshift.earthdata import clean_points
+    raw = pd.DataFrame([
+        {"id": "j", "date": "2026-10-01", "product": "MOD16A2.061", "layer": "ET_500m", "value": 250},
+        {"id": "j", "date": "2026-10-09", "product": "MOD16A2.061", "layer": "ET_500m", "value": 32762},  # fill
+        {"id": "j", "date": "2026-10-01", "product": "MOD16A2.061", "layer": "PET_500m", "value": 400},
+        {"id": "j", "date": "2026-10-01 01:30", "product": "SPL4SMGP.007", "layer": "Geophysical_Data_sm_rootzone", "value": 0.30},
+        {"id": "j", "date": "2026-10-01 04:30", "product": "SPL4SMGP.007", "layer": "Geophysical_Data_sm_rootzone", "value": 0.20},
+        {"id": "j", "date": "2026-10-01", "product": "MOD13Q1.061", "layer": "_250m_16_days_NDVI", "value": 7000},
+    ])
+    out = clean_points(raw).set_index("layer")["value"]
+    assert out["ET_500m"] == 25.0 and out["PET_500m"] == 40.0
+    assert abs(out["Geophysical_Data_sm_rootzone"] - 0.25) < 1e-9
+    assert abs(out["_250m_16_days_NDVI"] - 0.7) < 1e-9
+
+
+def test_crop_stress_ratio():
+    import pandas as pd
+    from fieldshift import water
+    idx = pd.date_range("2024-01-01", periods=120, freq="8D")
+    et = pd.Series(30.0, index=idx)
+    et.iloc[-1] = 10.0
+    pet = pd.Series(40.0, index=idx)
+    s = water.crop_stress(et, pet)
+    assert s["ratio"] == 0.25 and s["label"] == "water-limited"
+    assert abs(s["normal"] - 0.75) < 1e-9
