@@ -119,7 +119,7 @@ The data reaches the site in three ways:
 | How | Datasets | Key needed |
 |---|---|---|
 | **Live, on every map click** (deployed app) | NASA POWER, ISRIC SoilGrids, NASA SRTM, NASA GIBS map layers | none |
-| **Scheduled refresh**: `.github/workflows/refresh-data.yml` runs `scripts/refresh_data.py` daily June-November and weekly otherwise, commits `data/cache/`, and Streamlit Cloud redeploys | NASA POWER (30-year + last 45 days), GPM IMERG Final at the farm (Giovanni Time Series API), SMAP soil moisture + MODIS NDVI (LP DAAC AppEEARS), NOAA IBTrACS current-season tracks | free NASA Earthdata Login for IMERG / SMAP / NDVI |
+| **Scheduled refresh**: `.github/workflows/refresh-data.yml` runs `scripts/refresh_data.py` daily June-November and weekly otherwise, commits `data/cache/`, and Streamlit Cloud redeploys | NASA POWER (30-year + last 45 days), GPM IMERG daily rain at the farm (Final, else Late; GES DISC OPeNDAP), SMAP soil moisture + MODIS NDVI (LP DAAC AppEEARS), NOAA IBTrACS current-season tracks | free NASA Earthdata Login for IMERG / SMAP / NDVI |
 | **Annual** | NOAA HURDAT2 (new release each spring): run `scripts/build_hurdat2.py` | none |
 
 Farms refreshed on the schedule are listed in `data/farms.json`; add pilot farms there. The app's data passport shows when each dataset was last refreshed.
@@ -184,7 +184,7 @@ pip install pytest && pytest -q
 | `static/fonts/` | Fraunces and Inter (SIL Open Font License) |
 | `data/crops_fieldshift.csv` | 25 Caribbean crops and cover crops with ranges, Kc, stage vulnerability and sources |
 | `data/hurdat2_caribbean.csv` | NOAA HURDAT2 subset (1950-2025) |
-| `fieldshift/earthdata.py` | NASA Earthdata access: IMERG via Giovanni Time Series, AppEEARS SMAP / NDVI |
+| `fieldshift/earthdata.py` | NASA Earthdata access: IMERG via GES DISC OPeNDAP (Giovanni fallback), AppEEARS SMAP / NDVI |
 | `scripts/` | Data build, cache and scheduled refresh scripts |
 | `.github/workflows/refresh-data.yml` | Scheduled data refresh |
 | `tests/` | Engine tests and synthetic fixture generator |

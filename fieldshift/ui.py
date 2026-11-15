@@ -1080,7 +1080,7 @@ def data_passport(bundle):
          "test fixture" if synthetic else origin.get(meta.get("origin"), "?"), freshness("NASA POWER")],
         ["NASA SMAP L3 (via AppEEARS)", "Soil moisture at the farm", "9 km", "scheduled", None, freshness("SMAP + MODIS NDVI (AppEEARS)")],
         ["NASA MODIS NDVI MOD13Q1 (via AppEEARS)", "How green the crops are", "250 m", "scheduled", None, freshness("SMAP + MODIS NDVI (AppEEARS)")],
-        ["NASA GPM IMERG Final (Giovanni)", "Daily rain at the farm, storm windows", "0.1° ≈ 11 km", "scheduled", None, freshness("GPM IMERG")],
+        ["NASA GPM IMERG V07 Final + Late (GES DISC OPeNDAP)", "Daily rain at the farm: last 120 days and storm windows", "0.1° ≈ 11 km", "scheduled", None, freshness("GPM IMERG")],
         ["NASA SRTM GL1", "Elevation, slope, erosion factor", "30 m", "live on click", origin.get(terr.get("origin"), "?"), freshness("NASA SRTM")],
         ["NASA GIBS (SMAP, IMERG, MODIS)", "Map layers for any date", "9 km to 250 m", "live map tiles", "live", None],
         ["NOAA HURDAT2", "Every Atlantic storm track 1851-2025", "6-hourly", "bundled, yearly", "bundled", None],

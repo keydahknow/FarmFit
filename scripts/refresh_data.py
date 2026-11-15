@@ -93,20 +93,28 @@ def refresh_imerg(farms, manifest):
         return
     try:
         token = earthdata.edl_token()
-    except Exception as error:  # noqa: BLE001
-        record(manifest, "GPM IMERG", "failed", farms=0, errors=[f"Earthdata token: {str(error)[:200]}"])
-        return
+    except Exception:  # noqa: BLE001 - OPeNDAP uses the password login instead
+        token = None
     ok = 0
     errors = []
     for f in farms:
-        windows = [(date.today() - timedelta(days=730), date.today())]
+        # Recent 120 days (Water watch) + each storm window; ~2 small requests a day.
+        windows = [(date.today() - timedelta(days=120), date.today() - timedelta(days=1))]
         windows += [(date.fromisoformat(d) - timedelta(days=14), date.fromisoformat(d) + timedelta(days=3))
                     for d in f.get("storm_dates", [])]
         parts = []
         for a, b in windows:
             if pd.Timestamp(b) < earthdata.IMERG_START:
                 continue  # e.g. Trinidad 1993: IMERG starts June 2000, POWER covers it
-            s, info = earthdata.imerg_daily(f["lat"], f["lon"], a, b, token=token)
+            s, info = earthdata.imerg_daily(f["lat"], f["lon"], a, b)
+            if s is None:  # fall back to Giovanni, report both reasons
+                s2, info2 = earthdata.imerg_giovanni(f["lat"], f["lon"], pd.Timestamp(a), pd.Timestamp(b), token=token)
+                if s2 is not None:
+                    s, info = s2, info2
+                else:
+                    info = {"error": f"{info.get('error')} || {info2.get('error')}"}
+            else:
+                print(f"  IMERG {f['id']} {a}..{b}: {len(s)} days {info.get('runs')}")
             if s is not None:
                 parts.append(s)
             else:
@@ -115,8 +123,9 @@ def refresh_imerg(farms, manifest):
             out = pd.concat(parts).groupby(level=0).max().sort_index()
             out.to_frame().to_csv(CACHE / f"imerg_{f['id']}.csv", index_label="date")
             ok += 1
-    record(manifest, "GPM IMERG", status_of(ok, len(farms)),
-           farms=ok, note="IMERG Final V07 via Giovanni (about 3.5 months behind real time)", errors=errors[:4])
+    record(manifest, "GPM IMERG", status_of(ok, len(farms)), farms=ok,
+           note="IMERG V07 daily: Final (gauge-adjusted) where available, else Late (~1 day behind)",
+           errors=[e[:600] for e in errors[:4]])
 
 
 def refresh_appeears(farms, manifest, max_wait_s):

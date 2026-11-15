@@ -128,6 +128,17 @@ def test_giovanni_timeseries_parser():
     assert parse_timeseries("<html>error</html>")[1] is None
 
 
+def test_imerg_opendap_cell_and_parser():
+    from fieldshift.earthdata import imerg_cell, parse_opendap_value
+    assert imerg_cell(-89.95, -179.95) == (0, 0)
+    assert imerg_cell(89.95, 179.95) == (3599, 1799)
+    assert imerg_cell(18.05, -77.72) == (1022, 1080)
+    for reply in ("Dataset: 3B-DAY.nc4\nprecipitation.precipitation[0][0][0], 212.37\n",
+                  "Dataset: x\nprecipitation[1][1][1]\n[0][0], 212.37\n"):
+        assert parse_opendap_value(reply) == 212.37
+    assert parse_opendap_value("<html>Earthdata Login</html>") is None
+
+
 def test_ibtracs_north_atlantic_is_not_read_as_missing():
     import io
     import pandas as pd
