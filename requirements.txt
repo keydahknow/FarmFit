@@ -6,3 +6,4 @@ folium>=0.17
 streamlit-folium>=0.22
 altair>=5.0
 segno>=1.6
+tifffile>=2023.1

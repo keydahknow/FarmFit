@@ -15,6 +15,12 @@ import requests
 CACHE_DIR = Path(os.environ.get("FIELDSHIFT_CACHE_DIR", Path(__file__).resolve().parents[1] / "data" / "cache"))
 
 SOILGRIDS = "https://rest.isric.org/soilgrids/v2.0/properties/query"
+# Same SoilGrids 2.0 maps through ISRIC's OGC Web Coverage Service. Used when the
+# (beta) REST API is paused, which ISRIC has done several times.
+SOILGRIDS_WCS = "https://maps.isric.org/mapserv"
+# SoilGrids stores integers; divide by these to get conventional units
+# (pH, g/kg, %, g/kg, kg/dm3).
+SOIL_FACTOR = {"phh2o": 10, "soc": 10, "clay": 10, "sand": 10, "silt": 10, "nitrogen": 100, "bdod": 100}
 OPENTOPO = "https://api.opentopodata.org/v1/srtm30m"
 OPEN_METEO_ELEVATION = "https://api.open-meteo.com/v1/elevation"
 
@@ -83,28 +89,20 @@ def get_soil(lat, lon, allow_network=True):
         return {**cached, "origin": "cache"}
     if not allow_network:
         return None
+    values, source, errors = None, None, []
     try:
-        params = [("lon", round(lon, 5)), ("lat", round(lat, 5)), ("value", "mean")]
-        params += [("property", p) for p in SOIL_PROPS] + [("depth", d) for d in DEPTHS]
-        response = requests.get(SOILGRIDS, params=params, timeout=25)
-        response.raise_for_status()
-        layers = response.json()["properties"]["layers"]
+        values = _soilgrids_rest(lat, lon)
+        source = "ISRIC SoilGrids 2.0 REST (250 m)"
     except Exception as error:  # noqa: BLE001
-        return {"origin": None, "error": str(error)}
-
-    weights = {"0-5cm": 5, "5-15cm": 10, "15-30cm": 15}
-    values = {}
-    for layer in layers:
-        factor = layer.get("unit_measure", {}).get("d_factor", 1) or 1
-        total = weight = 0.0
-        for depth in layer.get("depths", []):
-            mean = depth.get("values", {}).get("mean")
-            if mean is None:
-                continue
-            w = weights.get(depth["label"], 0)
-            total += (mean / factor) * w
-            weight += w
-        values[layer["name"]] = round(total / weight, 2) if weight else None
+        errors.append(f"REST: {str(error)[:150]}")
+    if values is None or all(v is None for v in values.values()):
+        try:
+            values = _soilgrids_wcs(lat, lon)
+            source = "ISRIC SoilGrids 2.0 WCS (250 m)"
+        except Exception as error:  # noqa: BLE001
+            errors.append(f"WCS: {str(error)[:150]}")
+    if values is None:
+        return {"origin": None, "error": " | ".join(errors)}
 
     if all(v is None for v in values.values()):
         return {"origin": None, "error": "SoilGrids has no data for this pixel (water, urban or island edge)."}
@@ -118,12 +116,70 @@ def get_soil(lat, lon, allow_network=True):
         "silt_pct": values.get("silt"),
         "nitrogen_g_kg": values.get("nitrogen"),
         "bulk_density": values.get("bdod"),
-        "source": "ISRIC SoilGrids 2.0 (250 m), 0-30 cm depth-weighted mean",
+        "source": f"{source}, 0-30 cm depth-weighted mean",
     }
     result["texture"] = usda_texture(result["sand_pct"], result["silt_pct"], result["clay_pct"])
     result["drainage"] = DRAINAGE_BY_TEXTURE.get(result["texture"])
     _write_cache(key, result)
     return {**result, "origin": "live"}
+
+
+DEPTH_WEIGHTS = {"0-5cm": 5, "5-15cm": 10, "15-30cm": 15}
+
+
+def _weighted(by_depth):
+    """Depth-weighted 0-30 cm mean from {depth label: value}."""
+    pairs = [(v, DEPTH_WEIGHTS[d]) for d, v in by_depth.items() if v is not None and d in DEPTH_WEIGHTS]
+    total = sum(w for _, w in pairs)
+    return round(sum(v * w for v, w in pairs) / total, 2) if total else None
+
+
+def _soilgrids_rest(lat, lon):
+    params = [("lon", round(lon, 5)), ("lat", round(lat, 5)), ("value", "mean")]
+    params += [("property", p) for p in SOIL_PROPS] + [("depth", d) for d in DEPTHS]
+    response = requests.get(SOILGRIDS, params=params, timeout=25)
+    response.raise_for_status()
+    values = {}
+    for layer in response.json()["properties"]["layers"]:
+        factor = layer.get("unit_measure", {}).get("d_factor", 1) or 1
+        by_depth = {}
+        for depth in layer.get("depths", []):
+            mean = depth.get("values", {}).get("mean")
+            by_depth[depth["label"]] = None if mean is None else mean / factor
+        values[layer["name"]] = _weighted(by_depth)
+    return values
+
+
+def _soilgrids_wcs(lat, lon, half=0.004):
+    """Read a ~900 m GeoTIFF window around the point for each property and depth,
+    and average the valid 250 m pixels."""
+    import io
+
+    import numpy as np
+    import tifffile
+
+    values = {}
+    for prop in SOIL_PROPS:
+        by_depth = {}
+        for depth in DEPTHS:
+            params = [
+                ("map", f"/map/{prop}.map"), ("SERVICE", "WCS"), ("VERSION", "2.0.1"),
+                ("REQUEST", "GetCoverage"), ("COVERAGEID", f"{prop}_{depth}_mean"),
+                ("FORMAT", "image/tiff"),
+                ("SUBSET", f"long({lon - half:.5f},{lon + half:.5f})"),
+                ("SUBSET", f"lat({lat - half:.5f},{lat + half:.5f})"),
+                ("SUBSETTINGCRS", "http://www.opengis.net/def/crs/EPSG/0/4326"),
+                ("OUTPUTCRS", "http://www.opengis.net/def/crs/EPSG/0/4326"),
+            ]
+            response = requests.get(SOILGRIDS_WCS, params=params, timeout=40)
+            response.raise_for_status()
+            if not response.content[:4] in (b"II*\x00", b"MM\x00*"):
+                raise ValueError(f"{prop} {depth}: not a GeoTIFF: {response.text[:120]!r}")
+            raster = tifffile.imread(io.BytesIO(response.content)).astype(float)
+            valid = raster[(raster > 0) & (raster < 32767)]
+            by_depth[depth] = float(valid.mean()) / SOIL_FACTOR[prop] if valid.size else None
+        values[prop] = _weighted(by_depth)
+    return values
 
 
 def get_terrain(lat, lon, allow_network=True):

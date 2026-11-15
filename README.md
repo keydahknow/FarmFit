@@ -59,7 +59,7 @@ Many farm calendars were handed down from a climate that has since shifted. Farm
 |---|---|---|---|---|
 | **POWER daily** (T2M, T2M_MAX/MIN, PRECTOTCORR, RH2M, WS2M, WS10M_MAX, GWETTOP, GWETROOT, ALLSKY_SFC_SW_DWN) | NASA LaRC (MERRA-2 and CERES based) | Climate normals, heavy-rain probability, soil wetness, ET₀, then-vs-now shift, storm-window rain | 0.5° × 0.625° | Live API, cached in `data/cache` |
 | **HURDAT2** Atlantic best track, 1851-2025 (release 23 Sep 2026) | NOAA National Hurricane Center | Storm exposure at the farm, storm replay, Monte Carlo | 6-hourly fixes | Bundled as `data/hurdat2_caribbean.csv` (1950+, Caribbean / Gulf box), built by `scripts/build_hurdat2.py` |
-| **SoilGrids 2.0** (pH, SOC, clay, sand, silt, N, bulk density) | ISRIC | Soil pH fit, texture, drainage class | 250 m | Live API, farmer can override |
+| **SoilGrids 2.0** (pH, SOC, clay, sand, silt, N, bulk density) | ISRIC | Soil pH fit, texture, drainage class | 250 m | Live REST API, with ISRIC WCS (map service) fallback when the REST beta is paused; farmer can override |
 | **SRTM GL1** | NASA / USGS via OpenTopoData | Elevation and slope (Horn's method), RUSLE slope factor | 30 m | Live API |
 | **SMAP L4 surface soil moisture**, **GPM IMERG precipitation rate**, **MODIS NDVI and true colour** | NASA GIBS (EOSDIS) | Map layers for any date, including the storm date | 9 km / 0.1° / 250 m | WMTS tiles |
 | **ECOCROP** crop ranges, **FAO-56** crop coefficients | FAO | Crop climate fit and crop water demand | Crop level | `data/crops_fieldshift.csv` |
@@ -119,7 +119,7 @@ The data reaches the site in three ways:
 | How | Datasets | Key needed |
 |---|---|---|
 | **Live, on every map click** (deployed app) | NASA POWER, ISRIC SoilGrids, NASA SRTM, NASA GIBS map layers | none |
-| **Scheduled refresh**: `.github/workflows/refresh-data.yml` runs `scripts/refresh_data.py` daily June-November and weekly otherwise, commits `data/cache/`, and Streamlit Cloud redeploys | NASA POWER (30-year + last 45 days), GPM IMERG Final at the farm (GES DISC data rods), SMAP soil moisture + MODIS NDVI (LP DAAC AppEEARS), NOAA IBTrACS current-season tracks | free NASA Earthdata Login for IMERG / SMAP / NDVI |
+| **Scheduled refresh**: `.github/workflows/refresh-data.yml` runs `scripts/refresh_data.py` daily June-November and weekly otherwise, commits `data/cache/`, and Streamlit Cloud redeploys | NASA POWER (30-year + last 45 days), GPM IMERG Final at the farm (Giovanni Time Series API), SMAP soil moisture + MODIS NDVI (LP DAAC AppEEARS), NOAA IBTrACS current-season tracks | free NASA Earthdata Login for IMERG / SMAP / NDVI |
 | **Annual** | NOAA HURDAT2 (new release each spring): run `scripts/build_hurdat2.py` | none |
 
 Farms refreshed on the schedule are listed in `data/farms.json`; add pilot farms there. The app's data passport shows when each dataset was last refreshed.
@@ -184,7 +184,7 @@ pip install pytest && pytest -q
 | `static/fonts/` | Fraunces and Inter (SIL Open Font License) |
 | `data/crops_fieldshift.csv` | 25 Caribbean crops and cover crops with ranges, Kc, stage vulnerability and sources |
 | `data/hurdat2_caribbean.csv` | NOAA HURDAT2 subset (1950-2025) |
-| `fieldshift/earthdata.py` | NASA Earthdata access: IMERG data rods, AppEEARS SMAP / NDVI |
+| `fieldshift/earthdata.py` | NASA Earthdata access: IMERG via Giovanni Time Series, AppEEARS SMAP / NDVI |
 | `scripts/` | Data build, cache and scheduled refresh scripts |
 | `.github/workflows/refresh-data.yml` | Scheduled data refresh |
 | `tests/` | Engine tests and synthetic fixture generator |

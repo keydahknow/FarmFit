@@ -75,18 +75,26 @@ def refresh_power(farms, manifest):
 
 def refresh_soil_terrain(farms, manifest):
     soil_ok = terr_ok = 0
+    soil_errors = []
     for f in farms:
         s = soil_terrain.get_soil(f["lat"], f["lon"])
         t = soil_terrain.get_terrain(f["lat"], f["lon"])
         soil_ok += bool(s and s.get("origin") in ("live", "cache"))
+        if s and s.get("error"):
+            soil_errors.append(f"{f['id']}: {s['error'][:250]}")
         terr_ok += bool(t and t.get("origin") in ("live", "cache") and "Copernicus" not in t.get("source", ""))
-    record(manifest, "ISRIC SoilGrids", status_of(soil_ok, len(farms)), farms=soil_ok)
+    record(manifest, "ISRIC SoilGrids", status_of(soil_ok, len(farms)), farms=soil_ok, errors=soil_errors)
     record(manifest, "NASA SRTM", status_of(terr_ok, len(farms)), farms=terr_ok)
 
 
 def refresh_imerg(farms, manifest):
     if not earthdata.credentials():
         record(manifest, "GPM IMERG", "skipped", reason="no Earthdata credentials")
+        return
+    try:
+        token = earthdata.edl_token()
+    except Exception as error:  # noqa: BLE001
+        record(manifest, "GPM IMERG", "failed", farms=0, errors=[f"Earthdata token: {str(error)[:200]}"])
         return
     ok = 0
     errors = []
@@ -96,7 +104,9 @@ def refresh_imerg(farms, manifest):
                     for d in f.get("storm_dates", [])]
         parts = []
         for a, b in windows:
-            s, info = earthdata.imerg_daily(f["lat"], f["lon"], a, b)
+            if pd.Timestamp(b) < earthdata.IMERG_START:
+                continue  # e.g. Trinidad 1993: IMERG starts June 2000, POWER covers it
+            s, info = earthdata.imerg_daily(f["lat"], f["lon"], a, b, token=token)
             if s is not None:
                 parts.append(s)
             else:
@@ -106,7 +116,7 @@ def refresh_imerg(farms, manifest):
             out.to_frame().to_csv(CACHE / f"imerg_{f['id']}.csv", index_label="date")
             ok += 1
     record(manifest, "GPM IMERG", status_of(ok, len(farms)),
-           farms=ok, note="IMERG Final V07 (about 3.5 months behind real time)", errors=errors[:4])
+           farms=ok, note="IMERG Final V07 via Giovanni (about 3.5 months behind real time)", errors=errors[:4])
 
 
 def refresh_appeears(farms, manifest, max_wait_s):
@@ -166,10 +176,15 @@ def refresh_ibtracs(manifest):
         hurdat_last = int(pd.read_csv(HURDAT, usecols=["year"])["year"].max())
         r = requests.get(IBTRACS_URL, timeout=120)
         r.raise_for_status()
+        # keep_default_na=False: IBTrACS writes the North Atlantic basin as "NA",
+        # which pandas would otherwise read as a missing value.
         df = pd.read_csv(pd.io.common.StringIO(r.text), skiprows=[1], low_memory=False,
+                         keep_default_na=False, na_values=["", " "],
                          usecols=lambda c: c in {"SID", "SEASON", "BASIN", "NAME", "ISO_TIME", "LAT", "LON",
                                                  "USA_WIND", "WMO_WIND", "USA_PRES", "USA_RMW", "NATURE"})
+        counts = {"rows": len(df), "latest_season": int(pd.to_numeric(df["SEASON"], errors="coerce").max())}
         df = df[(df["BASIN"] == "NA") & (pd.to_numeric(df["SEASON"], errors="coerce") > hurdat_last)]
+        counts["atlantic_new"] = len(df)
         for col in ("LAT", "LON", "USA_WIND", "WMO_WIND", "USA_PRES", "USA_RMW"):
             if col in df:
                 df[col] = pd.to_numeric(df[col], errors="coerce")
@@ -183,7 +198,8 @@ def refresh_ibtracs(manifest):
         }).dropna(subset=["wind_kt"])
         out.to_csv(RECENT_TRACKS, index=False)
         record(manifest, "NOAA IBTrACS (current season)", "ok",
-               storms=int(out["storm_id"].nunique()), seasons_after=hurdat_last)
+               storms=int(out["storm_id"].nunique()), seasons_after=hurdat_last,
+               names=sorted(out["name"].dropna().unique().tolist())[:30], **counts)
     except Exception as error:  # noqa: BLE001
         record(manifest, "NOAA IBTrACS (current season)", "failed", error=str(error)[:300])
 
