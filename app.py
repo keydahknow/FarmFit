@@ -8,13 +8,15 @@ import requests
 import streamlit as st
 from streamlit_folium import st_folium
 
+from fieldshift import ui as fs_ui
+
 
 # =========================================================
 # PAGE + VISUAL SYSTEM
 # =========================================================
 
 st.set_page_config(
-    page_title="FarmFit",
+    page_title="FarmFit · Hurricane to Harvest",
     page_icon="🌱",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -884,18 +886,19 @@ def render_hero():
 <div class="ff-hero-glow"></div>
 <div class="ff-hero-grid">
 <div class="ff-hero-copy">
-<div class="ff-kicker">🌱 Farm intelligence made simple</div>
-<h1>Plan smarter.<br/>Grow with confidence.</h1>
-<p>FarmFit helps farmers decide what to plant next by combining field history, weather, crop science, water-demand screening, and rotation logic into one guided experience.</p>
+<div class="ff-kicker">🛰️ NASA Space Apps 2026 · Field Shift</div>
+<h1>Hurricane to Harvest</h1>
+<p style="font-size:1.25rem;font-weight:700;margin:-.2rem 0 .6rem 0;opacity:.95">Crop rotations that weather the storm and rebuild the soil.</p>
+<p>FarmFit turns NASA Earth observations, 55 years of NOAA hurricane tracks and crop science into crop-rotation calendars for Caribbean farmers. Each plan protects the harvest from storms, rebuilds the soil and saves water, and comes with a recovery plan for after the storm.</p>
 <div class="ff-hero-pills">
-<span class="ff-hero-pill">NASA climate</span>
-<span class="ff-hero-pill">Water stress test</span>
-<span class="ff-hero-pill">Crop check history</span>
-<span class="ff-hero-pill">Rotation insights</span>
+<span class="ff-hero-pill">NASA POWER · SMAP · IMERG · SRTM</span>
+<span class="ff-hero-pill">Hurricane stress test</span>
+<span class="ff-hero-pill">Soil-health rotations</span>
+<span class="ff-hero-pill">After-storm recovery</span>
 </div>
 <div class="ff-hero-cta">
-<span class="ff-btn-solid">Start with your field</span>
-<span class="ff-btn-ghost">Explore the method</span>
+<span class="ff-btn-solid">Build a storm-ready plan</span>
+<span class="ff-btn-ghost">Recover after a storm</span>
 </div>
 </div>
 <div class="ff-hero-art">
@@ -910,8 +913,8 @@ def render_hero():
 <div class="ff-plant p1">🌱</div>
 <div class="ff-plant p2">🌿</div>
 <div class="ff-plant p3">🌱</div>
-<div class="ff-float-card nasa"><strong>NASA POWER</strong><span>5-year climate context</span></div>
-<div class="ff-float-card rotation"><strong>Rotation fit</strong><span>Crop family + soil logic</span></div>
+<div class="ff-float-card nasa"><strong>NASA POWER</strong><span>30 years of daily climate</span></div>
+<div class="ff-float-card rotation"><strong>Storm exposure</strong><span>NOAA HURDAT2 1971-2025</span></div>
 <div class="ff-float-card water"><strong>Water check</strong><span>ETc = Kc × ETo</span></div>
 </div>
 </div>
@@ -1697,10 +1700,10 @@ def history_insights(history, crop=None):
 # =========================================================
 
 if "farm_latitude" not in st.session_state:
-    st.session_state.farm_latitude = 10.6918
+    st.session_state.farm_latitude = fs_ui.DEMO_SITES["jamaica"]["lat"]
 
 if "farm_longitude" not in st.session_state:
-    st.session_state.farm_longitude = -61.2225
+    st.session_state.farm_longitude = fs_ui.DEMO_SITES["jamaica"]["lon"]
 
 if "last_results" not in st.session_state:
     st.session_state.last_results = None
@@ -1717,11 +1720,32 @@ def go_to_view(view_name):
     st.session_state["requested_view"] = view_name
 
 
+s1, s2 = st.columns([1, 1])
+
+with s1:
+    if st.button(
+        "🌀 Build a storm-ready rotation",
+        use_container_width=True,
+        type="primary",
+        key="hero_storm",
+    ):
+        go_to_view("storm")
+        st.rerun()
+
+with s2:
+    if st.button(
+        "🛰️ Recover after a storm",
+        use_container_width=True,
+        key="hero_after",
+    ):
+        go_to_view("after")
+        st.rerun()
+
 n1, n2, n3 = st.columns([1, 1, 1])
 
 with n1:
     if st.button(
-        "🌱 Start with your field",
+        "🌱 Quick crop check for your field",
         use_container_width=True,
         key="hero_start_field",
     ):
@@ -1780,10 +1804,12 @@ render_top_tiles()
 
 view_key = st.session_state.pop(
     "requested_view",
-    st.query_params.get("view", "plan"),
+    st.query_params.get("view", "storm"),
 )
 st.query_params["view"] = view_key
 view_to_label = {
+    "storm": "🌀 Storm-ready plan",
+    "after": "🛰️ After the storm",
     "plan": "🌱 Plan",
     "field": "☀️ My field",
     "check": "🩺 Crop check",
@@ -1795,14 +1821,25 @@ label_to_view = {label: key for key, label in view_to_label.items()}
 active_nav = st.segmented_control(
     "Navigation",
     list(view_to_label.values()),
-    default=view_to_label.get(view_key, "🌱 Plan"),
+    default=view_to_label.get(view_key, "🌀 Storm-ready plan"),
     label_visibility="collapsed",
 )
 
-selected_view = label_to_view.get(active_nav, "plan")
+selected_view = label_to_view.get(active_nav, "storm")
 if selected_view != view_key:
     st.query_params["view"] = selected_view
     st.rerun()
+
+
+# =========================================================
+# HURRICANE TO HARVEST (fieldshift package)
+# =========================================================
+
+if active_nav == "🌀 Storm-ready plan":
+    fs_ui.render_storm_plan()
+
+if active_nav == "🛰️ After the storm":
+    fs_ui.render_after_storm()
 
 
 # =========================================================
