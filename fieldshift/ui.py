@@ -10,6 +10,7 @@ Five sections, one farm picker:
 
 import json
 import os
+from pathlib import Path
 from datetime import date, datetime, timedelta, timezone
 from urllib.parse import quote
 
@@ -20,7 +21,8 @@ import pandas as pd
 import streamlit as st
 from streamlit_folium import st_folium
 
-from . import art, planner, power, recovery, soil_terrain, storms, stormwatch, water
+from . import alerts, art, assistant, planner, poster, power, recovery, sensor, soil_terrain, storms, stormwatch, water
+from .i18n import LANGS, month as mname, t
 
 MONTHS = planner.MONTHS
 CACHE_DIR = power.CACHE_DIR
@@ -67,6 +69,12 @@ def setup_page():
     ss.setdefault("fs_wet_field", FARMS["jamaica"]["wet_field"])
     ss.setdefault("fs_irrigation", FARMS["jamaica"]["irrigation"])
     ss.setdefault("fs_priority", "Survive storms")
+    ss.setdefault("fs_lang", "en")
+    ss.setdefault("fs_chat", [])
+
+
+def L():
+    return st.session_state.get("fs_lang", "en")
 
 
 # ---------------------------------------------------------------------------
@@ -204,8 +212,7 @@ def masthead():
         f"""<div class="al-mast"><div>
         <div class="al-kicker">NASA Space Apps 2026 · Field Shift · FarmFit</div>
         <div class="al-title">Hurricane<br/>to Harvest</div>
-        <div class="al-dek">A farmer's almanac, redrawn with satellite data: what to plant, when to water,
-        and how to get through the storm season with your soil and your harvest intact.</div>
+        <div class="al-dek">{t("A farmer's almanac, redrawn with satellite data: what to plant, when to water, and how to get through the storm season with your soil and your harvest intact.", L())}</div>
         </div><div class="al-art">{art.masthead_art()}</div></div>""",
         unsafe_allow_html=True,
     )
@@ -215,10 +222,16 @@ def farm_picker():
     ss = st.session_state
     options = list(FARMS) + [CUSTOM]
     labels = {k: v["label"] for k, v in FARMS.items()}
-    labels[CUSTOM] = "My own farm (pick on the map)"
+    labels[CUSTOM] = t("My own farm (pick on the map)", L())
     key, _ = current_farm()
     current = key or CUSTOM
-    c1, c2 = st.columns([1.4, 2.6])
+    c1, c2, c3 = st.columns([1.4, 2.6, 0.75])
+    with c3:
+        lang = st.selectbox("Language", list(LANGS), index=list(LANGS).index(ss.fs_lang), format_func=LANGS.get,
+                            label_visibility="collapsed", key="lang_select")
+        if lang != ss.fs_lang:
+            ss.fs_lang = lang
+            st.rerun()
     with c1:
         choice = st.selectbox("Farm", options, index=options.index(current), format_func=labels.get,
                               label_visibility="collapsed", key=f"farm_select_{current}")
@@ -248,7 +261,7 @@ def farm_picker():
                 st.rerun()
 
 
-SECTIONS = ["Plan my season", "Water watch", "Storm ready", "After a storm", "Data & method"]
+SECTIONS = ["Plan my season", "Water watch", "Storm ready", "After a storm", "Ask FarmFit", "Data & method"]
 
 
 def navigation():
@@ -257,7 +270,8 @@ def navigation():
     if requested in SECTIONS and "fs_section" not in ss:
         ss.fs_section = requested
     default = ss.get("fs_section", SECTIONS[0])
-    choice = st.segmented_control("Section", SECTIONS, default=default, label_visibility="collapsed", key="nav")
+    choice = st.segmented_control("Section", SECTIONS, default=default, label_visibility="collapsed", key="nav",
+                                  format_func=lambda x: t(x, L()))
     ss.fs_section = choice or default
     return ss.fs_section
 
@@ -277,10 +291,11 @@ def render():
     if "SYNTHETIC" in str(bundle.get("power_meta", {}).get("source", "")):
         st.warning("Offline development mode: climate numbers come from a synthetic test fixture, not NASA data.")
     {"Plan my season": render_plan, "Water watch": render_water, "Storm ready": render_storm,
-     "After a storm": render_after, "Data & method": render_data}[section](bundle)
-    st.markdown('<hr class="al-rule"/><div class="al-note">FarmFit supports farmers\' judgment; it never replaces it. '
-                'Check plans with your extension officer. Built with NASA POWER, SMAP, GPM IMERG, MODIS, SRTM, NOAA HURDAT2 / IBTrACS, '
-                'ISRIC SoilGrids and FAO data.</div>', unsafe_allow_html=True)
+     "After a storm": render_after, "Ask FarmFit": render_ask, "Data & method": render_data}[section](bundle)
+    st.markdown('<hr class="al-rule"/><div class="al-note">'
+                + t("FarmFit supports farmers' judgment; it never replaces it. Check plans with your extension officer.", L())
+                + ' Built with NASA POWER, SMAP, GPM IMERG, MODIS, SRTM, NOAA HURDAT2 / IBTrACS, ISRIC SoilGrids and FAO data.</div>',
+                unsafe_allow_html=True)
 
 
 # ---------------------------------------------------------------------------
@@ -296,8 +311,8 @@ def _segment_style(row):
 
 def calendar_html(plans, site, crops, storm_month=None, storm_label=None, risk=True):
     head = '<div></div>' + "".join(
-        f'<div class="mh{" hit" if storm_month == i + 1 else ""}">{"🌀 " if storm_month == i + 1 else ""}{m}</div>'
-        for i, m in enumerate(MONTHS))
+        f'<div class="mh{" hit" if storm_month == i + 1 else ""}">{"🌀 " if storm_month == i + 1 else ""}{mname(i + 1, L())}</div>'
+        for i in range(12))
     rows = [head]
     if risk:
         wind = site.p_hu + site.p_ts
@@ -332,7 +347,7 @@ def calendar_html(plans, site, crops, storm_month=None, storm_label=None, risk=T
                 cells.append((m, f'<div class="bare{" hit" if storm_month == m else ""}" title="bare soil"></div>'))
         cells.sort(key=lambda c: c[0])
         sub = "today" if plan.key == "current" else ("suggested" if plan.key in ("storm", "soil", "water") else "")
-        rows.append(f'<div class="rl">{plan.title}<small>{sub}</small></div>' + "".join(c[1] for c in cells))
+        rows.append(f'<div class="rl">{t(plan.title, L())}<small>{sub}</small></div>' + "".join(c[1] for c in cells))
     legume = art.CROP_TEXTURE["Legume"].split(" 0 0")[0]
     cover = art.CROP_TEXTURE["Cover crop"].split(", repeating")[0]
     key = (f'<div class="al-key"><span><b style="background:{art.TERRA}"></b>storm-force wind</span>'
@@ -350,14 +365,15 @@ METERS = [("storm", "Storm & flood safety", art.TERRA), ("soil", "Soil health", 
 
 def card_html(plan, best=False):
     m = plan.metrics
-    meters = "".join(f'<div class="al-meter"><span>{label}</span><span class="t"><i style="width:{plan.scores.get(k, 0)}%;background:{c}"></i></span>'
+    lg = L()
+    meters = "".join(f'<div class="al-meter"><span>{t(label, lg)}</span><span class="t"><i style="width:{plan.scores.get(k, 0)}%;background:{c}"></i></span>'
                      f'<b>{plan.scores.get(k, 0)}</b></div>' for k, label, c in METERS)
     tag = "Best for your priority" if best else ("What you plant now" if plan.key == "current" else "Alternative")
-    return (f'<div class="al-card{" best" if best else ""}"><div class="tag">{tag}</div><h4>{plan.title}</h4>'
+    return (f'<div class="al-card{" best" if best else ""}"><div class="tag">{t(tag, lg)}</div><h4>{t(plan.title, lg)}</h4>'
             f'<div class="dek">{plan.tagline}</div>{meters}'
-            f'<div class="al-facts">Harvest lost to storms and floods, average year <b>{m["expected_loss"]:.0%}</b><br/>'
-            f'Bare months <b>{m["bare_months"]}</b> · legume months <b>{m["legume_months"]}</b><br/>'
-            f'Irrigation ≈ <b>{m["irrigation_mm"]:.0f} mm</b> a year</div></div>')
+            f'<div class="al-facts">{t("Harvest lost to storms and floods, average year", lg)} <b>{m["expected_loss"]:.0%}</b><br/>'
+            f'{t("Bare months", lg)} <b>{m["bare_months"]}</b> · {t("legume months", lg)} <b>{m["legume_months"]}</b><br/>'
+            f'{t("Irrigation", lg)} ≈ <b>{m["irrigation_mm"]:.0f} mm</b> {t("a year", lg)}</div></div>')
 
 
 # ---------------------------------------------------------------------------
@@ -392,22 +408,23 @@ def rotation_editor(crops):
 
 def render_plan(bundle):
     ss = st.session_state
-    st.markdown(art.section("plan", "Plan my season",
-                            "Tell us what you grow now. We search every 12-month rotation of up to four crops and show the three "
-                            "that best protect your harvest, your soil and your water, next to your own."), unsafe_allow_html=True)
+    lg = L()
+    st.markdown(art.section("plan", t("Plan my season", lg),
+                            t("Tell us what you grow now. We search every 12-month rotation of up to four crops and show the three "
+                              "that best protect your harvest, your soil and your water, next to your own.", lg)), unsafe_allow_html=True)
     crops = planner.load_crops()
     with st.container(border=True):
         left, right = st.columns([1.35, 1], gap="large")
         with left:
-            st.markdown("**What you grow now**")
+            st.markdown(f"**{t('What you grow now', lg)}**")
             rotation_editor(crops)
         with right:
-            st.markdown("**What matters most**")
+            st.markdown(f"**{t('What matters most', lg)}**")
             ss.fs_priority = st.radio("Priority", list(PRIORITY_TO_KEY), horizontal=True, label_visibility="collapsed",
-                                      index=list(PRIORITY_TO_KEY).index(ss.fs_priority))
-            ss.fs_irrigation = st.selectbox("Water for irrigation", list(planner.IRRIGATION_LIMITS),
+                                      index=list(PRIORITY_TO_KEY).index(ss.fs_priority), format_func=lambda x: t(x, lg))
+            ss.fs_irrigation = st.selectbox(t("Water for irrigation", lg), list(planner.IRRIGATION_LIMITS),
                                             index=list(planner.IRRIGATION_LIMITS).index(ss.fs_irrigation))
-            with st.expander("More options"):
+            with st.expander(t("More options", lg)):
                 ss.fs_wet_field = st.toggle("Low-lying field with managed water (allows rice, dasheen)", value=ss.fs_wet_field)
                 ss.fs_exclude = st.multiselect("Crops I can't grow or sell", list(crops.index), default=ss.get("fs_exclude", []))
                 soil = bundle.get("soil") or {}
@@ -432,7 +449,7 @@ def render_plan(bundle):
             storm_month = int(hit.iloc[0]["month"])
             storm_label = f"{farm['storm'].title()} struck this month"
 
-    st.markdown(art.heading(f"Your year, four ways · {meta.get('candidates', 0):,} rotations compared"), unsafe_allow_html=True)
+    st.markdown(art.heading(f"{t('Your year, four ways', lg)} · {meta.get('candidates', 0):,} {t('rotations compared', lg)}"), unsafe_allow_html=True)
     st.markdown(calendar_html(ordered, site, crops, storm_month, storm_label), unsafe_allow_html=True)
     st.markdown('<div class="al-note">The top row shows how often each month brings storm-force wind (NOAA HURDAT2, 1971-2025) '
                 'or a waterlogging rain day (NASA POWER). Hover a bar for the numbers.</div>', unsafe_allow_html=True)
@@ -443,7 +460,7 @@ def render_plan(bundle):
         with col:
             st.markdown(card_html(plan, best=plan.key == pick), unsafe_allow_html=True)
             ex = planner.explain(plan, site, crops, current=current)
-            with st.expander("Why · evidence · gaps"):
+            with st.expander(t("Why · evidence · gaps", lg)):
                 st.markdown(f"**Why.** {ex['why']}")
                 st.markdown("**Benefits**\n" + "\n".join(f"- {b}" for b in ex["benefits"]))
                 st.markdown("**Evidence**\n" + "\n".join(f"- {b}" for b in ex["evidence"]))
@@ -459,10 +476,22 @@ def render_plan(bundle):
         lines.append(f"Expected storm/flood harvest loss {best.metrics['expected_loss']:.0%} (mine today: {current.metrics['expected_loss']:.0%}).")
         lines.append("Built with NASA and NOAA data. Check with your extension officer before planting.")
         text = "\n".join(lines)
-        st.markdown(art.heading("Take the plan with you"), unsafe_allow_html=True)
-        c1, c2, _ = st.columns([1, 1, 2])
-        c1.download_button("Download (works offline)", text, file_name="farmfit_plan.txt", use_container_width=True)
-        c2.link_button("Share on WhatsApp", f"https://wa.me/?text={quote(text)}", use_container_width=True)
+        st.markdown(art.heading(t("Take the plan with you", lg)), unsafe_allow_html=True)
+        key, _ = current_farm()
+        topic = alerts.topic_for(key, bundle["lat"], bundle["lon"], farm_label(bundle))
+        url = alerts.subscribe_url(topic)
+        peak = int(np.argmax(site.p_hu + site.p_ts)) + 1
+        pcrop, pstage = in_field(best, peak)
+        steps = stormwatch.render_steps(stormwatch.checklist(pcrop, pstage, (bundle.get("soil") or {}).get("drainage"),
+                                                             (bundle.get("terrain") or {}).get("slope_pct"), True), lg)
+        page = poster.build(farm_label(bundle), best, current, site, crops,
+                            calendar_html([best], site, crops), bundle["storm_summary"], steps, url, alerts.qr_svg(url, 3), lg)
+        c1, c2, c3 = st.columns(3)
+        c1.download_button(t("Printable almanac (A4)", lg), page, file_name="farmfit_almanac.html", mime="text/html",
+                           use_container_width=True, type="primary")
+        c2.download_button(t("Download (works offline)", lg), text, file_name="farmfit_plan.txt", use_container_width=True)
+        c3.link_button(t("Share on WhatsApp", lg), f"https://wa.me/?text={quote(text)}", use_container_width=True)
+        alert_block(bundle, topic)
 
 
 # ---------------------------------------------------------------------------
@@ -471,9 +500,10 @@ def render_plan(bundle):
 
 def render_water(bundle):
     lat, lon = bundle["lat"], bundle["lon"]
-    st.markdown(art.section("water", "Water watch",
-                            "Is the farm drier or wetter than normal right now? Recent NASA rain and soil moisture are ranked "
-                            "against the same weeks in each of the last 30 years, then turned into this week's watering advice."),
+    lg = L()
+    st.markdown(art.section("water", t("Water watch", lg),
+                            t("Is the farm drier or wetter than normal right now? Recent NASA rain and soil moisture are ranked "
+                              "against the same weeks in each of the last 30 years, then turned into this week's watering advice.", lg)),
                 unsafe_allow_html=True)
     record = bundle["daily"]
     recent = load_recent(lat, lon, date.today().isoformat())
@@ -486,7 +516,7 @@ def render_water(bundle):
 
     if anomalies:
         main = next((a for a in anomalies if a["days"] == 60), anomalies[0])
-        st.markdown(f'{art.stamp(main["label"], main["key"])} &nbsp;<span class="al-farm">Last {main["days"]} days to '
+        st.markdown(f'{art.stamp(t(main["label"], lg), main["key"])} &nbsp;<span class="al-farm">Last {main["days"]} days to '
                     f'{last_day:%d %b %Y} · NASA POWER, a few days behind real time</span>', unsafe_allow_html=True)
         items = [(f"Rain, last {a['days']} days", f"{a['total_mm']:.0f} mm",
                   f"normal ≈ {a['normal_mm']:.0f} mm · {water.ordinal(a['percentile'])} percentile",
@@ -515,7 +545,7 @@ def render_water(bundle):
         st.altair_chart((band + med + now).properties(height=240, title="The last 90 days: this year (red) against the usual range (blue)"),
                         use_container_width=True)
 
-    st.markdown(art.heading("This week"), unsafe_allow_html=True)
+    st.markdown(art.heading(t("This week", lg)), unsafe_allow_html=True)
     site, crops, current, plans, _ = get_plans(bundle)
     month = date.today().month
     crop, stage = in_field(current, month)
@@ -540,14 +570,14 @@ def render_water(bundle):
             clim = bundle["climate"]
             need = water.weekly_irrigation(fc, kc) if fc is not None else water.irrigation_need_from_climate(
                 float(clim.loc[month - 1, "et0_mm"]), float(clim.loc[month - 1, "rain_mm"]), kc)
-            verdict = "No watering needed" if need["need_mm"] < 3 else f"Water about {need['need_mm']:.0f} mm this week"
-            st.markdown(f'<div class="al-storm"><div class="al-kicker">In the field now: {crop} · {stage}</div>'
+            verdict = t("No watering needed", lg) if need["need_mm"] < 3 else t("Water about {mm} mm this week", lg, mm=f"{need['need_mm']:.0f}")
+            st.markdown(f'<div class="al-storm"><div class="al-kicker">{t("in the field", lg)}: {crop} · {t(stage, lg)}</div>'
                         f'<h4 style="margin:.3rem 0">{verdict}</h4>'
                         f'<div class="al-note">The crop uses ≈ {need["etc_mm"]:.0f} mm (K<sub>c</sub> {kc:.2f} × ET₀); about '
                         f'{need["rain_mm"]:.0f} mm of rain is expected, of which 80% counts. That is roughly '
                         f'<b>{need["need_mm"] * 1000:,.0f} litres per 1,000 m²</b>.</div></div>', unsafe_allow_html=True)
         else:
-            st.markdown('<div class="al-storm"><div class="al-kicker">In the field now</div><h4 style="margin:.3rem 0">Nothing planted this month</h4>'
+            st.markdown('<div class="al-storm"><div class="al-kicker">In the field now</div><h4 style="margin:.3rem 0">' + t("Nothing planted this month", lg) + '</h4>'
                         '<div class="al-note">Bare soil dries out and washes away. A short cover crop holds both water and soil.</div></div>',
                         unsafe_allow_html=True)
 
@@ -565,6 +595,7 @@ def render_water(bundle):
                              use_container_width=True)
 
     render_water_bank(bundle, site, crops, current, plans)
+    render_ground_truth(bundle)
     render_shift(bundle)
 
 
@@ -658,47 +689,50 @@ def make_map(lat, lon, impacts=None, date_str=None, height=380, top_storms=6, ke
 
 def render_storm(bundle):
     lat, lon = bundle["lat"], bundle["lon"]
-    st.markdown(art.section("storm", "Storm ready",
-                            "Hurricanes can't be stopped, but a farm can be ready: the right crops in the ground in the risky months, "
-                            "and a short checklist when a storm is on the way."), unsafe_allow_html=True)
+    lg = L()
+    st.markdown(art.section("storm", t("Storm ready", lg),
+                            t("Hurricanes can't be stopped, but a farm can be ready: the right crops in the ground in the risky months, "
+                              "and a short checklist when a storm is on the way.", lg)), unsafe_allow_html=True)
     site, crops, current, plans, _ = get_plans(bundle)
     soil, terr = bundle.get("soil") or {}, bundle.get("terrain") or {}
 
-    st.markdown(art.heading("Storm watch, live from NOAA's National Hurricane Center"), unsafe_allow_html=True)
+    st.markdown(art.heading(t("Storm watch, live from NOAA's National Hurricane Center", lg)), unsafe_allow_html=True)
     now = datetime.now()
     live, err = load_active_storms(now.strftime("%Y%m%d%H") + str(now.minute // 15))
     st.caption(stormwatch.season_status())
     threats = []
     if live:
         threats = sorted(((s, stormwatch.threat(s, lat, lon)) for s in live), key=lambda x: x[1]["distance_km"])
-        for s, t in threats[:3]:
-            lvl = {"act now": "act", "get ready": "ready", "monitor": "calm"}[t["level"]]
-            eta = f" · could arrive in about {t['eta_h']:.0f} h" if t["eta_h"] and t["toward"] else ""
-            heading_txt = " heading toward the farm" if t["toward"] else (" moving away" if t["toward"] is False else "")
-            st.markdown(f'<div class="al-storm">{art.stamp(t["level"], lvl)} &nbsp;<b>{s["name"]}</b> · {s["classification"]}, '
-                        f'{(s["intensity_kt"] or 0):.0f} kt · {t["distance_km"]:,.0f} km away{heading_txt}{eta}'
+        for s, th in threats[:3]:
+            lvl = {"act now": "act", "get ready": "ready", "monitor": "calm"}[th["level"]]
+            eta = f" · could arrive in about {th['eta_h']:.0f} h" if th["eta_h"] and th["toward"] else ""
+            heading_txt = " heading toward the farm" if th["toward"] else (" moving away" if th["toward"] is False else "")
+            st.markdown(f'<div class="al-storm">{art.stamp(t(th["level"], lg), lvl)} &nbsp;<b>{s["name"]}</b> · {s["classification"]}, '
+                        f'{(s["intensity_kt"] or 0):.0f} kt · {th["distance_km"]:,.0f} km away{heading_txt}{eta}'
                         f'<div class="al-note">Updated {s.get("updated") or "recently"}. Follow your national met service for official warnings.</div></div>',
                         unsafe_allow_html=True)
     elif live is None:
         st.markdown(f'<div class="al-storm">{art.stamp("feed unavailable", "ready")} &nbsp;Could not reach the NHC feed. '
                     'Check nhc.noaa.gov and your national met service.</div>', unsafe_allow_html=True)
     else:
-        st.markdown(f'<div class="al-storm">{art.stamp("all clear", "calm")} &nbsp;No active tropical storms in the Atlantic right now.</div>',
+        st.markdown(f'<div class="al-storm">{art.stamp(t("all clear", lg), "calm")} &nbsp;{t("No active tropical storms in the Atlantic right now.", lg)}</div>',
                     unsafe_allow_html=True)
 
     month = date.today().month
     crop, stage = in_field(current, month)
     heavy = bool(site.p_flood[month - 1] >= np.quantile(site.p_flood, 0.67))
     steps = stormwatch.checklist(crop, stage, soil.get("drainage"), terr.get("slope_pct"), heavy)
-    near = any(t["level"] != "monitor" for _, t in threats)
-    title = "Do these now" if near else f"When a storm is forecast: your checklist for {MONTHS[month - 1]}"
-    st.markdown(f"**{title}**" + (f" · in the field: {crop} ({stage})" if crop else ""))
-    st.markdown('<ul class="al-list">' + "".join(f"<li><span>{s}</span></li>" for s, _ in steps) + "</ul>", unsafe_allow_html=True)
+    near = any(th["level"] != "monitor" for _, th in threats)
+    title = t("Do these now", lg) if near else t("When a storm is forecast: your checklist for {month}", lg, month=mname(month, lg))
+    st.markdown(f"**{title}**" + (f" · {t('in the field', lg)}: {crop} ({t(stage, lg)})" if crop else ""))
+    st.markdown('<ul class="al-list">' + "".join(f"<li><span>{x}</span></li>" for x in stormwatch.render_steps(steps, lg)) + "</ul>",
+                unsafe_allow_html=True)
+    alert_block(bundle)
 
     summ = bundle["storm_summary"]
     imp = bundle["impacts"]
     top = imp.iloc[0] if len(imp) else None
-    st.markdown(art.heading(f"How exposed is this farm? NOAA tracks, {summ['period']}"), unsafe_allow_html=True)
+    st.markdown(art.heading(f"{t('How exposed is this farm?', lg)} NOAA, {summ['period']}"), unsafe_allow_html=True)
     rp = summ["return_period_storm_force"]
     st.markdown(art.figures([
         ("Storm-force wind here", f"1 in {rp:.0f} yrs" if rp else "none", f"{summ['storm_force_events']} events since 1971", "terra"),
@@ -720,7 +754,7 @@ def render_storm(bundle):
             st.dataframe(t8[["Storm", "Wind here", "Category here"]], hide_index=True, use_container_width=True, height=318)
         st.caption("Wind at the farm is estimated from the NOAA track with a modified Rankine vortex. It is an exposure screen, not a forecast. * provisional.")
 
-    st.markdown(art.heading("Stress-test your calendar"), unsafe_allow_html=True)
+    st.markdown(art.heading(t("Stress-test your calendar", lg)), unsafe_allow_html=True)
     allplans = {"current": current, **plans}
     named = imp[imp["site_wind_kt"] >= 25].head(15)
     _, farm = current_farm()
@@ -742,7 +776,7 @@ def render_storm(bundle):
             else:
                 big, note = f"{r['loss']:.0%}", f"{r['crop']} at the {r['stage']} stage."
             color = art.TERRA if big not in ("—", "0%") else art.LEAF
-            col.markdown(f'<div class="al-card"><div class="tag">{plan.title}</div>'
+            col.markdown(f'<div class="al-card"><div class="tag">{t(plan.title, lg)}</div>'
                          f'<div style="font:600 2.1rem Fraunces,serif;color:{color};margin:.2rem 0">{big}</div>'
                          f'<div class="al-note">{note}</div></div>', unsafe_allow_html=True)
         st.caption(f"{storm['name'].title()} reached this farm on {storm['time']:%d %b %Y} with about {storm['site_wind_kt']:.0f} kt "
@@ -781,9 +815,10 @@ def secret(name):
 def render_after(bundle):
     ss = st.session_state
     lat, lon = bundle["lat"], bundle["lon"]
-    st.markdown(art.section("after", "After a storm",
-                            "Photograph the field. AI describes what it can see, NASA rain and soil moisture add context, "
-                            "and clear food-safety rules set a staged path back to harvest."), unsafe_allow_html=True)
+    lg = L()
+    st.markdown(art.section("after", t("After a storm", lg),
+                            t("Photograph the field. AI describes what it can see, NASA rain and soil moisture add context, "
+                              "and clear food-safety rules set a staged path back to harvest.", lg)), unsafe_allow_html=True)
     _, farm = current_farm()
     left, right = st.columns([1, 1], gap="large")
     with left:
@@ -840,13 +875,13 @@ def render_after(bundle):
     for note in state["notes"]:
         st.caption(note)
 
-    st.markdown(art.heading("4 · Your path back"), unsafe_allow_html=True)
+    st.markdown(art.heading("4 · " + t("Your path back", lg)), unsafe_allow_html=True)
     stages = recovery.recovery_stages(state, storm_date.month, wet_field=ss.fs_wet_field)
     cols = st.columns(len(stages), gap="medium")
     for col, stg in zip(cols, stages):
         items = "".join(f"<li>{a}</li>" for a in stg["actions"])
-        col.markdown(f'<div class="al-stage"><div class="w">{stg["weeks"]}</div><h4>{stg["title"]}</h4><ul>{items}</ul>'
-                     f'<div class="gate">Move on when: {stg["gate"]}</div></div>', unsafe_allow_html=True)
+        col.markdown(f'<div class="al-stage"><div class="w">{stg["weeks"]}</div><h4>{t(stg["title"], lg)}</h4><ul>{items}</ul>'
+                     f'<div class="gate">{t("Move on when", lg)}: {stg["gate"]}</div></div>', unsafe_allow_html=True)
 
     site = build_site(bundle)
     crops = planner.load_crops()
@@ -864,6 +899,170 @@ def render_after(bundle):
     st.markdown('<div class="al-note">Food-safety decisions after flooding follow U.S. FDA guidance and should be confirmed with your '
                 'Ministry of Agriculture extension officer.</div>', unsafe_allow_html=True)
 
+
+
+# ---------------------------------------------------------------------------
+# Alerts, assistant, ground truth
+# ---------------------------------------------------------------------------
+
+def alert_block(bundle, topic=None):
+    lg = L()
+    key, _ = current_farm()
+    topic = topic or alerts.topic_for(key, bundle["lat"], bundle["lon"], farm_label(bundle))
+    url = alerts.subscribe_url(topic)
+    with st.expander(t("Get storm and drought alerts on your phone", lg)):
+        c1, c2 = st.columns([1, 3])
+        c1.markdown(f'<div style="max-width:150px">{alerts.qr_svg(url, 4)}</div>', unsafe_allow_html=True)
+        c2.markdown(f"1. Install the free **ntfy** app (Android or iPhone).\n"
+                    f"2. Scan the code or subscribe to **`{topic}`**.\n"
+                    f"3. You get a message when a storm is close enough to act, or when the last 60 days are very dry or very wet.\n\n"
+                    f"No phone number or sign-up is needed. Extension officers can add farms to the automatic watchlist "
+                    f"(`data/farms.json`); SMS by Twilio is optional.")
+        if c2.button("Send a test alert", key=f"test_alert_{topic}"):
+            try:
+                alerts.send_ntfy(topic, {"title": f"FarmFit test for {farm_label(bundle)}",
+                                         "message": "Alerts are working. You will hear from us when a storm or drought needs action.",
+                                         "priority": "default", "tags": "seedling"})
+                c2.success("Sent. Check the ntfy app.")
+            except Exception as error:  # noqa: BLE001
+                c2.error(f"Could not send: {error}")
+
+
+def farm_briefing(bundle):
+    site, crops, current, plans, _ = get_plans(bundle)
+    clim = bundle["climate"]
+    summ = bundle["storm_summary"]
+    soil, terr = bundle.get("soil") or {}, bundle.get("terrain") or {}
+    _, farm = current_farm()
+    month = date.today().month
+    crop, stage = in_field(current, month)
+
+    def plan_line(p):
+        parts = ", ".join(f"{x.crop} {MONTHS[x.start - 1]}-{MONTHS[x.month_list()[-1] - 1]}" for x in p.plantings)
+        m = p.metrics
+        return (f"{p.title}: {parts}; expected storm/flood harvest loss {m['expected_loss']:.0%}, bare months {m['bare_months']}, "
+                f"legume months {m['legume_months']}, irrigation {m['irrigation_mm']:.0f} mm/yr")
+
+    ctx = {
+        "Today": date.today().isoformat(),
+        "Farm": f"{farm_label(bundle)} ({bundle['lat']:.3f}, {bundle['lon']:.3f})" + (f". {farm['story']}" if farm else ""),
+        "Soil (ISRIC SoilGrids, 250 m)": ", ".join(f"{k} {v}" for k, v in soil.items() if k in ("ph", "texture", "organic_matter_pct", "drainage") and v) or "unknown",
+        "Terrain (NASA SRTM)": f"elevation {terr.get('elevation_m')} m, slope {terr.get('slope_pct')} %" if terr.get("elevation_m") is not None else "unknown",
+        "Climate (NASA POWER " + bundle.get("climate_period", "") + ")": [
+            f"{r.label}: rain {r.rain_mm:.0f} mm, max temp {r.t_max:.1f} C, ET0 {r.et0_mm:.0f} mm, chance of a >=50 mm day {r.p_heavy_rain:.0%}"
+            for r in clim.itertuples()],
+        "Storm exposure (NOAA HURDAT2 " + summ["period"] + ")": [
+            f"storm-force wind at the farm about 1 year in {summ['return_period_storm_force']:.0f}" if summ["return_period_storm_force"] else "storm-force wind very rare",
+            f"hurricane-force events {summ['hurricane_force_events']}; riskiest months {', '.join(summ['peak_months'])}",
+        ] + [f"{r.name.title()} {r.year}: about {r.site_wind_kt:.0f} kt at the farm on {r.time:%d %b %Y}" for r in bundle["impacts"].head(5).itertuples()],
+        "Field shift (first vs last 15 years)": [f"{r.indicator}: {r.then:.1f} -> {r.now:.1f} {r.unit} ({r.signal})" for r in bundle["shift"].itertuples()],
+        "In the field this month": f"{crop} ({stage})" if crop else "nothing planted",
+        "Farmer's current rotation": plan_line(current),
+        "Suggested rotations": [plan_line(p) for p in plans.values()],
+    }
+    recent = load_recent(bundle["lat"], bundle["lon"], date.today().isoformat())
+    anomalies, end = water.rain_anomalies(bundle["daily"], recent)
+    if anomalies:
+        ctx["Water status (NASA POWER, to " + f"{end:%d %b %Y})"] = [
+            f"last {a['days']} days rain {a['total_mm']:.0f} mm vs normal {a['normal_mm']:.0f} mm ({a['label']}, {a['percentile']:.0f}th percentile of 30 years)"
+            for a in anomalies]
+    now = datetime.now()
+    live, _ = load_active_storms(now.strftime("%Y%m%d%H") + str(now.minute // 15))
+    if live:
+        ctx["Active storms (NOAA NHC, live)"] = [
+            f"{s['name']} {s['classification']} {s['intensity_kt'] or '?'} kt, {stormwatch.threat(s, bundle['lat'], bundle['lon'])['distance_km']:.0f} km away, "
+            f"level {stormwatch.threat(s, bundle['lat'], bundle['lon'])['level']}" for s in live]
+    else:
+        ctx["Active storms (NOAA NHC, live)"] = "none right now" if live == [] else "feed unavailable"
+    ctx["Crops FarmFit knows"] = ", ".join(f"{r.crop} ({r.days_to_harvest} d, {r.family})" for r in crops.itertuples())
+    return assistant.build_briefing(ctx)
+
+
+def render_ask(bundle):
+    ss = st.session_state
+    lg = L()
+    st.markdown(art.section("plan", t("Ask FarmFit", lg),
+                            t("Ask anything about your farm, in your language. Answers draw on this farm's NASA climate record, storm history, rotations and water status.", lg)),
+                unsafe_allow_html=True)
+    key = secret("GEMINI_API_KEY")
+    if not key:
+        st.info("The assistant needs a Gemini API key in the app's secrets (GEMINI_API_KEY).")
+    farm_key = f"{bundle['lat']:.3f},{bundle['lon']:.3f}"
+    if ss.get("fs_chat_farm") != farm_key:
+        ss.fs_chat, ss.fs_chat_farm = [], farm_key
+    for turn in ss.fs_chat:
+        with st.chat_message("user" if turn["role"] == "user" else "assistant", avatar="🧑🏾‍🌾" if turn["role"] == "user" else "🌱"):
+            st.markdown(turn["content"])
+    question = None
+    if not ss.fs_chat:
+        st.caption(t("Try asking", lg))
+        cols = st.columns(3)
+        for col, q in zip(cols, assistant.SUGGESTED.get(lg, assistant.SUGGESTED["en"])):
+            if col.button(q, use_container_width=True, key=f"sugg_{hash(q)}"):
+                question = q
+    typed = st.chat_input(t("Ask a question about your farm…", lg), disabled=not key)
+    question = typed or question
+    if question and key:
+        with st.chat_message("user", avatar="🧑🏾‍🌾"):
+            st.markdown(question)
+        with st.chat_message("assistant", avatar="🌱"):
+            with st.spinner("…"):
+                briefing = farm_briefing(bundle)
+                answer, info = assistant.ask(key, ss.fs_chat, question, briefing, lang=lg, model=secret("GEMINI_MODEL"))
+            if answer:
+                st.markdown(answer)
+                ss.fs_chat += [{"role": "user", "content": question}, {"role": "assistant", "content": answer}]
+            else:
+                st.error(f"The assistant is unavailable right now ({info.get('error')}).")
+    with st.expander("What the assistant knows about this farm"):
+        st.code(farm_briefing(bundle), language=None)
+
+
+def render_ground_truth(bundle):
+    lg = L()
+    st.markdown(art.heading(t("Ground truth: your own soil sensor", lg)), unsafe_allow_html=True)
+    st.caption("A US$15 ESP32 probe in the field, compared with NASA SMAP (9 km) and NASA POWER soil wetness (≈ 55 km). "
+               "Because the scales differ, we compare patterns (standardised anomalies) and report the correlation r.")
+    c1, c2 = st.columns([1, 1], gap="large")
+    with c1:
+        upload = st.file_uploader("Upload probe CSV (ts, soil_raw or soil_pct)", type=["csv"], key="probe_csv")
+        topic = st.text_input("…or read a live probe by its ntfy topic", placeholder="farmfit-sensor-probe-01")
+    with c2:
+        fw = (Path(__file__).resolve().parents[1] / "hardware" / "farmfit_soil_probe" / "farmfit_soil_probe.ino")
+        if fw.exists():
+            st.download_button("Download probe firmware (ESP32, Arduino)", fw.read_text(), file_name="farmfit_soil_probe.ino",
+                               use_container_width=True)
+        st.markdown('<div class="al-note">Parts: ESP32, capacitive soil sensor v1.2, optional solar + 18650. '
+                    'Readings use the same JSON contract as our IFRS flood sensors.</div>', unsafe_allow_html=True)
+    series = None
+    try:
+        if upload is not None:
+            series = sensor.parse_csv(upload.getvalue())
+        elif topic:
+            series = sensor.poll_ntfy(topic.strip())
+    except Exception as error:  # noqa: BLE001
+        st.error(f"Could not read the probe data: {error}")
+    if series is None or series.empty:
+        return
+    key, _ = current_farm()
+    pulse = satellite_pulse(key)
+    refs = {}
+    if "smap" in pulse:
+        refs["NASA SMAP"] = pulse["smap"]
+    recent = load_recent(bundle["lat"], bundle["lon"], date.today().isoformat())
+    if recent is not None and "GWETTOP" in recent:
+        refs["NASA POWER surface wetness"] = pd.concat([bundle["daily"]["GWETTOP"], recent["GWETTOP"]]).groupby(level=0).last()
+    elif "GWETTOP" in bundle["daily"]:
+        refs["NASA POWER surface wetness"] = bundle["daily"]["GWETTOP"]
+    z, stats = sensor.compare(series, refs)
+    long = z.melt("date", var_name="Series", value_name="z")
+    st.altair_chart(alt.Chart(long.dropna()).mark_line().encode(
+        x=alt.X("date:T", title=None), y=alt.Y("z:Q", title="standardised anomaly"),
+        color=alt.Color("Series:N", scale=alt.Scale(range=[art.TERRA, art.CLAY, art.SEA]), title=None)
+    ).properties(height=220, title="Your probe against NASA, as patterns"), use_container_width=True)
+    items = [(f"vs {s['reference']}", f"r = {s['r']:.2f}" if s["r"] is not None else "n/a", f"{s['days']} shared days", None) for s in stats]
+    if items:
+        st.markdown(art.figures(items), unsafe_allow_html=True)
 
 # ---------------------------------------------------------------------------
 # DATA & METHOD
@@ -888,6 +1087,8 @@ def data_passport(bundle):
         ["ISRIC SoilGrids 2.0", "pH, carbon, texture, drainage", "250 m", "live on click", origin.get(soil.get("origin"), "?"), freshness("ISRIC SoilGrids")],
         ["FAO ECOCROP + FAO-56", "Crop climate ranges and water use", "per crop", "bundled", "bundled", None],
         ["Open-Meteo forecast", "Next 7 days of rain and ET₀ (not NASA)", "≈ 10 km", "live", "live", None],
+        ["Your soil probe (ESP32)", "Ground truth for SMAP and POWER soil wetness", "1 point", "live (ntfy) or CSV", None, None],
+        ["Google Gemini", "Farm assistant and photo description (not a data source)", "-", "live", None, None],
     ]
     out = []
     for name, use, res, how, here, fresh in rows:
@@ -897,9 +1098,10 @@ def data_passport(bundle):
 
 
 def render_data(bundle):
-    st.markdown(art.section("data", "Data & method",
-                            "Every number in FarmFit traces back to an open dataset and a published method. Here is the full list, "
-                            "how each one reaches the app, and where human judgment still matters."), unsafe_allow_html=True)
+    lg = L()
+    st.markdown(art.section("data", t("Data & method", lg),
+                            t("Every number in FarmFit traces back to an open dataset and a published method. Here is the full list, "
+                              "how each one reaches the app, and where human judgment still matters.", lg)), unsafe_allow_html=True)
     st.dataframe(data_passport(bundle), hide_index=True, use_container_width=True, column_config={
         "Dataset": st.column_config.TextColumn(width="medium"), "Used for": st.column_config.TextColumn(width="large"),
         "Resolution": st.column_config.TextColumn(width="small"), "Status": st.column_config.TextColumn(width="medium")})
@@ -924,6 +1126,8 @@ def render_data(bundle):
 - The wind model screens exposure. It does not forecast storms; always follow official warnings.
 - Prices, labour and markets are not modelled.
 - Food safety after floods follows FDA guidance and must be confirmed locally.
+- Spanish, French and Kreyòl screens were drafted with AI help and need review by native speakers.
+- The assistant can be wrong. It is told to quote the farm's data and to defer to extension officers and official warnings.
 """)
         m = manifest()
         if m.get("generated"):

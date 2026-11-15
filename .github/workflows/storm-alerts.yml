@@ -1,0 +1,43 @@
+name: Storm and drought alerts
+
+# Every 3 hours June-November, once a day otherwise (UTC).
+on:
+  schedule:
+    - cron: "23 */3 * 6-11 *"
+    - cron: "23 11 * 1-5,12 *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: storm-alerts
+  cancel-in-progress: false
+
+jobs:
+  alerts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Check farms and send alerts
+        env:
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          TWILIO_FROM: ${{ secrets.TWILIO_FROM }}
+          ALERT_SMS: ${{ secrets.ALERT_SMS }}
+        run: python scripts/check_alerts.py
+      - name: Remember sent alerts
+        run: |
+          git config user.name "farmfit-data-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/cache/alerts_state.json
+          if git diff --cached --quiet; then echo "Nothing new."; else
+            git commit -m "Alerts state $(date -u +%Y-%m-%dT%H:%M)"
+            git pull --rebase --autostash && git push
+          fi

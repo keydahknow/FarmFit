@@ -42,6 +42,17 @@ Many farm calendars were handed down from a climate that has since shifted. Farm
 | ⑤ **Storm water bank** | Taken from our **IFRS flood-resilience project**: size a rain tank that catches wet-season runoff and feeds drip irrigation in the dry season. A slow-release rule frees tank space before forecast heavy rain. | NASA POWER, FAO-56 |
 | 🛰️ **After the storm** | Upload a field photo. **Gemini vision** describes only what is visible (standing water, bare soil, erosion, debris, lodging) as structured JSON with a confidence value. The farmer confirms what a photo can't show: water source, whether floodwater touched the edible part, and how long water stood. NASA POWER rain and root-zone wetness for the storm window add context, alongside GIBS IMERG and SMAP layers for the storm date. Rules then produce four gated stages (safety → drain → cover → production) and a **recovery rotation** that restarts ahead of the next peak season. | Gemini, NASA POWER, GIBS, FDA guidance |
 
+## Also in the app
+
+- **Ask FarmFit:** a Gemini chat assistant grounded in the farm's own data. It sees a briefing with the NASA POWER climate, NOAA storm history, rotations, water status and active storms, and answers in English, Spanish, French or Haitian Kreyòl. It is told to quote its sources, to say when it is uncertain, and to defer to extension officers and official warnings. "What the assistant knows about this farm" shows the exact briefing.
+- **Languages:** the main screens, checklists and verdicts are in English, Español, Français and Kreyòl (`fieldshift/i18n.py`). The non-English text was AI-assisted and needs review by native speakers.
+- **Alerts:**
+  - `.github/workflows/storm-alerts.yml` runs `scripts/check_alerts.py` every 3 hours in hurricane season.
+  - It publishes storm alerts ("get ready" / "act now" from the NOAA NHC feed) and drought or wet alerts (60-day rain below the 10th or above the 90th percentile) to a free ntfy topic per farm.
+  - No phone numbers are stored. Twilio SMS is optional, through `TWILIO_*` and `ALERT_SMS` secrets.
+- **Printable almanac:** a one-page A4 poster per farm with the artwork, the year's calendar, monthly to-dos, the storm checklist and an alert QR code.
+- **Ground-truth soil probe:** ESP32 firmware (`hardware/`) for a low-cost capacitive probe, using the same JSON contract as IFRS. Water watch compares the probe's readings with NASA SMAP and POWER soil wetness as standardised anomalies, with a correlation r.
+
 ## Datasets
 
 | Dataset | Provider | Used for | Resolution | Access |
@@ -165,6 +176,11 @@ pip install pytest && pytest -q
 | `fieldshift/art.py` | Almanac visual identity: palette, fonts, hand-drawn SVG artwork, chart theme |
 | `fieldshift/water.py` | Water watch: rain and soil-wetness percentiles vs 30 years, 7-day irrigation advice |
 | `fieldshift/stormwatch.py` | Live NOAA NHC active-storm feed, threat level, crop-specific preparation checklist |
+| `fieldshift/assistant.py` | Gemini farm assistant: rules and farm briefing |
+| `fieldshift/i18n.py` | English, Spanish, French, Kreyòl interface text |
+| `fieldshift/alerts.py`, `scripts/check_alerts.py` | Storm and drought alerts (ntfy, optional Twilio) |
+| `fieldshift/poster.py` | Printable one-page almanac |
+| `fieldshift/sensor.py`, `hardware/` | Ground-truth soil probe: firmware, parsing, comparison with SMAP |
 | `static/fonts/` | Fraunces and Inter (SIL Open Font License) |
 | `data/crops_fieldshift.csv` | 25 Caribbean crops and cover crops with ranges, Kc, stage vulnerability and sources |
 | `data/hurdat2_caribbean.csv` | NOAA HURDAT2 subset (1950-2025) |

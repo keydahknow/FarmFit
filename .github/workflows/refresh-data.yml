@@ -55,5 +55,5 @@ jobs:
             echo "No data changes."
           else
             git commit -m "Data refresh $(date -u +%Y-%m-%d)"
-            git push
+            git pull --rebase --autostash && git push
           fi

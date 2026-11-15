@@ -101,34 +101,49 @@ LEAFY = {"Pak Choi", "Callaloo", "Cabbage"}
 
 
 def checklist(crop, stage, drainage=None, slope_pct=None, heavy_rain_month=False):
-    """Preparation steps for a storm in the next 1-3 days, tailored to the field."""
+    """Preparation steps for a storm in the next 1-3 days, tailored to the field.
+
+    Returns (template, params, tag) tuples; templates are English keys in i18n.T.
+    """
     steps = []
     if crop:
         if stage in ("mature", "reproductive") and crop not in ("Sunn Hemp", "Mucuna"):
-            steps.append((f"Harvest what you can sell now: {crop} is at the {stage} stage, so an early harvest beats a total loss.", "harvest"))
+            steps.append(("Harvest what you can sell now: {crop} is at the {stage} stage, so an early harvest beats a total loss.",
+                          {"crop": crop, "stage": stage}, "harvest"))
         if crop in TALL:
-            steps.append((f"{crop} is tall and top-heavy: prop or stake plants, and for plantain harvest mature bunches first.", "wind"))
+            steps.append(("{crop} is tall and top-heavy: prop or stake plants, and for plantain harvest mature bunches first.", {"crop": crop}, "wind"))
         if crop in STAKED:
-            steps.append((f"Check stakes and trellis lines on the {crop.lower()}; loosen ties so stems bend rather than snap.", "wind"))
+            steps.append(("Check stakes and trellis lines on the {crop}; loosen ties so stems bend rather than snap.", {"crop": crop.lower()}, "wind"))
         if crop in UNDERGROUND:
-            steps.append((f"{crop} is mostly underground and usually survives wind; focus on drainage so it does not rot.", "water"))
+            steps.append(("{crop} is mostly underground and usually survives wind; focus on drainage so it does not rot.", {"crop": crop}, "water"))
         if crop in LEAFY:
-            steps.append((f"{crop} is quick to replant: harvest what is ready and keep seed for a fast restart.", "harvest"))
+            steps.append(("{crop} is quick to replant: harvest what is ready and keep seed for a fast restart.", {"crop": crop}, "harvest"))
         if stage == "seedling":
-            steps.append(("Seedlings are fragile: hold off transplanting until the storm passes; cover nursery trays.", "wind"))
+            steps.append(("Seedlings are fragile: hold off transplanting until the storm passes; cover nursery trays.", {}, "wind"))
     else:
-        steps.append(("The field is bare: sow nothing now. After the storm, a fast cover crop protects the soil.", "soil"))
-    steps.append(("Clear field drains, culverts and outlets so water can leave quickly.", "water"))
+        steps.append(("The field is bare: sow nothing now. After the storm, a fast cover crop protects the soil.", {}, "soil"))
+    steps.append(("Clear field drains, culverts and outlets so water can leave quickly.", {}, "water"))
     if drainage in ("Slow", "Very slow"):
-        steps.append(("This soil drains slowly: open extra drainage furrows at the low end of beds.", "water"))
+        steps.append(("This soil drains slowly: open extra drainage furrows at the low end of beds.", {}, "water"))
     elif heavy_rain_month:
-        steps.append(("Heavy rain is common this month: open extra drainage furrows at the low end of beds.", "water"))
+        steps.append(("Heavy rain is common this month: open extra drainage furrows at the low end of beds.", {}, "water"))
     if slope_pct is not None and slope_pct >= 5:
-        steps.append((f"Sloping land ({slope_pct:.0f}%): put residue or mulch on bare beds to cut erosion.", "soil"))
+        steps.append(("Sloping land ({slope}%): put residue or mulch on bare beds to cut erosion.", {"slope": f"{slope_pct:.0f}"}, "soil"))
     steps += [
-        ("Do not apply fertiliser or spray before heavy rain: it washes off and pollutes water.", "soil"),
-        ("Move seed, fertiliser, fuel and tools to a dry, raised, tied-down store.", "store"),
-        ("Photograph the field and crops now; it speeds up insurance and relief claims.", "store"),
-        ("Move livestock to high ground with feed and water for three days.", "store"),
+        ("Do not apply fertiliser or spray before heavy rain: it washes off and pollutes water.", {}, "soil"),
+        ("Move seed, fertiliser, fuel and tools to a dry, raised, tied-down store.", {}, "store"),
+        ("Photograph the field and crops now; it speeds up insurance and relief claims.", {}, "store"),
+        ("Move livestock to high ground with feed and water for three days.", {}, "store"),
     ]
     return steps
+
+
+def render_steps(steps, lang="en"):
+    from .i18n import t
+    out = []
+    for template, params, _ in steps:
+        p = dict(params)
+        if "stage" in p:
+            p["stage"] = t(p["stage"], lang)
+        out.append(t(template, lang, **p))
+    return out

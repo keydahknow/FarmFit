@@ -135,5 +135,63 @@ def test_storm_threat_levels():
     far = {"lat": 30.0, "lon": -50.0, "dir": 45, "speed_mph": 15}
     assert stormwatch.threat(near, 18.05, -77.72)["level"] == "act now"
     assert stormwatch.threat(far, 18.05, -77.72)["level"] == "monitor"
-    steps = [s for s, _ in stormwatch.checklist("Plantain", "mature", drainage="Slow")]
+    steps = stormwatch.render_steps(stormwatch.checklist("Plantain", "mature", drainage="Slow"))
+    es = stormwatch.render_steps(stormwatch.checklist("Plantain", "mature", drainage="Slow"), "es")
+    assert any("madurez" in s for s in es)
     assert any("prop" in s for s in steps) and any("drains slowly" in s for s in steps)
+
+
+def test_assistant_briefing_and_request(monkeypatch):
+    from fieldshift import assistant
+    text = assistant.build_briefing({"Farm": "Test farm", "Climate": ["Jan: rain 30 mm"], "Empty": None})
+    assert "Test farm" in text and "Jan: rain 30 mm" in text and "Empty" not in text
+    captured = {}
+
+    class R:
+        ok = True
+        def raise_for_status(self): pass
+        def json(self): return {"candidates": [{"content": {"parts": [{"text": "Plant cowpea."}]}}]}
+
+    def fake_post(url, params=None, json=None, timeout=None):
+        captured.update(url=url, body=json)
+        return R()
+
+    monkeypatch.setattr(assistant.requests, "post", fake_post)
+    answer, info = assistant.ask("k", [{"role": "user", "content": "hi"}, {"role": "assistant", "content": "hello"}],
+                                 "What now?", text, lang="es")
+    assert answer == "Plant cowpea." and "Spanish" in captured["body"]["system_instruction"]["parts"][0]["text"]
+    assert [c["role"] for c in captured["body"]["contents"]] == ["user", "model", "user"]
+
+
+def test_alert_rules_and_topic():
+    from fieldshift import alerts
+    topic = alerts.topic_for("jamaica", 18.05, -77.72, "St Elizabeth, Jamaica")
+    assert topic.startswith("farmfit-st-elizabeth-jamaica-") and topic == alerts.topic_for("jamaica", 18.05, -77.72, "St Elizabeth, Jamaica")
+    storm = {"name": "Test", "classification": "Hurricane", "intensity_kt": 100, "lat": 17.5, "lon": -76.5, "dir": 280, "speed_mph": 10, "id": "al99"}
+    out = alerts.evaluate(18.05, -77.72, "St Elizabeth", active=[storm])
+    assert out and out[0]["level"] == "act now" and "Test" in out[0]["title"]
+    assert "<svg" in alerts.qr_svg("https://ntfy.sh/" + topic)
+
+
+def test_sensor_parse_and_compare():
+    import io
+    from fieldshift import sensor
+    days = pd.date_range("2026-01-01", periods=40, freq="6h")
+    raw = 2100 + 300 * np.sin(np.arange(len(days)) / 8)
+    csv = pd.DataFrame({"ts": days.strftime("%Y-%m-%dT%H:%M:%SZ"), "soil_raw": raw}).to_csv(index=False).encode()
+    s = sensor.parse_csv(csv)
+    assert 0 <= s.min() and s.max() <= 100 and len(s) == 40
+    ref = pd.Series(-raw, index=days)  # wetter probe -> lower raw -> higher pct, so -raw tracks pct
+    z, stats = sensor.compare(s, {"ref": ref})
+    assert stats[0]["r"] > 0.9
+
+
+def test_poster_renders():
+    from fieldshift import poster
+    site = site_for(*JAM)
+    crops = planner.load_crops()
+    plans = planner.generate_strategies(site, crops, planner.allowed_crops(crops)); plans.pop("_meta")
+    cur = planner.evaluate_current(site, crops, [planner.Planting("Tomato", 8, 4)])
+    html = poster.build("Test farm", plans["storm"], cur, site, crops, "<div>cal</div>",
+                        {"return_period_storm_force": 4, "peak_months": ["Aug"]}, ["Clear drains"], "https://ntfy.sh/x", "<svg></svg>", "fr")
+    assert html.startswith("<!DOCTYPE html>") and "Test farm" in html and "Clear drains" in html and "Planter" not in html
