@@ -95,11 +95,8 @@ def parse_timeseries(text):
     return headers, series
 
 
-def imerg_daily(lat, lon, start, end, timeout=120, token=None):
-    """Daily IMERG Final rain (mm/day) at a point. Returns (Series or None, info)."""
-    start, end = max(pd.Timestamp(start), IMERG_START), pd.Timestamp(end)
-    if start > end:
-        return None, {"error": "before IMERG starts (June 2000)"}
+def imerg_giovanni(lat, lon, start, end, timeout=120, token=None):
+    """IMERG through the Giovanni Time Series API (one request for a long window)."""
     try:
         token = token or edl_token()
     except Exception as error:  # noqa: BLE001
@@ -111,21 +108,108 @@ def imerg_daily(lat, lon, start, end, timeout=120, token=None):
         try:
             r = requests.get(GIOVANNI_TS, params=params, timeout=timeout,
                              headers={"Authorization": f"Bearer {token}"})
-            text = r.text
-            r.raise_for_status()
         except Exception as error:  # noqa: BLE001
-            tried.append(f"{data_id}: {str(error)[:120]}")
+            tried.append(f"{data_id}: {str(error)[:100]}")
             continue
-        headers, s = parse_timeseries(text)
+        if r.status_code != 200:
+            tried.append(f"{data_id}: HTTP {r.status_code} {r.text[:150]!r}")
+            continue
+        headers, s = parse_timeseries(r.text)
         if s is None:
-            tried.append(f"{data_id}: no rows ({text[:120]!r})")
+            tried.append(f"{data_id}: no rows {r.text[:150]!r}")
             continue
-        unit = headers.get("unit", "").lower()
-        if "hr" in unit or "HH" in data_id:
-            s = s * 0.5  # half-hourly mm/hr -> mm per half hour
-        daily = s.resample("D").sum()
-        return daily.rename("imerg_mm"), {"source": data_id, "unit": unit, "n": len(s)}
-    return None, {"error": "; ".join(tried)}
+        if "hr" in headers.get("unit", "").lower() or "HH" in data_id:
+            s = s * 0.5
+        return s.resample("D").sum().rename("imerg_mm"), {"source": f"Giovanni {data_id}"}
+    return None, {"error": "Giovanni: " + "; ".join(tried)}
+
+
+# Daily IMERG files on GES DISC, read one grid cell at a time through OPeNDAP.
+# Final (gauge-adjusted) lags ~3.5 months; Late is ready ~14 hours after the day.
+OPENDAP = "https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3"
+IMERG_RUNS = {
+    "final": ("GPM_3IMERGDF.07", "3B-DAY.MS.MRG.3IMERG.{d:%Y%m%d}-S000000-E235959.V07B.nc4"),
+    "late": ("GPM_3IMERGDL.07", "3B-DAY-L.MS.MRG.3IMERG.{d:%Y%m%d}-S000000-E235959.V07B.nc4"),
+}
+ASCII_VALUE = re.compile(r"\[.*?\]\s*,\s*(-?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?)\s*$")
+
+
+def imerg_cell(lat, lon):
+    """Index of the 0.1 degree IMERG cell (lon -179.95..179.95, lat -89.95..89.95)."""
+    return int(round((lon + 179.95) / 0.1)), int(round((lat + 89.95) / 0.1))
+
+
+def parse_opendap_value(text):
+    for line in text.splitlines():
+        m = ASCII_VALUE.search(line.strip())
+        if m:
+            return float(m.group(1))
+    return None
+
+
+def imerg_day(session, lat, lon, day, run):
+    collection, name = IMERG_RUNS[run]
+    i, j = imerg_cell(lat, lon)
+    url = (f"{OPENDAP}/{collection}/{day:%Y}/{day:%m}/{name.format(d=day)}.ascii"
+           f"?precipitation[0:0][{i}:{i}][{j}:{j}]")
+    r = session.get(url, timeout=60)
+    if r.status_code == 404:
+        return None, "missing"
+    r.raise_for_status()
+    v = parse_opendap_value(r.text)
+    if v is None:
+        raise ValueError(f"unparsed OPeNDAP reply {r.text[:150]!r}")
+    return (v if v >= 0 else None), run
+
+
+def imerg_daily(lat, lon, start, end, token=None, workers=8):
+    """Daily IMERG rain (mm/day) at a point: Final where it exists, else Late.
+    Returns (Series or None, info)."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    start, end = max(pd.Timestamp(start), IMERG_START), pd.Timestamp(end)
+    if start > end:
+        return None, {"error": "before IMERG starts (June 2000)"}
+    creds = credentials()
+    if not creds:
+        return None, {"error": "No Earthdata credentials"}
+    days = list(pd.date_range(start, end, freq="D"))
+    final_cutoff = pd.Timestamp.today().normalize() - pd.DateOffset(months=5)
+
+    errors, values = [], {}
+    with EarthdataSession(creds) as session:
+        adapter = requests.adapters.HTTPAdapter(pool_connections=workers, pool_maxsize=workers)
+        session.mount("https://", adapter)
+
+        def one(day):
+            runs = ["final", "late"] if day <= final_cutoff else ["late", "final"]
+            for run in runs:
+                try:
+                    v, tag = imerg_day(session, lat, lon, day, run)
+                except Exception as error:  # noqa: BLE001
+                    errors.append(f"{day:%Y-%m-%d} {run}: {str(error)[:160]}")
+                    continue
+                if tag != "missing":
+                    return day, v, run
+            return day, None, None
+
+        # One request first, so a login problem fails fast instead of 700 times.
+        first = one(days[0])
+        if first[2] is None and errors:
+            return None, {"error": "OPeNDAP: " + errors[0]}
+        results = [first]
+        with ThreadPoolExecutor(workers) as pool:
+            results += list(pool.map(one, days[1:]))
+    runs = {}
+    for day, v, run in results:
+        if run:
+            runs[run] = runs.get(run, 0) + 1
+            if v is not None:
+                values[day] = v
+    if not values:
+        return None, {"error": "OPeNDAP: no values" + (f" ({errors[0]})" if errors else "")}
+    s = pd.Series(values).sort_index().rename("imerg_mm")
+    return s, {"source": "GES DISC OPeNDAP", "runs": runs, "errors": errors[:3]}
 
 
 # ---------------------------------------------------------------------------
