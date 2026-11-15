@@ -738,7 +738,7 @@ def render_water(bundle):
         now = alt.Chart(env.dropna(subset=["this_year"])).mark_line(color=art.TERRA, strokeWidth=2.6).encode(
             x="date:T", y="this_year:Q", tooltip=[alt.Tooltip("date:T"), alt.Tooltip("this_year:Q", title="this year (mm)", format=".0f")])
         st.altair_chart((band + med + now).properties(height=240, title="The last 90 days: this year (red) against the usual range (blue)"),
-                        use_container_width=True)
+                        use_container_width=True, theme=None)
 
     render_season_ahead(bundle)
     st.caption("Regional check: the Caribbean Institute for Meteorology and Hydrology (CIMH) publishes a monthly Caribbean Drought "
@@ -758,7 +758,7 @@ def render_water(bundle):
                 tooltip=["day", alt.Tooltip("rain_mm:Q", title="rain", format=".1f"), alt.Tooltip("et0_mm:Q", title="ET₀", format=".1f")])
             line = alt.Chart(fc2).mark_line(color=art.TERRA, point=True).encode(x=alt.X("day:N", sort=None), y="et0_mm:Q")
             st.altair_chart((bars + line).properties(height=200, title="Next 7 days: rain (bars) and crop water demand ET₀ (line)"),
-                            use_container_width=True)
+                            use_container_width=True, theme=None)
             st.caption("Forecast from Open-Meteo (ECMWF / GFS); not a NASA dataset, used only for the week ahead.")
         else:
             st.caption("Forecast unavailable; advice uses this month's 30-year normals instead.")
@@ -804,7 +804,7 @@ def render_water(bundle):
         for i in range(0, len(panels), 3):
             row = panels[i:i + 3]
             for col, chart in zip(st.columns(3), row):
-                col.altair_chart(chart, use_container_width=True)
+                col.altair_chart(chart, use_container_width=True, theme=None)
 
     render_water_bank(bundle, site, crops, current, plans)
     render_shift(bundle)
@@ -910,7 +910,7 @@ def render_water_bank(bundle, site, crops, current, plans):
     st.altair_chart(alt.Chart(d.melt("month", var_name="Flow", value_name="m³")).mark_bar().encode(
         x=alt.X("month:N", sort=MONTHS, title=None), xOffset=alt.XOffset("Flow:N", sort=["Rain caught", "Irrigation need"]), y="m³:Q",
         color=alt.Color("Flow:N", scale=alt.Scale(domain=["Rain caught", "Irrigation need"], range=[art.SEA, art.TERRA]), title=None)
-    ).properties(height=200), use_container_width=True)
+    ).properties(height=200), use_container_width=True, theme=None)
 
 
 def render_shift(bundle):
@@ -929,7 +929,7 @@ def render_shift(bundle):
         x=alt.X("label:N", sort=MONTHS, title=None), y=alt.Y("PRECTOTCORR:Q", title="mm per month"),
         color=alt.Color("period:N", title=None, scale=alt.Scale(range=["#9aa3ad", art.TERRA])),
         tooltip=["period", "label", alt.Tooltip("PRECTOTCORR:Q", format=".0f")]).properties(height=220, title="Monthly rain, then and now"),
-        use_container_width=True)
+        use_container_width=True, theme=None)
 
 
 # ---------------------------------------------------------------------------
@@ -1071,7 +1071,7 @@ def render_storm(bundle):
         color=alt.Color("Measure:N", scale=alt.Scale(range=[art.OCHRE, art.TERRA]), title=None),
         tooltip=["Rotation", "Measure", alt.Tooltip("Harvest lost:Q", format=".1%")],
     ).properties(height=230, title="5,000 simulated seasons drawn from this farm's own storm and rain history"),
-        use_container_width=True)
+        use_container_width=True, theme=None)
 
 
 # ---------------------------------------------------------------------------
@@ -1383,7 +1383,7 @@ def render_ground_truth(bundle):
     st.altair_chart(alt.Chart(long.dropna()).mark_line().encode(
         x=alt.X("date:T", title=None), y=alt.Y("z:Q", title="standardised anomaly"),
         color=alt.Color("Series:N", scale=alt.Scale(range=[art.TERRA, art.CLAY, art.SEA]), title=None)
-    ).properties(height=220, title="Your probe against NASA, as patterns"), use_container_width=True)
+    ).properties(height=220, title="Your probe against NASA, as patterns"), use_container_width=True, theme=None)
     items = [(f"vs {s['reference']}", f"r = {s['r']:.2f}" if s["r"] is not None else "n/a", f"{s['days']} shared days", None) for s in stats]
     if items:
         st.markdown(art.figures(items), unsafe_allow_html=True)

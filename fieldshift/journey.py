@@ -12,6 +12,7 @@ component) watches the scroll position and sets CSS variables on the page.
 """
 
 import html
+from urllib.parse import quote
 
 import streamlit.components.v1 as components
 
@@ -38,10 +39,8 @@ html, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"], 
 @media (min-width:1180px){{.block-container{{margin-left:auto;margin-right:auto;padding-left:150px !important}}}}
 
 /* the world behind the page */
-#fs-world{{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}}
-#fs-world .w{{position:absolute;left:0;top:0;width:100%;height:600vh;will-change:transform;
-  transform:translate3d(0,calc(var(--fs-bg,0) * -83.3333%),0);transition:transform .35s cubic-bezier(.2,.7,.2,1)}}
-#fs-world svg{{width:100%;height:100%;display:block}}
+#fs-world{{position:fixed;inset:0;z-index:-1;pointer-events:none;background-repeat:no-repeat;background-size:100% 600vh;
+  background-position:0 calc(var(--fs-bg,0) * -500vh);transition:background-position .35s cubic-bezier(.2,.7,.2,1)}}
 
 /* layers: readable paper panels floating in the world */
 .st-key-landing,.st-key-topbar{{background:rgba(243,238,227,.94);border-radius:16px;padding:1.2rem 1.5rem !important;
@@ -256,7 +255,11 @@ SCRIPT = """
 def install(st):
     """Page CSS, the world behind the page, the tree, and the scroll script."""
     st.markdown(CSS, unsafe_allow_html=True)
-    st.markdown(f'<div id="fs-world"><div class="w">{world_svg()}</div></div>{tree_svg()}', unsafe_allow_html=True)
+    # The world is painted as a background image, not a 600vh element: a layer that tall
+    # exceeds GPU texture limits on 2x/3x screens and Chrome then shows stale tiles.
+    uri = "data:image/svg+xml;charset=utf-8," + quote(world_svg(), safe="")
+    st.markdown(f'<style>#fs-world{{background-image:url("{uri}")}}</style><div id="fs-world"></div>{tree_svg()}',
+                unsafe_allow_html=True)
     import json
     components.html(SCRIPT % json.dumps(LAYERS), height=0)
 
