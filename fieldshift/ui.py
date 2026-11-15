@@ -21,7 +21,7 @@ import pandas as pd
 import streamlit as st
 from streamlit_folium import st_folium
 
-from . import alerts, art, assistant, enso, planner, poster, power, recovery, sensor, soil_terrain, storms, stormwatch, water
+from . import alerts, art, assistant, enso, journey, market, planner, poster, power, recovery, sensor, soil_terrain, storms, stormwatch, water
 from .i18n import LANGS, month as mname, t
 
 MONTHS = planner.MONTHS
@@ -209,98 +209,233 @@ def in_field(plan, month):
 
 
 # ---------------------------------------------------------------------------
-# Masthead, farm picker, navigation
+# Landing: pick the farm first
 # ---------------------------------------------------------------------------
 
-def masthead():
-    st.markdown(
-        f"""<div class="al-mast"><div>
-        <div class="al-kicker">NASA Space Apps 2026 · Field Shift · FarmFit</div>
-        <div class="al-title">Hurricane<br/>to Harvest</div>
-        <div class="al-dek">{t("A farmer's almanac, redrawn with satellite data: what to plant, when to water, and how to get through the storm season with your soil and your harvest intact.", L())}</div>
-        </div><div class="al-art">{art.masthead_art()}</div></div>""",
-        unsafe_allow_html=True,
-    )
+GEOCODE = "https://geocoding-api.open-meteo.com/v1/search"
 
 
-def farm_picker():
+@st.cache_data(ttl=86400, show_spinner=False)
+def geocode(name):
+    try:
+        import requests
+        r = requests.get(GEOCODE, params={"name": name, "count": 6, "language": "en", "format": "json"}, timeout=10)
+        r.raise_for_status()
+        return [{"label": ", ".join(x for x in (g.get("name"), g.get("admin1"), g.get("country")) if x),
+                 "lat": g["latitude"], "lon": g["longitude"]} for g in r.json().get("results", [])]
+    except Exception:  # noqa: BLE001
+        return []
+
+
+def choose_farm(key=None, lat=None, lon=None):
     ss = st.session_state
-    options = list(FARMS) + [CUSTOM]
-    labels = {k: v["label"] for k, v in FARMS.items()}
-    labels[CUSTOM] = t("My own farm (pick on the map)", L())
-    key, _ = current_farm()
-    current = key or CUSTOM
-    c1, c2, c3 = st.columns([1.4, 2.6, 0.75])
-    with c3:
-        lang = st.selectbox("Language", list(LANGS), index=list(LANGS).index(ss.fs_lang), format_func=LANGS.get,
-                            label_visibility="collapsed", key="lang_select")
-        if lang != ss.fs_lang:
-            ss.fs_lang = lang
-            st.rerun()
-    with c1:
-        choice = st.selectbox("Farm", options, index=options.index(current), format_func=labels.get,
-                              label_visibility="collapsed", key=f"farm_select_{current}")
-    if choice != current:
-        if choice == CUSTOM:
-            ss.fs_demo = None
-        else:
-            f = FARMS[choice]
-            ss.fs_demo = choice
-            ss.farm_latitude, ss.farm_longitude = f["lat"], f["lon"]
-            ss.fs_current = list(f["current"])
-            ss.fs_wet_field, ss.fs_irrigation = f["wet_field"], f["irrigation"]
+    if key in FARMS:
+        f = FARMS[key]
+        ss.fs_demo = key
+        ss.farm_latitude, ss.farm_longitude = f["lat"], f["lon"]
+        ss.fs_current = list(f["current"])
+        ss.fs_wet_field, ss.fs_irrigation = f["wet_field"], f["irrigation"]
+    else:
+        ss.fs_demo = None
+        ss.farm_latitude, ss.farm_longitude = round(float(lat), 4), round(float(lon), 4)
+    ss.fs_located = True
+
+
+def located():
+    ss = st.session_state
+    if ss.get("fs_located"):
+        return True
+    q = st.query_params
+    if q.get("farm") in FARMS:
+        choose_farm(q.get("farm"))
+        return True
+    try:
+        if q.get("lat") and q.get("lon"):
+            choose_farm(lat=float(q.get("lat")), lon=float(q.get("lon")))
+            return True
+    except ValueError:
+        pass
+    return False
+
+
+def language_select(key):
+    ss = st.session_state
+    lang = st.selectbox("Language", list(LANGS), index=list(LANGS).index(ss.fs_lang), format_func=LANGS.get,
+                        label_visibility="collapsed", key=key)
+    if lang != ss.fs_lang:
+        ss.fs_lang = lang
         st.rerun()
-    with c2:
-        _, f = current_farm()
-        text = f["story"] if f else f"Your farm at {ss.farm_latitude:.3f}, {ss.farm_longitude:.3f}. Tap the map to move it."
-        st.markdown(f'<div class="al-farm" style="padding-top:.55rem">{text}</div>', unsafe_allow_html=True)
-    if current == CUSTOM:
-        m = folium.Map(location=[ss.farm_latitude, ss.farm_longitude], zoom_start=9, tiles=None, control_scale=True)
-        folium.TileLayer("OpenStreetMap", name="Map").add_to(m)
-        folium.Marker([ss.farm_latitude, ss.farm_longitude], icon=folium.Icon(color="green", icon="leaf")).add_to(m)
-        out = st_folium(m, height=320, width=None, key="pick_map", returned_objects=["last_clicked"])
-        if out and out.get("last_clicked"):
-            nl, ng = round(out["last_clicked"]["lat"], 4), round(out["last_clicked"]["lng"], 4)
-            if abs(nl - ss.farm_latitude) > 1e-3 or abs(ng - ss.farm_longitude) > 1e-3:
-                ss.farm_latitude, ss.farm_longitude = nl, ng
-                st.rerun()
 
 
-SECTIONS = ["Plan my season", "Water watch", "Storm ready", "After a storm", "Ask FarmFit", "Data & method"]
-
-
-def navigation():
+def render_landing():
     ss = st.session_state
-    requested = st.query_params.get("section")
-    if requested in SECTIONS and "fs_section" not in ss:
-        ss.fs_section = requested
-    default = ss.get("fs_section", SECTIONS[0])
-    choice = st.segmented_control("Section", SECTIONS, default=default, label_visibility="collapsed", key="nav",
-                                  format_func=lambda x: t(x, L()))
-    ss.fs_section = choice or default
-    return ss.fs_section
+    lg = L()
+    st.markdown(f"""<div class="fs-hero"><div class="k">NASA Space Apps 2026 · Field Shift</div>
+        <div class="t">Hurricane<br/>to Harvest</div>
+        <div class="d">{t("A farmer's almanac, redrawn with satellite data: what to plant, when to water, and how to get through the storm season with your soil and your harvest intact.", lg)}</div></div>""",
+                unsafe_allow_html=True)
+    with st.container(key="landing"):
+        top = st.columns([3, 1])
+        top[0].markdown(f"### {t('Where is your farm?', lg)}")
+        with top[1]:
+            language_select("lang_landing")
+        st.caption("Everything that follows is worked out for that exact spot: 30 years of NASA rain, every storm since 1971, "
+                   "the soil under it and the satellites watching it now.")
+        d1, d2 = st.columns(2, gap="medium")
+        for col, (key, f) in zip((d1, d2), FARMS.items()):
+            with col:
+                st.markdown(f'<div class="fs-demo"><b>{f["label"]}</b><div class="s">{f["story"]}</div></div>', unsafe_allow_html=True)
+                if st.button(f"Start with {f['label'].split(',')[0]}", key=f"demo_{key}", use_container_width=True):
+                    choose_farm(key)
+                    st.rerun()
+        st.markdown("**Or find your own farm.** Search a district or village, or tap the map.")
+        q = st.text_input("Search a place", placeholder="e.g. Santa Cruz, Jamaica  ·  Penal, Trinidad  ·  Les Cayes, Haiti",
+                          label_visibility="collapsed")
+        hits = geocode(q) if q and len(q) > 2 else []
+        if q and not hits:
+            st.caption("No match. Try a nearby town, or tap the map.")
+        if hits:
+            pick = st.radio("Matches", range(len(hits)), format_func=lambda i: hits[i]["label"], label_visibility="collapsed",
+                            horizontal=False)
+            ss.fs_pin = (hits[pick]["lat"], hits[pick]["lon"])
+        pin = ss.get("fs_pin", (18.05, -77.72))
+        m = folium.Map(location=list(pin), zoom_start=9 if "fs_pin" in ss else 6, tiles=None, control_scale=True)
+        folium.TileLayer(tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                         attr="Esri World Imagery", name="Satellite").add_to(m)
+        folium.TileLayer("OpenStreetMap", name="Street map").add_to(m)
+        folium.Marker(list(pin), icon=folium.Icon(color="green", icon="leaf")).add_to(m)
+        folium.LayerControl(collapsed=True).add_to(m)
+        out = st_folium(m, height=330, width=None, key="landing_map", returned_objects=["last_clicked"])
+        if out and out.get("last_clicked"):
+            new = (round(out["last_clicked"]["lat"], 4), round(out["last_clicked"]["lng"], 4))
+            if new != tuple(pin):
+                ss.fs_pin = new
+                st.rerun()
+        if st.button(f"Begin the journey at {pin[0]:.3f}, {pin[1]:.3f}", type="primary", use_container_width=True,
+                     disabled="fs_pin" not in ss):
+            choose_farm(lat=pin[0], lon=pin[1])
+            st.rerun()
+
+
+def topbar(bundle):
+    ss = st.session_state
+    with st.container(key="topbar"):
+        c1, c2, c3 = st.columns([3, 1, 1])
+        _, farm = current_farm()
+        c1.markdown(f'<div class="al-kicker">FarmFit · Hurricane to Harvest</div>'
+                    f'<div style="font:600 1.25rem Fraunces,serif;color:{art.INK}">{farm_label(bundle)}</div>', unsafe_allow_html=True)
+        with c2:
+            language_select("lang_top")
+        if c3.button("Change farm", use_container_width=True):
+            ss.fs_located = False
+            for k in ("farm", "lat", "lon"):
+                if k in st.query_params:
+                    del st.query_params[k]
+            st.rerun()
+
+
+def intro_beat(bundle):
+    _, farm = current_farm()
+    imp = bundle["impacts"]
+    summ = bundle["storm_summary"]
+    place = farm["label"] if farm else f"{bundle['lat']:.3f}°, {bundle['lon']:.3f}°"
+    if farm:
+        hit = imp[(imp["name"] + " " + imp["year"].astype(str)) == farm["storm"]]
+        kt = f" with about {hit.iloc[0]['site_wind_kt']:.0f} knots of wind" if len(hit) else ""
+        head = f"On {farm['storm_date']:%-d %B %Y}, {farm['storm'].split()[0].title()} reached this field{kt}."
+    elif len(imp):
+        top = imp.iloc[0]
+        head = f"The worst storm here since 1971 was {top['name'].title()} {top['year']}, about {top['site_wind_kt']:.0f} knots at the farm."
+    else:
+        head = "Few storms have reached this field since 1971. Rain and drought are the bigger story."
+    rp = summ.get("return_period_storm_force")
+    dek = (("Storm-force wind reaches it about 1 year in " + f"{rp:.0f}. " if rp else "")
+           + "Scroll down, from the sky above the farm to the rock beneath it, and plan the year so the next storm "
+             "takes as little as possible.")
+    st.markdown(journey.beat(place, head, dek), unsafe_allow_html=True)
 
 
 def render():
     setup_page()
-    masthead()
-    farm_picker()
-    section = navigation()
+    journey.install(st)
+    if not located():
+        render_landing()
+        return
     lat, lon = st.session_state.farm_latitude, st.session_state.farm_longitude
     with st.spinner("Reading 30 years of NASA climate, storm tracks, soil and terrain for this farm…"):
         bundle = load_site(lat, lon)
-    if "climate" not in bundle and section != "Data & method":
+    topbar(bundle)
+    if "climate" not in bundle:
         st.error("NASA POWER could not be reached for this point and no saved copy exists. "
                  f"Details: {bundle.get('power_meta', {}).get('error', 'unknown')}. Try again in a minute or pick a demo farm.")
         return
     if "SYNTHETIC" in str(bundle.get("power_meta", {}).get("source", "")):
         st.warning("Offline development mode: climate numbers come from a synthetic test fixture, not NASA data.")
-    {"Plan my season": render_plan, "Water watch": render_water, "Storm ready": render_storm,
-     "After a storm": render_after, "Ask FarmFit": render_ask, "Data & method": render_data}[section](bundle)
-    st.markdown('<hr class="al-rule"/><div class="al-note">'
-                + t("FarmFit supports farmers' judgment; it never replaces it. Check plans with your extension officer.", L())
-                + ' Built with NASA POWER, SMAP, GPM IMERG, MODIS, SRTM, NOAA HURDAT2 / IBTrACS, ISRIC SoilGrids and FAO data.</div>',
+    lg = L()
+    intro_beat(bundle)
+    with st.container(key="layer_sky"):
+        render_storm(bundle)
+    st.markdown(journey.beat("The field", t("When the sky clears, the field decides.", lg),
+                             "What is in the ground in the storm months matters more than anything done after them."),
                 unsafe_allow_html=True)
+    with st.container(key="layer_field"):
+        render_plan(bundle)
+    st.markdown(journey.beat("After the storm", "If it still comes, recover fast and safely.",
+                             "A photo, two minutes of questions and the satellite record give a staged path back to harvest."),
+                unsafe_allow_html=True)
+    with st.container(key="layer_recover"):
+        st.fragment(render_after)(bundle)
+    st.markdown(journey.beat("Under the surface", "Most of a farm's water is out of sight.",
+                             "Rain gauges in orbit, soil moisture from microwaves, and plants breathing out water: "
+                             "together they say whether this field is heading into drought."), unsafe_allow_html=True)
+    with st.container(key="layer_water"):
+        render_water(bundle)
+    st.markdown(journey.beat("Deeper", "Clay that holds water. Roots that hold soil.",
+                             "The ground under this farm, and the questions only you can ask about it."), unsafe_allow_html=True)
+    with st.container(key="layer_soil"):
+        render_soil(bundle)
+        st.fragment(render_ask)(bundle)
+    st.markdown(journey.beat("Bedrock", "Every number traces back to an open dataset.",
+                             "NASA, NOAA, FAO, ISRIC and local open data. Here is what each one does, and where it stops."),
+                unsafe_allow_html=True)
+    with st.container(key="layer_bedrock"):
+        render_data(bundle)
+        st.markdown('<hr class="al-rule"/><div class="al-note">'
+                    + t("FarmFit supports farmers' judgment; it never replaces it. Check plans with your extension officer.", lg)
+                    + ' Built with NASA POWER, SMAP, GPM IMERG, MODIS, SRTM, OPERA, NOAA HURDAT2 / IBTrACS / ENSO, ISRIC SoilGrids, '
+                      'FAO and NAMDEVCO data.</div>', unsafe_allow_html=True)
+    st.markdown('<div style="height:30vh"></div>', unsafe_allow_html=True)
+
+
+def render_soil(bundle):
+    lg = L()
+    soil, terr = bundle.get("soil") or {}, bundle.get("terrain") or {}
+    st.markdown(art.section("data", t("Soil and roots", lg),
+                            "What the ground under this farm is made of, and what that means for drainage, crops and storms."),
+                unsafe_allow_html=True)
+    if not soil.get("texture"):
+        st.info("SoilGrids has no reading for this point yet. A soil test from your extension office gives better numbers anyway.")
+    else:
+        st.markdown(art.figures([
+            ("Texture (0-30 cm)", soil["texture"], f"clay {soil.get('clay_pct', 0):.0f}% · sand {soil.get('sand_pct', 0):.0f}% · silt {soil.get('silt_pct', 0):.0f}%", "clay"),
+            ("Drainage", soil.get("drainage") or "?", "from texture (USDA)", "terra" if soil.get("drainage") in ("Slow", "Very slow") else None),
+            ("pH", f"{soil.get('ph', 0):.1f}", "most vegetables like 6.0-7.0", "terra" if (soil.get("ph") or 7) < 6 else None),
+            ("Organic matter", f"{soil.get('organic_matter_pct', 0):.1f}%", "from soil organic carbon", "leaf"),
+            ("Slope", f"{terr.get('slope_pct', 0):.1f}%", f"elevation {terr.get('elevation_m', 0):.0f} m · NASA SRTM", None),
+        ]), unsafe_allow_html=True)
+        notes = []
+        if soil.get("drainage") in ("Slow", "Very slow"):
+            notes.append("**Water sits on this soil.** Raised or cambered beds and open drains before the rainy season protect roots; "
+                         "crops that hate wet feet (tomato, pepper, watermelon) belong in the drier months.")
+        if (soil.get("ph") or 7) < 6:
+            notes.append(f"**Slightly acid (pH {soil['ph']:.1f}).** Cabbage, beans and tomatoes do better near 6.5; a lime rate should come from a soil test.")
+        if (terr.get("slope_pct") or 0) > 8:
+            notes.append("**Sloping land.** Contour rows, grass strips or pigeon-pea hedges slow runoff in heavy rain.")
+        notes.append("**Living roots all year** (cover crops between cash crops) hold this soil in place in storms and add organic matter.")
+        for n in notes:
+            st.markdown(n)
+        st.caption(f"Source: {soil.get('source', 'ISRIC SoilGrids')}. 250 m cells average over many fields; your own soil test wins.")
+    render_ground_truth(bundle)
 
 
 # ---------------------------------------------------------------------------
@@ -411,6 +546,33 @@ def rotation_editor(crops):
         ss.fs_current = new_rows
 
 
+def PRICES():
+    return market.load(CACHE_DIR / "namdevco_prices.csv")
+
+
+def render_orchard(site, crops, current):
+    ss = st.session_state
+    lg = L()
+    st.markdown(art.heading(t("When should I plant?", lg)), unsafe_allow_html=True)
+    grown = [p.crop for p in current.plantings if p.crop in crops.index and crops.loc[p.crop, "harvest_value"] > 0]
+    options = [c for c in crops.index if crops.loc[c, "harvest_value"] > 0]
+    default = grown[-1] if grown else "Sweet Potato"
+    c1, c2 = st.columns([1, 2.4])
+    crop = c1.selectbox("Crop", options, index=options.index(default), key="orchard_crop")
+    window = planner.planting_window(site, crops, crop, ss.fs_irrigation)
+    best = max(window, key=lambda w: w["p_good"])
+    worst = min(window, key=lambda w: w["p_good"])
+    c2.markdown(f'<div class="al-note" style="margin-top:1.7rem">Each tree is a planting month. More blossom and fruit means a better '
+                f'chance of a good harvest. Best: <b>{MONTHS[best["start"] - 1]}</b> ({journey.pct(best["p_good"])}); '
+                f'riskiest: <b>{MONTHS[worst["start"] - 1]}</b> ({journey.pct(worst["p_good"])}). A swirl marks months where storms '
+                f'or floods often cost more than a fifth of the crop.</div>', unsafe_allow_html=True)
+    st.markdown(journey.orchard_html(window, [mname(i + 1, lg) for i in range(12)], crop), unsafe_allow_html=True)
+    st.caption("Chance of a good harvest = share of 4,000 simulated seasons (this farm's own NOAA storm and NASA heavy-rain odds) "
+               "where storms and floods take less than 20% of the crop × climate fit (FAO ECOCROP, NASA POWER) × how much of the "
+               "irrigation need your water covers. It leaves out pests, prices and luck, so it never shows more than 95%. "
+               "Hover a tree for the parts.")
+
+
 def render_plan(bundle):
     ss = st.session_state
     lg = L()
@@ -458,6 +620,7 @@ def render_plan(bundle):
     st.markdown(calendar_html(ordered, site, crops, storm_month, storm_label), unsafe_allow_html=True)
     st.markdown('<div class="al-note">The top row shows how often each month brings storm-force wind (NOAA HURDAT2, 1971-2025) '
                 'or a waterlogging rain day (NASA POWER). Hover a bar for the numbers.</div>', unsafe_allow_html=True)
+    render_orchard(site, crops, current)
 
     st.write("")
     cols = st.columns(len(ordered), gap="small")
@@ -469,6 +632,12 @@ def render_plan(bundle):
                 st.markdown(f"**Why.** {ex['why']}")
                 st.markdown("**Benefits**\n" + "\n".join(f"- {b}" for b in ex["benefits"]))
                 st.markdown("**Evidence**\n" + "\n".join(f"- {b}" for b in ex["evidence"]))
+                mk = market.plan_market(plan, PRICES())
+                if mk:
+                    proxy = "" if bundle["lat"] < 11.5 else " (Trinidad prices, used as a regional guide)"
+                    st.markdown(f"**Market timing** · NAMDEVCO wholesale{proxy}\n" + "\n".join(
+                        f"- {x['crop']} harvested in {MONTHS[x['harvest'] - 1]} sells at {x['index']:.2f}× its yearly average; "
+                        f"best month {MONTHS[x['best'] - 1]} ({x['best_index']:.2f}×)" for x in mk if x["index"]))
                 st.markdown("**Gaps**\n" + "\n".join(f"- {b}" for b in ex["gaps"]))
                 st.markdown("**Check locally**\n" + "\n".join(f"- {b}" for b in ex["review"]))
 
@@ -496,7 +665,6 @@ def render_plan(bundle):
                            use_container_width=True, type="primary")
         c2.download_button(t("Download (works offline)", lg), text, file_name="farmfit_plan.txt", use_container_width=True)
         c3.link_button(t("Share on WhatsApp", lg), f"https://wa.me/?text={quote(text)}", use_container_width=True)
-        alert_block(bundle, topic)
 
 
 # ---------------------------------------------------------------------------
@@ -568,6 +736,8 @@ def render_water(bundle):
                         use_container_width=True)
 
     render_season_ahead(bundle)
+    st.caption("Regional check: the Caribbean Institute for Meteorology and Hydrology (CIMH) publishes a monthly Caribbean Drought "
+               "Bulletin and drought outlook (SPI maps): rcc.cimh.edu.bb. Your national met service has the official word.")
 
     st.markdown(art.heading(t("This week", lg)), unsafe_allow_html=True)
     site, crops, current, plans, _ = get_plans(bundle)
@@ -632,7 +802,6 @@ def render_water(bundle):
                 col.altair_chart(chart, use_container_width=True)
 
     render_water_bank(bundle, site, crops, current, plans)
-    render_ground_truth(bundle)
     render_shift(bundle)
 
 
@@ -990,6 +1159,23 @@ def render_after(bundle):
         rec.title = "Recovery"
         st.markdown(art.heading(f"Recovery rotation from {MONTHS[start_month - 1]}"), unsafe_allow_html=True)
         st.markdown(calendar_html([rec], site, crops), unsafe_allow_html=True)
+        st.caption("Stagger plantings and mix in a longer crop. After Hurricane Melissa so many farmers replanted fast vegetables "
+                   "that by January 2026 prices had fallen sharply (Jamaica Ministry of Agriculture); the second wave of a "
+                   "glut pays least.")
+    st.markdown(art.heading("Help, and money, after a storm"), unsafe_allow_html=True)
+    jam = bundle["lat"] > 15
+    summ = bundle["storm_summary"]
+    rp = summ.get("return_period_storm_force")
+    h1, h2 = st.columns(2, gap="large")
+    h1.markdown(("**Report damage.** RADA hotline **888-ASK-RADA** (275-7232) or WhatsApp **876-436-8879**; RADA officers "
+                 "use these reports for damage assessments and input support." if jam else
+                 "**Report damage.** Contact your Ministry of Agriculture extension office and register with the County "
+                 "agricultural office so you are counted for relief inputs. Follow ODPM for official warnings.")
+                + " Keep dated photos of the field: FarmFit's photo check gives you a record.")
+    h2.markdown("**Insurance that pays fast.** CCRIF's **Livelihood Protection Policy** is parametric micro-insurance for "
+                "small farmers: it pays out when measured wind or rain passes a set level, with no loss adjuster. It launched in "
+                "Jamaica in December 2025 and is being rolled out in other Caribbean countries."
+                + (f" At this farm storm-force wind arrives about 1 year in {rp:.0f}, which is the kind of risk it covers." if rp else ""))
     st.markdown('<div class="al-note">Food-safety decisions after flooding follow U.S. FDA guidance and should be confirmed with your '
                 'Ministry of Agriculture extension officer.</div>', unsafe_allow_html=True)
 

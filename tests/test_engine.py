@@ -309,3 +309,36 @@ def test_crop_stress_ratio():
     s = water.crop_stress(et, pet)
     assert s["ratio"] == 0.25 and s["label"] == "water-limited"
     assert abs(s["normal"] - 0.75) < 1e-9
+
+
+def test_planting_window_and_pest_cycle():
+    import numpy as np
+    import pandas as pd
+    from fieldshift import planner
+    crops = planner.load_crops()
+    clim = pd.DataFrame({"month": range(1, 13), "rain_mm": 100.0, "et0_mm": 120.0, "t_mean": 27.0, "t_max": 31.0,
+                         "p_heavy_rain": 0.05, "soil_wet_root": 0.7})
+    calm = pd.DataFrame({"month": range(1, 13), "p_storm_force": 0.0, "p_hurricane_force": 0.0})
+    stormy = calm.assign(p_storm_force=np.where(calm["month"].isin([9, 10]), 0.5, 0.0),
+                         p_hurricane_force=np.where(calm["month"].isin([9, 10]), 0.3, 0.0))
+    w_calm = planner.planting_window(planner.Site(clim, calm, {"ph": 6.5}), crops, "Tomato", "Reliable irrigation")
+    w_storm = planner.planting_window(planner.Site(clim, stormy, {"ph": 6.5}), crops, "Tomato", "Reliable irrigation")
+    assert len(w_calm) == 12 and all(0 <= w["p_good"] <= 1 for w in w_calm)
+    # a tomato planted in July is in the field through Sep-Oct: storms must cut its chances
+    jul = 6
+    assert w_storm[jul]["p_safe"] < w_calm[jul]["p_safe"] - 0.2
+    plan = planner.Plan("x", [planner.Planting("Tomato", 1, 4), planner.Planting("Sweet Pepper", 6, 4)])
+    rep = planner.pest_cycle(plan)
+    assert rep and rep[0][2] == "Solanaceae"
+
+
+def test_market_index_from_wide_table():
+    import pandas as pd
+    from fieldshift import market
+    months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    wide = pd.DataFrame({"Commodity": ["Tomato (kg)", "Patchoi"], **{m: [10 + i, 5] for i, m in enumerate(months)}})
+    idx = market.price_index(market.tidy(wide), "Tomato")
+    assert idx[12] > 1 > idx[1]
+    plan = __import__("fieldshift.planner", fromlist=["x"]).Plan("x", [__import__("fieldshift.planner", fromlist=["x"]).Planting("Tomato", 9, 4)])
+    mk = market.plan_market(plan, market.tidy(wide))
+    assert mk[0]["harvest"] == 12 and mk[0]["best"] == 12

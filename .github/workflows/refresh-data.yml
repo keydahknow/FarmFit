@@ -35,7 +35,7 @@ jobs:
           cache: pip
 
       - name: Install dependencies
-        run: pip install -r requirements.txt imagecodecs
+        run: pip install -r requirements.txt imagecodecs openpyxl
 
       - name: Refresh datasets
         env:
