@@ -1,41 +1,55 @@
 {
   "datasets": {
     "NASA POWER": {
-      "updated": "2026-11-15T19:35:47+00:00",
+      "updated": "2026-11-15T19:56:19+00:00",
       "status": "ok",
       "farms": 2,
       "period": "1996-2025 + last 45 days"
     },
     "ISRIC SoilGrids": {
-      "updated": "2026-11-15T19:36:39+00:00",
-      "status": "failed",
-      "farms": 0
+      "updated": "2026-11-15T19:56:43+00:00",
+      "status": "ok",
+      "farms": 2,
+      "errors": []
     },
     "NASA SRTM": {
-      "updated": "2026-11-15T19:36:39+00:00",
+      "updated": "2026-11-15T19:56:43+00:00",
       "status": "ok",
       "farms": 2
     },
     "GPM IMERG": {
-      "updated": "2026-11-15T19:36:41+00:00",
+      "updated": "2026-11-15T19:56:48+00:00",
       "status": "failed",
       "farms": 0,
-      "note": "IMERG Final V07 (about 3.5 months behind real time)",
+      "note": "IMERG Final V07 via Giovanni (about 3.5 months behind real time)",
       "errors": [
-        "jamaica 2024-11-15..2026-11-15: Data rods returned no values",
-        "jamaica 2025-10-14..2025-10-31: Data rods returned no values",
-        "trinidad 2024-11-15..2026-11-15: Data rods returned no values",
-        "trinidad 1993-07-24..1993-08-10: Data rods returned no values"
+        "jamaica 2024-11-15..2026-11-15: GPM_3IMERGDF_07_precipitation: 500 Server Error: Internal Server Error for url: https://api.giovanni.earthdata.nasa.gov/timeseries?data=GPM_3IMERGDF_07; GPM_3IMERGHH_07_precipitation: 500 Server Error: Internal Server Error for url: https://api.giovanni.earthdata.nasa.gov/timeseries?data=GPM_3IMERGHH_07",
+        "jamaica 2025-10-14..2025-10-31: GPM_3IMERGDF_07_precipitation: 500 Server Error: Internal Server Error for url: https://api.giovanni.earthdata.nasa.gov/timeseries?data=GPM_3IMERGDF_07; GPM_3IMERGHH_07_precipitation: 500 Server Error: Internal Server Error for url: https://api.giovanni.earthdata.nasa.gov/timeseries?data=GPM_3IMERGHH_07",
+        "trinidad 2024-11-15..2026-11-15: GPM_3IMERGDF_07_precipitation: 500 Server Error: Internal Server Error for url: https://api.giovanni.earthdata.nasa.gov/timeseries?data=GPM_3IMERGDF_07; GPM_3IMERGHH_07_precipitation: 500 Server Error: Internal Server Error for url: https://api.giovanni.earthdata.nasa.gov/timeseries?data=GPM_3IMERGHH_07"
       ]
     },
     "SMAP + MODIS NDVI (AppEEARS)": {
-      "pending": "dac3a7e5-eff5-4670-8f9a-6f79ab6dec1b"
+      "pending": "dac3a7e5-eff5-4670-8f9a-6f79ab6dec1b",
+      "pending_status": "processing"
     },
     "NOAA IBTrACS (current season)": {
-      "updated": "2026-11-15T19:44:57+00:00",
+      "updated": "2026-11-15T19:56:50+00:00",
       "status": "ok",
-      "storms": 0,
-      "seasons_after": 2025
+      "storms": 8,
+      "seasons_after": 2025,
+      "names": [
+        "ARTHUR",
+        "BERTHA",
+        "DOLLY",
+        "EDOUARD",
+        "FAY",
+        "HANNA",
+        "ISAIAS",
+        "JOSEPHINE"
+      ],
+      "rows": 25013,
+      "latest_season": 2027,
+      "atlantic_new": 458
     }
   },
   "farms": [
@@ -56,5 +70,5 @@
     ],
     "submitted": "2026-11-15T19:36:43+00:00"
   },
-  "generated": "2026-11-15T19:44:57+00:00"
+  "generated": "2026-11-15T19:56:50+00:00"
 }
