@@ -21,7 +21,7 @@ import pandas as pd
 import streamlit as st
 from streamlit_folium import st_folium
 
-from . import alerts, art, assistant, planner, poster, power, recovery, sensor, soil_terrain, storms, stormwatch, water
+from . import alerts, art, assistant, enso, planner, poster, power, recovery, sensor, soil_terrain, storms, stormwatch, water
 from .i18n import LANGS, month as mname, t
 
 MONTHS = planner.MONTHS
@@ -53,6 +53,8 @@ GIBS_LAYERS = [
     ("MODIS_Terra_NDVI_8Day", "MODIS NDVI (greenness)", 9, "png"),
     ("SMAP_L4_Analyzed_Surface_Soil_Moisture", "SMAP soil moisture", 6, "png"),
     ("IMERG_Precipitation_Rate", "GPM IMERG rain rate", 6, "png"),
+    ("MODIS_Combined_Flood_2-Day", "MODIS flood water (2-day)", 9, "png"),
+    ("OPERA_L3_Dynamic_Surface_Water_Extent-Sentinel-1", "OPERA surface water (Sentinel-1 radar, sees through cloud)", 12, "png"),
 ]
 CAT_COLORS = {"Cat 5": "#6b1d0f", "Cat 4": "#9b2f17", "Cat 3": art.TERRA, "Cat 2": "#d9743b",
               "Cat 1": art.OCHRE, "Tropical storm": art.SEA, "Below storm force": "#9aa3ad", "Unknown": "#9aa3ad"}
@@ -107,8 +109,9 @@ def satellite_pulse(farm_id):
     if farm_id and path.exists():
         df = pd.read_csv(path, parse_dates=["date"])
         df = df[df["id"] == farm_id]
-        for key, needle in (("smap", "soil_moisture"), ("ndvi", "NDVI")):
-            part = df[df["layer"].str.contains(needle, case=False)]
+        for key, pattern in (("smap", "AM_soil_moisture"), ("rootzone", "sm_rootzone$"), ("ndvi", "NDVI"),
+                             ("et", r"(?:^|_)ET_500m$"), ("pet", "PET_500m")):
+            part = df[df["layer"].str.contains(pattern, case=False, regex=True)]
             if len(part):
                 out[key] = part.set_index("date")["value"].sort_index()
     ip = CACHE_DIR / f"imerg_{farm_id}.csv"
@@ -515,12 +518,15 @@ def render_water(bundle):
     key, _ = current_farm()
     pulse = satellite_pulse(key)
     smap_now = water.smap_anomaly(pulse.get("smap"))
+    root_now = water.rootzone_status(pulse.get("rootzone"))
+    stress = water.crop_stress(pulse.get("et"), pulse.get("pet"))
 
+    items = []
     if anomalies:
         main = next((a for a in anomalies if a["days"] == 60), anomalies[0])
         st.markdown(f'{art.stamp(t(main["label"], lg), main["key"])} &nbsp;<span class="al-farm">Last {main["days"]} days to '
                     f'{last_day:%d %b %Y} · NASA POWER, a few days behind real time</span>', unsafe_allow_html=True)
-        items = [(f"Rain, last {a['days']} days", f"{a['total_mm']:.0f} mm",
+        items += [(f"Rain, last {a['days']} days", f"{a['total_mm']:.0f} mm",
                   f"normal ≈ {a['normal_mm']:.0f} mm · {water.ordinal(a['percentile'])} percentile",
                   "terra" if a["key"].startswith("dry") else ("sea" if a["key"].startswith("wet") else "leaf")) for a in anomalies]
         if soil_now:
@@ -528,14 +534,28 @@ def render_water(bundle):
                           f"0 dry, 1 saturated · normal {soil_now['normal']:.2f} · {water.ordinal(soil_now['percentile'])} percentile", None))
         if spell is not None:
             items.append(("Days since ≥ 1 mm rain", f"{spell}", "current dry spell", "terra" if spell >= 10 else None))
-        if smap_now:
-            sub = f"m³/m³ on {smap_now['date']:%d %b}"
-            if smap_now.get("percentile") is not None:
-                sub += f" · {water.ordinal(smap_now['percentile'])} percentile for the month"
-            items.append(("NASA SMAP soil moisture", f"{smap_now['value']:.2f}", sub, None))
-        st.markdown(art.figures(items), unsafe_allow_html=True)
     else:
         st.info("Recent NASA POWER data is not reachable right now, so only long-term normals are shown below.")
+    if smap_now:
+        sub = f"m³/m³ on {smap_now['date']:%d %b}"
+        if smap_now.get("percentile") is not None:
+            sub += f" · {water.ordinal(smap_now['percentile'])} percentile for the month"
+        items.append(("NASA SMAP soil moisture", f"{smap_now['value']:.2f}", sub, None))
+    if root_now:
+        sub = f"m³/m³, top 1 m, week to {root_now['date']:%d %b}"
+        if root_now["change"] is not None:
+            sub += f" · {root_now['change']:+.2f} in {root_now['lookback']} days"
+        items.append(("SMAP root-zone moisture", f"{root_now['value']:.2f}", sub,
+                      "terra" if (root_now["change"] or 0) < -0.03 else None))
+    if stress:
+        sub = f"MODIS ET {stress['et_mm']:.0f} of a possible {stress['pet_mm']:.0f} mm, 8 days to {stress['date']:%d %b}"
+        if stress["normal"] is not None:
+            sub += f" · usual {stress['normal']:.2f}"
+        items.append(("Plant water stress (ET ÷ PET)", f"{stress['ratio']:.2f}", f"{stress['label']} · {sub}",
+                      "terra" if stress["ratio"] < 0.5 else ("leaf" if stress["ratio"] >= 0.7 else None)))
+    if items:
+        st.markdown(art.figures(items[:3]) + (art.figures(items[3:6]) if len(items) > 3 else "")
+                    + (art.figures(items[6:]) if len(items) > 6 else ""), unsafe_allow_html=True)
 
     env = water.cumulative_envelope(record, recent, days=90)
     if env is not None:
@@ -546,6 +566,8 @@ def render_water(bundle):
             x="date:T", y="this_year:Q", tooltip=[alt.Tooltip("date:T"), alt.Tooltip("this_year:Q", title="this year (mm)", format=".0f")])
         st.altair_chart((band + med + now).properties(height=240, title="The last 90 days: this year (red) against the usual range (blue)"),
                         use_container_width=True)
+
+    render_season_ahead(bundle)
 
     st.markdown(art.heading(t("This week", lg)), unsafe_allow_html=True)
     site, crops, current, plans, _ = get_plans(bundle)
@@ -585,20 +607,76 @@ def render_water(bundle):
 
     if pulse:
         st.markdown(art.heading("Satellite pulse at this farm"), unsafe_allow_html=True)
-        cols = st.columns(len(pulse))
-        specs = {"smap": ("NASA SMAP soil moisture (m³/m³)", art.CLAY), "ndvi": ("MODIS NDVI: how green the land is", art.LEAF),
-                 "imerg": ("GPM IMERG daily rain (mm)", art.SEA)}
-        for col, (k, s) in zip(cols, pulse.items()):
-            title, color = specs[k]
-            d = s.reset_index()
-            d.columns = ["date", "value"]
-            mark = alt.Chart(d).mark_bar(color=color, strokeWidth=0) if k == "imerg" else alt.Chart(d).mark_line(color=color, strokeWidth=1.5)
-            col.altair_chart(mark.encode(x=alt.X("date:T", title=None), y=alt.Y("value:Q", title=None)).properties(height=160, title=title),
-                             use_container_width=True)
+        specs = {"imerg": ("GPM IMERG daily rain (mm)", art.SEA), "smap": ("SMAP surface soil moisture (m³/m³)", art.CLAY),
+                 "rootzone": ("SMAP L4 root-zone moisture, top 1 m (m³/m³)", art.CLAY),
+                 "ndvi": ("MODIS NDVI: how green the land is", art.LEAF)}
+        panels = []
+        for k in ("imerg", "smap", "rootzone", "ndvi"):
+            if k in pulse:
+                d = pulse[k].reset_index()
+                d.columns = ["date", "value"]
+                title, color = specs[k]
+                mark = alt.Chart(d).mark_bar(color=color, strokeWidth=0) if k == "imerg" else alt.Chart(d).mark_line(color=color, strokeWidth=1.5)
+                panels.append(mark.encode(x=alt.X("date:T", title=None), y=alt.Y("value:Q", title=None)).properties(height=160, title=title))
+        if "et" in pulse and "pet" in pulse:
+            d = pd.concat({"Actual (ET)": pulse["et"], "Possible (PET)": pulse["pet"]}, axis=1).reset_index().rename(columns={"index": "date"})
+            d = d.rename(columns={d.columns[0]: "date"}).melt("date", var_name="series", value_name="mm").dropna()
+            panels.append(alt.Chart(d).mark_line(strokeWidth=1.5).encode(
+                x=alt.X("date:T", title=None), y=alt.Y("mm:Q", title=None),
+                color=alt.Color("series:N", title=None, legend=alt.Legend(orient="bottom"),
+                                scale=alt.Scale(domain=["Actual (ET)", "Possible (PET)"], range=[art.LEAF, art.OCHRE]))
+            ).properties(height=160, title="MODIS water use, mm per 8 days"))
+        for i in range(0, len(panels), 3):
+            row = panels[i:i + 3]
+            for col, chart in zip(st.columns(3), row):
+                col.altair_chart(chart, use_container_width=True)
 
     render_water_bank(bundle, site, crops, current, plans)
     render_ground_truth(bundle)
     render_shift(bundle)
+
+
+def season_outlook(bundle):
+    return enso.outlook(bundle.get("daily"), enso.load_oni(CACHE_DIR / "oni.csv"))
+
+
+def render_season_ahead(bundle):
+    o = season_outlook(bundle)
+    if not o:
+        return
+    win = f"{MONTHS[o['window_months'][0] - 1]}–{MONTHS[o['window_months'][-1] - 1]}"
+    now, bp = o["now"], o["by_phase"]
+    st.markdown(art.heading(f"Season ahead: what El Niño and La Niña have meant here for {win}"), unsafe_allow_html=True)
+    tone = {"El Niño": "terra", "La Niña": "sea", "Neutral": None}
+    items = [("Pacific now (NOAA ENSO index)", now["phase"],
+              f"ONI {now['anom']:+.1f} °C for {now['season']} {now['year']}", tone[now["phase"]])]
+    for ph in ("El Niño", "Neutral", "La Niña"):
+        if ph in bp:
+            v = bp[ph]
+            items.append((f"{win} rain in {ph} years", f"{v['pct_normal']:.0f}% of normal",
+                          f"{v['n']} years · {v['dry_share']:.0%} of them below 80%", tone[ph] if ph == now["phase"] else None))
+    st.markdown(art.figures(items), unsafe_allow_html=True)
+    r = o["r"]
+    if abs(r) < 0.2:
+        verdict = (f"At this farm, ENSO has told us little about {win} rain (r = {r:+.2f}), "
+                   "so plan on the normals and watch the 60-day status above.")
+    else:
+        wetter = "El Niño" if r > 0 else "La Niña"
+        drier = "La Niña" if r > 0 else "El Niño"
+        verdict = (f"Here {drier} years have tended to be drier and {wetter} years wetter in {win} (r = {r:+.2f}). "
+                   + ("This year is " + now["phase"] + ", so " + ("bank water and favour drought-tolerant crops."
+                      if now["phase"] == drier else "expect more rain than usual and keep drains clear."
+                      if now["phase"] == wetter else "the signal is neutral.")))
+    st.caption(verdict + f" Normal {win} rain here is {o['normal_mm']:.0f} mm (NASA POWER). "
+               "These are tendencies from about 30 years, not a forecast.")
+    d = o["years"]
+    st.altair_chart(alt.Chart(d).mark_circle(size=70, opacity=.85).encode(
+        x=alt.X("oni:Q", title="ENSO index (ONI, °C) before the season"),
+        y=alt.Y("pct_normal:Q", title=f"{win} rain, % of normal"),
+        color=alt.Color("phase:N", title=None, scale=alt.Scale(domain=["El Niño", "Neutral", "La Niña"],
+                                                              range=[art.TERRA, "#9aa3ad", art.SEA])),
+        tooltip=["year", alt.Tooltip("oni:Q", format="+.1f"), alt.Tooltip("pct_normal:Q", format=".0f")],
+    ).properties(height=200), use_container_width=True)
 
 
 def render_water_bank(bundle, site, crops, current, plans):
@@ -664,8 +742,8 @@ def render_shift(bundle):
 # STORM READY
 # ---------------------------------------------------------------------------
 
-def make_map(lat, lon, impacts=None, date_str=None, height=380, top_storms=6, key="map", show_layer=None, live=None):
-    m = folium.Map(location=[lat, lon], zoom_start=6, control_scale=True, tiles=None)
+def make_map(lat, lon, impacts=None, date_str=None, height=380, top_storms=6, key="map", show_layer=None, live=None, zoom=6):
+    m = folium.Map(location=[lat, lon], zoom_start=zoom, control_scale=True, tiles=None)
     folium.TileLayer("OpenStreetMap", name="Street map").add_to(m)
     folium.TileLayer(tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
                      attr="Esri World Imagery", name="Satellite").add_to(m)
@@ -877,6 +955,20 @@ def render_after(bundle):
     for note in state["notes"]:
         st.caption(note)
 
+    imerg = satellite_pulse(current_farm()[0]).get("imerg")
+    if imerg is not None:
+        win = imerg[pd.Timestamp(storm_date) - pd.Timedelta(days=3): pd.Timestamp(storm_date) + pd.Timedelta(days=1)]
+        if len(win):
+            st.caption(f"GPM IMERG at the farm: {win.sum():.0f} mm in the 5 days around the storm "
+                       f"(peak {win.max():.0f} mm on {win.idxmax():%d %b}).")
+    with st.expander("Flood water seen from space"):
+        flood_day = storm_date + timedelta(days=1)
+        st.caption(f"MODIS flood map for the 2 days to {flood_day:%d %b %Y}, shown by default. In the layer menu, OPERA surface "
+                   "water from Sentinel-1 radar sees through cloud, which hides MODIS flooding right after a hurricane. "
+                   "MODIS starts in 2000 and OPERA in 2023, and both have gaps on some days.")
+        make_map(lat, lon, date_str=flood_day.isoformat(), height=340, key=f"flood_{ss.get('fs_demo')}",
+                 show_layer="MODIS_Combined_Flood_2-Day", top_storms=0, zoom=9)
+
     st.markdown(art.heading("4 · " + t("Your path back", lg)), unsafe_allow_html=True)
     stages = recovery.recovery_stages(state, storm_date.month, wet_field=ss.fs_wet_field)
     cols = st.columns(len(stages), gap="medium")
@@ -968,6 +1060,25 @@ def farm_briefing(bundle):
         ctx["Water status (NASA POWER, to " + f"{end:%d %b %Y})"] = [
             f"last {a['days']} days rain {a['total_mm']:.0f} mm vs normal {a['normal_mm']:.0f} mm ({a['label']}, {a['percentile']:.0f}th percentile of 30 years)"
             for a in anomalies]
+    o = season_outlook(bundle)
+    if o:
+        win = f"{MONTHS[o['window_months'][0] - 1]}-{MONTHS[o['window_months'][-1] - 1]}"
+        ctx["Season ahead (NOAA ENSO index tested on this farm's NASA POWER rain)"] = [
+            f"now {o['now']['phase']} (ONI {o['now']['anom']:+.1f} for {o['now']['season']} {o['now']['year']})",
+            f"correlation of ONI with {win} rain here r = {o['r']:+.2f}",
+        ] + [f"{win} rain in {ph} years: {v['pct_normal']:.0f}% of normal ({v['n']} years)" for ph, v in o["by_phase"].items()]
+    pulse = satellite_pulse(current_farm()[0])
+    sat = []
+    root = water.rootzone_status(pulse.get("rootzone"))
+    if root:
+        sat.append(f"SMAP root-zone moisture {root['value']:.2f} m3/m3 on {root['date']:%d %b}"
+                   + (f", {root['change']:+.2f} in {root['lookback']} days" if root["change"] is not None else ""))
+    stress = water.crop_stress(pulse.get("et"), pulse.get("pet"))
+    if stress:
+        sat.append(f"MODIS ET/PET {stress['ratio']:.2f} ({stress['label']}) for 8 days to {stress['date']:%d %b}"
+                   + (f", usual {stress['normal']:.2f}" if stress["normal"] is not None else ""))
+    if sat:
+        ctx["Satellite water status"] = sat
     now = datetime.now()
     live, _ = load_active_storms(now.strftime("%Y%m%d%H") + str(now.minute // 15))
     if live:
@@ -1070,6 +1181,9 @@ def render_ground_truth(bundle):
 # DATA & METHOD
 # ---------------------------------------------------------------------------
 
+APPEEARS = "NASA AppEEARS (SMAP, MODIS NDVI + ET)"
+
+
 def data_passport(bundle):
     meta = bundle.get("power_meta", {})
     soil, terr = bundle.get("soil") or {}, bundle.get("terrain") or {}
@@ -1078,11 +1192,15 @@ def data_passport(bundle):
     rows = [
         ["NASA POWER (MERRA-2, CERES)", "30 years of daily rain, temperature, humidity, wind, soil wetness, sun", "≈ 55 km", "live on click",
          "test fixture" if synthetic else origin.get(meta.get("origin"), "?"), freshness("NASA POWER")],
-        ["NASA SMAP L3 (via AppEEARS)", "Soil moisture at the farm", "9 km", "scheduled", None, freshness("SMAP + MODIS NDVI (AppEEARS)")],
-        ["NASA MODIS NDVI MOD13Q1 (via AppEEARS)", "How green the crops are", "250 m", "scheduled", None, freshness("SMAP + MODIS NDVI (AppEEARS)")],
+        ["NASA SMAP L3 (via AppEEARS)", "Surface soil moisture at the farm (top ≈ 5 cm)", "9 km", "scheduled", None, freshness(APPEEARS)],
+        ["NASA SMAP L4 root zone SPL4SMGP (via AppEEARS)", "Moisture where roots are (top 1 m), every 3 hours", "9 km", "scheduled", None, freshness(APPEEARS)],
+        ["NASA MODIS NDVI MOD13Q1 (via AppEEARS)", "How green the crops are", "250 m", "scheduled", None, freshness(APPEEARS)],
+        ["NASA MODIS ET MOD16A2 (via AppEEARS)", "Actual vs potential water use: plant water stress", "500 m, 8-day", "scheduled", None, freshness(APPEEARS)],
         ["NASA GPM IMERG V07 Final + Late (GES DISC OPeNDAP)", "Daily rain at the farm: last 120 days and storm windows", "0.1° ≈ 11 km", "scheduled", None, freshness("GPM IMERG")],
         ["NASA SRTM GL1", "Elevation, slope, erosion factor", "30 m", "live on click", origin.get(terr.get("origin"), "?"), freshness("NASA SRTM")],
         ["NASA GIBS (SMAP, IMERG, MODIS)", "Map layers for any date", "9 km to 250 m", "live map tiles", "live", None],
+        ["NASA MODIS flood + OPERA DSWx-S1 (GIBS)", "Where flood water stood after a storm", "250 m / 30 m", "live map tiles", "live", None],
+        ["NOAA CPC ENSO index (ONI)", "Season-ahead drought signal, tested on the farm's own rain", "Pacific index", "scheduled", None, freshness("NOAA ENSO (ONI)")],
         ["NOAA HURDAT2", "Every Atlantic storm track 1851-2025", "6-hourly", "bundled, yearly", "bundled", None],
         ["NOAA IBTrACS", "This season's storms (provisional)", "3-hourly", "scheduled", None, freshness("NOAA IBTrACS (current season)")],
         ["NOAA NHC CurrentStorms", "Active storms right now", "per advisory", "live, every 15 min", "live", None],

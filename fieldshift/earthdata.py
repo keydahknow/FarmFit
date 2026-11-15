@@ -234,22 +234,42 @@ def _latest_product(session, short_name):
     return sorted(versions)[-1]
 
 
-def _find_layer(session, product, *needles):
+def _find_layer(session, product, *needles, suffix=None):
+    """First layer whose name contains every needle; prefer one ending in `suffix`."""
     r = session.get(APPEEARS + f"product/{product}", timeout=60)
     r.raise_for_status()
-    for layer in r.json():
-        if all(n.lower() in layer.lower() for n in needles):
-            return layer
-    raise RuntimeError(f"No layer matching {needles} in {product}")
+    hits = [layer for layer in r.json() if all(n.lower() in layer.lower() for n in needles)]
+    if suffix:
+        exact = [h for h in hits if h.lower().endswith(suffix.lower())]
+        hits = exact or hits
+    if not hits:
+        raise RuntimeError(f"No layer matching {needles} in {product}")
+    return hits[0]
+
+
+# AppEEARS request groups. Each is its own task so a slow product never holds
+# back the others; long records are refreshed weekly, root-zone moisture often.
+#   group: (days of history, [(product short name, needles, preferred suffix)])
+APPEEARS_GROUPS = {
+    "core": (3 * 365, [("SPL3SMP_E", ("AM_soil_moisture",), "AM_soil_moisture"),  # SMAP surface (~5 cm), 9 km
+                       ("MOD13Q1", ("NDVI",), "NDVI")]),                          # MODIS greenness, 250 m
+    "et": (3 * 365, [("MOD16A2", ("ET_500m",), "ET_500m"),                        # MODIS actual ET, 8-day, 500 m
+                     ("MOD16A2", ("PET_500m",), "PET_500m")]),                    # MODIS potential ET
+    "rootzone": (180, [("SPL4SMGP", ("sm_rootzone",), "sm_rootzone")]),           # SMAP L4 root zone (0-100 cm), 9 km
+}
+
+
+def layers_for(session, group):
+    _, wanted = APPEEARS_GROUPS[group]
+    layers = []
+    for short, needles, suffix in wanted:
+        product = _latest_product(session, short)
+        layers.append({"product": product, "layer": _find_layer(session, product, *needles, suffix=suffix)})
+    return layers
 
 
 def default_layers(session):
-    smap = _latest_product(session, "SPL3SMP_E")
-    modis = _latest_product(session, "MOD13Q1")
-    return [
-        {"product": smap, "layer": _find_layer(session, smap, "AM_soil_moisture")},
-        {"product": modis, "layer": _find_layer(session, modis, "NDVI")},
-    ]
+    return layers_for(session, "core")
 
 
 def _session():
@@ -308,10 +328,25 @@ def download_points(task_id, layers):
     if not frames:
         raise RuntimeError("AppEEARS bundle had no usable CSV columns")
     out = pd.concat(frames, ignore_index=True)
-    out["date"] = pd.to_datetime(out["date"])
+    return clean_points(out)
+
+
+def clean_points(out):
+    """Drop fill values, apply scale factors if AppEEARS gave raw integers,
+    and average sub-daily products (SMAP L4 is 3-hourly) to one value a day."""
+    out = out.copy()
+    out["date"] = pd.to_datetime(out["date"], format="mixed").dt.normalize()
+    out["value"] = pd.to_numeric(out["value"], errors="coerce")
     out = out[out["value"] > -9000]
     ndvi = out["layer"].str.contains("NDVI")
     out.loc[ndvi & (out["value"].abs() > 1.5), "value"] *= 0.0001
+    et = out["layer"].str.contains("ET_500m")
+    out = out[~(et & (out["value"] >= 3276))]  # MOD16 fill: 32761-32767 raw, 3276.1+ scaled (urban, water, bare)
+    for layer in out.loc[et, "layer"].unique():
+        rows = out["layer"] == layer
+        if out.loc[rows, "value"].median() > 100:  # raw 0.1 kg/m2 units
+            out.loc[rows, "value"] *= 0.1
+    out = out.groupby(["id", "date", "product", "layer"], as_index=False)["value"].mean()
     return out.sort_values(["id", "product", "date"]).reset_index(drop=True)
 
 

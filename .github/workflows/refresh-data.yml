@@ -1,11 +1,13 @@
 name: Refresh NASA data
 
-# Daily during hurricane season (Jun-Nov), weekly (Mondays) the rest of the year.
+# Daily during hurricane season (Jun-Nov), Mondays and Thursdays the rest of the year.
+# AppEEARS results requested on one run are collected on the next, so runs a few
+# days apart keep SMAP / MODIS fresh even in the dry season.
 # Times are UTC. Also runnable by hand from the Actions tab.
 on:
   schedule:
     - cron: "17 9 * 6-11 *"
-    - cron: "17 9 * 1-5,12 1"
+    - cron: "17 9 * 1-5,12 1,4"
   workflow_dispatch:
     inputs:
       quick:
