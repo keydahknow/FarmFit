@@ -613,10 +613,20 @@ def explain(plan, site, crops, current=None):
     if not benefits:
         benefits.append("Balanced on the five scores; see the score bars for trade-offs.")
 
+    repeats = pest_cycle(plan)
+    if repeats:
+        a, b, fam, pests = repeats[0]
+        benefits.append(f"Watch out: {a} is followed by {b} (both {fam}), which lets {pests} build up.")
+    elif len(plan.plantings) > 1:
+        benefits.append(f"No crop family follows itself, which breaks pest and disease cycles ({len(m['families'])} families).")
+    feed = [f"{p.crop}: {FORAGE[p.crop]}" for p in plan.plantings if p.crop in FORAGE]
+    if feed:
+        benefits.append("Feed for livestock: " + "; ".join(feed[:3]) + ".")
+
     gaps = [
         "Satellite and reanalysis cells (POWER ≈ 50 km, SoilGrids 250 m) are coarser than a farm: local valleys, wind shelter and drainage are not captured.",
         "Crop wind and flood vulnerability values are FarmFit heuristics from crop architecture, not field trials.",
-        "Market prices and labour are not modelled; local demand needs a farmer's own check.",
+        "Labour and input costs are not modelled. Market timing uses wholesale prices where they exist (NAMDEVCO, Trinidad) and needs a farmer's own check elsewhere.",
     ]
     if site.soil.get("origin") is None:
         gaps.insert(0, "Soil data unavailable here, so pH and drainage are assumed. Enter a soil test to improve this.")
@@ -632,3 +642,76 @@ def explain(plan, site, crops, current=None):
     review.append("Planting dates should be checked against this season's rainfall onset and the latest hurricane-season outlook.")
 
     return {"why": why, "evidence": evidence, "benefits": benefits, "gaps": gaps, "review": review}
+
+
+# ---------------------------------------------------------------------------
+# Farmer priorities beyond yield: forage, pest cycles, planting windows
+# ---------------------------------------------------------------------------
+
+# Residue or crop that livestock can eat (goats, cattle are common on Caribbean
+# mixed farms). Qualitative, from FAO Feedipedia crop pages; for local review.
+FORAGE = {
+    "Corn": "stover and green fodder", "Sorghum": "fodder and silage", "Rice": "straw",
+    "Cowpea": "hay; leaves are high-protein feed", "Bodi": "vines as feed", "Common Bean": "haulm",
+    "Pigeon Peas": "browse for goats; protein bank", "Peanut": "haulm hay", "Sweet Potato": "vines as feed",
+    "Cassava": "leaves (must be wilted or dried first)", "Mucuna": "forage only after processing; beans are toxic raw",
+    "Sunn Hemp": "young growth only; mature plants are not feed", "Pumpkin": "culls and vines",
+}
+
+# Pests and diseases that build up when the same family follows itself.
+FAMILY_PESTS = {
+    "Solanaceae": "bacterial wilt, nematodes and early blight",
+    "Cucurbitaceae": "pickleworm, downy mildew and nematodes",
+    "Brassicaceae": "diamondback moth and black rot",
+    "Poaceae": "fall armyworm",
+    "Fabaceae": "bean fly and root rots",
+    "Convolvulaceae": "sweet potato weevil",
+    "Amaranthaceae": "leaf caterpillars and damping-off",
+}
+
+
+def pest_cycle(plan):
+    """Back-to-back plantings of the same family (in calendar order, wrapping)."""
+    ps = sorted(plan.plantings, key=lambda p: p.start)
+    if len(ps) < 2:
+        return []
+    crops = load_crops()
+    fam = [crops.loc[p.crop, "family"] if p.crop in crops.index else None for p in ps]
+    repeats = []
+    for i in range(len(ps)):
+        j = (i + 1) % len(ps)
+        if i == j or fam[i] is None or fam[i] != fam[j]:
+            continue
+        repeats.append((ps[i].crop, ps[j].crop, fam[i], FAMILY_PESTS.get(fam[i], "soil-borne pests")))
+    return repeats
+
+
+def planting_window(site, crops, crop, irrigation="Limited irrigation", n_years=4000, seed=7, loss_ok=0.2):
+    """Chance of a good harvest for `crop` planted in each month (1-12).
+
+    good = P(simulated storm + flood loss < loss_ok, from this farm's own monthly odds)
+           x climate fit (ECOCROP temperature / rain / pH, 0-1)
+           x water factor (1 if the irrigation need fits the farmer's water, else the share it covers)
+    """
+    row = crops.loc[crop]
+    months = int(max(1, round(row.days_to_harvest / 30.4)))
+    rng = np.random.default_rng(seed)
+    u = rng.random((n_years, 12))
+    wind = np.where(u < site.p_hu, 1.0, np.where(u < site.p_hu + site.p_ts, TS_SEVERITY, 0.0))
+    flood = (rng.random((n_years, 12)) < site.p_flood).astype(float) * FLOOD_SEVERITY
+    limit = IRRIGATION_LIMITS.get(irrigation)
+    out = []
+    for start in range(1, 13):
+        m = planting_metrics(site, row, start, months)
+        survive = np.ones(n_years)
+        for k, mo in enumerate(Planting(crop, start, months).month_list()):
+            stage = stage_for(k, months)
+            v_w = getattr(row, f"wind_{stage}")
+            v_f = min(1.0, row.flood_vuln * (1.3 if stage == "seedling" else 1.0))
+            survive *= 1 - np.clip(wind[:, mo - 1] * v_w + flood[:, mo - 1] * v_f, 0, 0.95)
+        p_safe = float((1 - survive < loss_ok).mean())
+        water = 1.0 if limit is None or m["water_need"] <= limit else max(0.0, limit / m["water_need"])
+        p_good = p_safe * m["suitability"] * water
+        out.append({"start": start, "harvest": m["harvest_month"], "p_good": p_good, "p_safe": p_safe,
+                    "fit": m["suitability"], "water": water, "water_need": m["water_need"], "months": months})
+    return out

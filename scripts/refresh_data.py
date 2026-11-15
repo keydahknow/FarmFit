@@ -11,6 +11,7 @@ For every farm in data/farms.json it refreshes:
   - GPM IMERG daily rain (Final, else Late), last 120 days + storm dates  (Earthdata login)
   - SMAP surface + L4 root-zone soil moisture, MODIS NDVI + ET via AppEEARS (Earthdata login)
   - NOAA CPC Oceanic Nino Index (ENSO), for the season-ahead drought signal  (no key)
+  - NAMDEVCO wholesale prices (Trinidad open data), for market timing  (no key)
 Plus, once for the whole basin:
   - NOAA IBTrACS current-season storm tracks             (no key)
 
@@ -32,7 +33,7 @@ sys.path.insert(0, str(ROOT))
 import pandas as pd  # noqa: E402
 import requests  # noqa: E402
 
-from fieldshift import earthdata, enso, power, soil_terrain  # noqa: E402
+from fieldshift import earthdata, enso, market, power, soil_terrain  # noqa: E402
 
 CACHE = power.CACHE_DIR  # honours FIELDSHIFT_CACHE_DIR
 FARMS = ROOT / "data" / "farms.json"
@@ -223,6 +224,17 @@ def refresh_appeears(farms, manifest, max_wait_s):
     record(manifest, APPEEARS_NAME, overall, groups=info, pending=sorted(tasks))
 
 
+def refresh_market(manifest):
+    """NAMDEVCO wholesale prices (data.gov.tt, CC-BY) for market timing."""
+    try:
+        prices, files = market.fetch_namdevco()
+        prices.to_csv(CACHE / "namdevco_prices.csv", index=False)
+        record(manifest, "NAMDEVCO wholesale prices", "ok", rows=len(prices),
+               commodities=int(prices["commodity"].nunique()), files=files)
+    except Exception as error:  # noqa: BLE001
+        record(manifest, "NAMDEVCO wholesale prices", "failed", error=str(error)[:300])
+
+
 def refresh_enso(manifest):
     """NOAA CPC Oceanic Nino Index (monthly, 3-month running means)."""
     try:
@@ -291,6 +303,7 @@ def main():
         refresh_appeears(farms, manifest, args.appeears_wait)
     refresh_ibtracs(manifest)
     refresh_enso(manifest)
+    refresh_market(manifest)
 
     manifest["generated"] = now()
     manifest_path.write_text(json.dumps(manifest, indent=2, default=str))
