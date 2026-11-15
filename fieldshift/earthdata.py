@@ -137,14 +137,15 @@ def default_layers(session):
     ]
 
 
-def appeears_points(points, start, end, name="FarmFit refresh", layers=None, max_wait_s=3600, poll_s=30, log=print):
-    """Submit one AppEEARS point task for many farms and return a tidy DataFrame.
-
-    points: list of dicts {id, lat, lon}. Returns columns id, date, product, layer, value.
-    """
+def _session():
     session = requests.Session()
-    token = _appeears_token(session)
-    session.headers["Authorization"] = f"Bearer {token}"
+    session.headers["Authorization"] = f"Bearer {_appeears_token(session)}"
+    return session
+
+
+def submit_points(points, start, end, name="FarmFit refresh", layers=None, log=print):
+    """Submit an AppEEARS point task; returns (task_id, layers)."""
+    session = _session()
     layers = layers or default_layers(session)
     task = {
         "task_type": "point",
@@ -159,18 +160,17 @@ def appeears_points(points, start, end, name="FarmFit refresh", layers=None, max
     r.raise_for_status()
     task_id = r.json()["task_id"]
     log(f"AppEEARS task {task_id} submitted ({', '.join(l['product'] for l in layers)})")
+    return task_id, layers
 
-    waited = 0
-    while True:
-        status = session.get(APPEEARS + f"task/{task_id}", timeout=60).json().get("status")
-        if status == "done":
-            break
-        if status in ("error", "expired") or waited >= max_wait_s:
-            raise RuntimeError(f"AppEEARS task {task_id} ended with status {status} after {waited}s")
-        time.sleep(poll_s)
-        waited += poll_s
-    log(f"AppEEARS task done after ~{waited}s")
 
+def task_status(task_id):
+    session = _session()
+    return session.get(APPEEARS + f"task/{task_id}", timeout=60).json().get("status")
+
+
+def download_points(task_id, layers):
+    """Download a finished task's CSVs and return a tidy DataFrame (id, date, product, layer, value)."""
+    session = _session()
     bundle = session.get(APPEEARS + f"bundle/{task_id}", timeout=60).json()
     frames = []
     for f in bundle.get("files", []):
@@ -184,9 +184,8 @@ def appeears_points(points, start, end, name="FarmFit refresh", layers=None, max
         if "ID" not in df.columns or "Date" not in df.columns:
             continue
         for layer in layers:
-            prefix = layer["product"].replace(".", "_") + "_" + layer["layer"]
-            col = next((c for c in df.columns if c == prefix), None)
-            if col is None:
+            col = layer["product"].replace(".", "_") + "_" + layer["layer"]
+            if col not in df.columns:
                 continue
             part = df[["ID", "Date", col]].rename(columns={"ID": "id", "Date": "date", col: "value"})
             part["product"], part["layer"] = layer["product"], layer["layer"]
@@ -197,5 +196,20 @@ def appeears_points(points, start, end, name="FarmFit refresh", layers=None, max
     out["date"] = pd.to_datetime(out["date"])
     out = out[out["value"] > -9000]
     ndvi = out["layer"].str.contains("NDVI")
-    out.loc[ndvi & (out["value"].abs() > 1.5), "value"] *= 0.0001  # unscaled MODIS integers
+    out.loc[ndvi & (out["value"].abs() > 1.5), "value"] *= 0.0001
     return out.sort_values(["id", "product", "date"]).reset_index(drop=True)
+
+
+def appeears_points(points, start, end, name="FarmFit refresh", layers=None, max_wait_s=600, poll_s=30, log=print):
+    """Submit and wait (up to max_wait_s). Prefer submit_points + download_points across runs."""
+    task_id, layers = submit_points(points, start, end, name, layers, log)
+    waited = 0
+    while waited < max_wait_s:
+        status = task_status(task_id)
+        if status == "done":
+            return download_points(task_id, layers)
+        if status in ("error", "expired"):
+            raise RuntimeError(f"AppEEARS task {task_id} ended with status {status}")
+        time.sleep(poll_s)
+        waited += poll_s
+    raise TimeoutError(f"AppEEARS task {task_id} still running after {waited}s")
