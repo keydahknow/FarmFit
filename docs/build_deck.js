@@ -4,24 +4,24 @@ const ReactDOMServer = require("react-dom/server");
 const sharp = require("sharp");
 const { applyTheme } = require("/root/.claude/skills/synced/efc0e3e4-ad16-4d33-954f-f538873091eb_60703634-82d0-4bd8-b6d1-591c093acfd6/pptx/scripts/apply_theme.js");
 const fa = require("react-icons/fa");
-const md = require("react-icons/md");
 const gi = require("react-icons/gi");
 
+// The almanac palette from the app (fieldshift/art.py)
 const THEME = {
-  name: "Hurricane to Harvest",
-  headFontFace: "Calibri", bodyFontFace: "Calibri",
-  colors: { dk1: "0B2545", lt1: "FFFFFF", dk2: "13315C", lt2: "EEF3EC",
-    accent1: "1D6F5F", accent2: "FFD166", accent3: "C1121F", accent4: "2F7D32",
-    accent5: "8C6A43", accent6: "3A86FF", hlink: "1D6F5F", folHlink: "13315C" },
+  name: "Hurricane to Harvest almanac",
+  headFontFace: "Cambria", bodyFontFace: "Calibri",
+  colors: { dk1: "1F2B3A", lt1: "F3EEE3", dk2: "4C5563", lt2: "E9E1CF",
+    accent1: "C2502F", accent2: "D99A2B", accent3: "3F7A4C", accent4: "3F7EA0",
+    accent5: "9A6B43", accent6: "BCD5E1", hlink: "3F7EA0", folHlink: "4C5563" },
 };
 const HEX = THEME.colors;
 
 async function icon(Comp, color, size = 256) {
   const svg = ReactDOMServer.renderToStaticMarkup(React.createElement(Comp, { color: "#" + color, size: String(size) }));
-  const buf = await sharp(Buffer.from(svg)).png().toBuffer();
-  return "image/png;base64," + buf.toString("base64");
+  return "image/png;base64," + (await sharp(Buffer.from(svg)).png().toBuffer()).toString("base64");
 }
 
+process.chdir(require("path").join(__dirname, "deck_assets"));
 (async () => {
   const pres = new pptxgen();
   pres.layout = "LAYOUT_16x9"; // 10 x 5.625
@@ -30,199 +30,185 @@ async function icon(Comp, color, size = 256) {
   const C = pres.SchemeColor;
 
   pres.defineSlideMaster({
-    title: "DARK", background: { color: HEX.dk1 },
-    objects: [
-      { placeholder: { options: { name: "title", type: "title", x: 0.6, y: 1.55, w: 5.6, h: 1.2, fontSize: 44, bold: true, color: C.background1, valign: "top", margin: 0 }, text: "" } },
-    ],
+    title: "INK", background: { color: HEX.dk1 },
+    objects: [{ placeholder: { options: { name: "title", type: "title", x: 0.55, y: 1.0, w: 4.6, h: 1.6, fontSize: 46, bold: true,
+      color: C.background1, valign: "top", align: "left", margin: 0 }, text: "" } }],
   });
   pres.defineSlideMaster({
-    title: "CONTENT", background: { color: HEX.lt1 },
+    title: "PAPER", background: { color: HEX.lt1 },
     objects: [
-      { placeholder: { options: { name: "title", type: "title", x: 0.5, y: 0.3, w: 9.0, h: 0.75, fontSize: 28, bold: true, color: C.text1, valign: "middle", margin: 0 }, text: "" } },
-      { text: { text: "FarmFit · Hurricane to Harvest · NASA Space Apps 2026", options: { x: 0.5, y: 5.25, w: 6, h: 0.25, fontSize: 9, color: "617064", margin: 0 } } },
+      { placeholder: { options: { name: "title", type: "title", x: 0.5, y: 0.25, w: 9.0, h: 0.7, fontSize: 26, bold: true,
+        color: C.text1, valign: "middle", align: "left", margin: 0 }, text: "" } },
+      { line: { x: 0.5, y: 0.98, w: 9.0, h: 0, line: { color: HEX.dk1, width: 1.25 } } },
+      { text: { text: "FarmFit · Hurricane to Harvest · NASA Space Apps 2026 · Field Shift", options: { x: 0.5, y: 5.27, w: 6.5, h: 0.22, fontSize: 9, color: HEX.dk2, margin: 0 } } },
     ],
-    slideNumber: { x: 9.1, y: 5.25, w: 0.4, h: 0.25, fontSize: 9, color: "617064" },
+    slideNumber: { x: 9.1, y: 5.27, w: 0.4, h: 0.22, fontSize: 9, color: HEX.dk2 },
   });
 
   const I = {
-    storm: await icon(gi.GiTornado, HEX.dk1), stormW: await icon(gi.GiTornado, HEX.accent2),
-    map: await icon(fa.FaMapMarkedAlt, "FFFFFF"), shift: await icon(fa.FaHistory, "FFFFFF"),
-    cal: await icon(fa.FaCalendarAlt, "FFFFFF"), test: await icon(fa.FaBolt, "FFFFFF"), camera: await icon(fa.FaCamera, "FFFFFF"),
-    sat: await icon(md.MdSatelliteAlt, "FFFFFF"), leaf: await icon(fa.FaSeedling, "FFFFFF"), globe: await icon(fa.FaGlobeAmericas, "FFFFFF"),
-    check: await icon(fa.FaUserCheck, "FFFFFF"), drop: await icon(fa.FaTint, "FFFFFF"),
+    seed: await icon(fa.FaSeedling, "FFFFFF"), globe: await icon(fa.FaGlobeAmericas, "FFFFFF"), check: await icon(fa.FaUserCheck, "FFFFFF"),
+    storm: await icon(gi.GiTornado, HEX.accent2),
   };
-  const circleIcon = (s, data, x, y, d, fill, name) => {
-    s.addShape(pres.shapes.OVAL, { x, y, w: d, h: d, fill: { color: fill }, line: { color: fill }, objectName: name + " circle" });
-    s.addImage({ data, x: x + d * 0.22, y: y + d * 0.22, w: d * 0.56, h: d * 0.56, objectName: name + " icon" });
-  };
-  const card = (s, x, y, w, h, name, fill = C.background2) =>
-    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y, w, h, rectRadius: 0.12, fill: { color: fill }, line: { color: fill }, objectName: name });
+  const card = (s, x, y, w, h, name, fill = C.background2, line) =>
+    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y, w, h, rectRadius: 0.1, fill: { color: fill }, line: { color: line || fill, width: 1 }, objectName: name });
+  const kicker = (s, text, x, y, w, color = C.accent1) =>
+    s.addText(text, { x, y, w, h: 0.25, fontSize: 10, bold: true, color, charSpacing: 2, margin: 0, isTextBox: true });
+  const pic = (s, path, x, y, w, pxW, pxH, name) => s.addImage({ path, x, y, w, h: w * pxH / pxW, objectName: name,
+    shadow: { type: "outer", color: "1F2B3A", opacity: 0.25, blur: 8, offset: 3, angle: 90 } });
 
   // ---------------- 1. Title
   pres.addSection({ title: "Opening" });
-  let s = pres.addSlide({ masterName: "DARK", sectionTitle: "Opening" });
-  s.addText("NASA SPACE APPS 2026 · FIELD SHIFT: ADAPTING FARMS WITH NASA DATA", { x: 0.6, y: 0.75, w: 7.5, h: 0.35, fontSize: 11, bold: true, color: C.accent2, charSpacing: 2, margin: 0, isTextBox: true });
+  let s = pres.addSlide({ masterName: "INK", sectionTitle: "Opening" });
+  kicker(s, "NASA SPACE APPS 2026 · FIELD SHIFT: ADAPTING FARMS WITH NASA DATA", 0.55, 0.55, 8.5, C.accent2);
   s.addText("Hurricane to Harvest", { placeholder: "title" });
-  s.addText("Crop rotations that weather the storm and rebuild the soil", { x: 0.6, y: 2.75, w: 5.4, h: 0.8, fontSize: 20, color: "DBE7F3", margin: 0, isTextBox: true });
+  s.addText("A farm's year, read from the sky to the bedrock", { x: 0.55, y: 2.75, w: 4.4, h: 0.8, fontSize: 19, italic: true, color: "E9E1CF", fontFace: "Cambria", margin: 0, isTextBox: true });
   s.addText([
-    { text: "FarmFit", options: { bold: true, color: "FFFFFF", breakLine: true } },
-    { text: "NASA POWER · SMAP · GPM IMERG · MODIS · SRTM · NOAA HURDAT2 · SoilGrids · FAO", options: { color: "9FB3C8" } },
-  ], { x: 0.6, y: 4.05, w: 6.0, h: 0.7, fontSize: 12, margin: 0, isTextBox: true });
-  s.addShape(pres.shapes.OVAL, { x: 6.75, y: 1.15, w: 2.75, h: 2.75, fill: { color: HEX.dk2 }, line: { color: HEX.accent2, width: 2 }, objectName: "storm motif" });
-  s.addImage({ data: I.stormW, x: 7.4, y: 1.8, w: 1.45, h: 1.45, objectName: "storm icon" });
-  s.addText("Two demo farms: St Elizabeth, Jamaica and the Caroni plains, Trinidad", { x: 6.55, y: 4.1, w: 3.15, h: 0.6, fontSize: 11, color: "DBE7F3", align: "center", margin: 0, isTextBox: true });
-  s.addNotes("Hurricane to Harvest is a decision-support tool built on FarmFit. It helps small-scale Caribbean farmers choose crop rotations that protect the harvest from storms and rebuild soil, and it gives them a safe path back after a storm. Everything is built on open NASA and partner data.");
+    { text: "FarmFit", options: { bold: true, color: "F3EEE3", breakLine: true } },
+    { text: "Pick your farm. Scroll down through it: storms, planting, recovery, water, soil, evidence.", options: { color: "BCD5E1" } },
+  ], { x: 0.55, y: 3.75, w: 4.3, h: 0.85, fontSize: 12, margin: 0, valign: "top", isTextBox: true });
+  pic(s, "landing.jpg", 5.25, 0.95, 4.3, 1400, 974, "landing screenshot");
+  s.addText("Demo farms: St Elizabeth, Jamaica · Caroni plains, Trinidad", { x: 5.25, y: 4.05, w: 4.3, h: 0.3, fontSize: 11, color: "BCD5E1", align: "center", margin: 0, isTextBox: true });
+  s.addNotes("Hurricane to Harvest is FarmFit rebuilt as one journey. A farmer picks their farm and scrolls from the sky above it to the rock beneath it. Every layer answers one question with open NASA and partner data: what storms do here, what to plant when, how to recover, whether the field is heading into drought, and what the soil is like.");
 
   // ---------------- 2. Problem
   pres.addSection({ title: "Problem" });
-  s = pres.addSlide({ masterName: "CONTENT", sectionTitle: "Problem" });
-  s.addText("One storm can erase a season's harvest", { placeholder: "title" });
-  const stats = [["32,400 ha", "of vegetable crops lost"], ["47,500", "vegetable farmers affected"], ["J$29.5 B", "preliminary agricultural damage"]];
+  s = pres.addSlide({ masterName: "PAPER", sectionTitle: "Problem" });
+  s.addText("One storm erases a season. Then prices fall.", { placeholder: "title" });
+  const stats = [["32,400 ha", "of vegetables lost to Hurricane Melissa, 28 Oct 2025"], ["47,500", "vegetable farmers affected in Jamaica"],
+                 ["Jan 2026", "prices fell sharply as everyone replanted the same fast crops"]];
   stats.forEach(([n, l], i) => {
-    const y = 1.25 + i * 1.18;
-    s.addText(n, { x: 0.5, y, w: 3.2, h: 0.65, fontSize: 40, bold: true, color: C.accent3, margin: 0, isTextBox: true });
-    s.addText(l, { x: 0.5, y: y + 0.62, w: 3.6, h: 0.35, fontSize: 14, color: C.text1, margin: 0, isTextBox: true });
+    const y = 1.2 + i * 1.18;
+    s.addText(n, { x: 0.5, y, w: 4.0, h: 0.62, fontSize: 38, bold: true, color: C.accent1, fontFace: "Cambria", margin: 0, isTextBox: true });
+    s.addText(l, { x: 0.5, y: y + 0.6, w: 4.1, h: 0.4, fontSize: 13, color: C.text1, margin: 0, isTextBox: true });
   });
-  s.addText("Hurricane Melissa, Jamaica, 28 Oct 2025. Source: Ministry of Agriculture, Fisheries and Mining, 14 Nov 2025", { x: 0.5, y: 4.8, w: 4.3, h: 0.35, fontSize: 10, color: "617064", margin: 0, isTextBox: true });
-  card(s, 4.85, 1.2, 4.65, 3.85, "problem card");
-  s.addText("Calendars set for an older climate", { x: 5.1, y: 1.38, w: 4.2, h: 0.45, fontSize: 18, bold: true, color: C.text1, margin: 0, isTextBox: true });
+  s.addText("Jamaica Ministry of Agriculture, Fisheries and Mining (Nov 2025, Jan 2026)", { x: 0.5, y: 4.85, w: 4.3, h: 0.25, fontSize: 9, color: C.text2, margin: 0, isTextBox: true });
+  card(s, 4.95, 1.2, 4.55, 3.85, "problem card", C.background2);
+  s.addText("And the dry season is the quieter half", { x: 5.2, y: 1.35, w: 4.1, h: 0.45, fontSize: 17, bold: true, color: C.text1, fontFace: "Cambria", margin: 0, isTextBox: true });
   s.addText([
-    { text: "At a St Elizabeth farm, storm-force wind now arrives about 1 year in 4. 11 of 14 events since 1971 came after 2000 (NOAA HURDAT2).", options: { bullet: true, breakLine: true } },
-    { text: "Fragile crops (peppers, tomatoes, plantain) often sit at their most vulnerable stage in August to October.", options: { bullet: true, breakLine: true } },
-    { text: "In Trinidad's Caroni plains, no hurricane-force wind since 1971. The threat is heavy rain on slow-draining soil.", options: { bullet: true, breakLine: true } },
-    { text: "Farmers need to know which crop should be in which month, for their own farm.", options: { bullet: true } },
-  ], { x: 5.1, y: 1.9, w: 4.2, h: 3.0, fontSize: 14, color: C.text1, paraSpaceAfter: 8, valign: "top", margin: 0, isTextBox: true });
-  s.addNotes("Melissa made landfall in south-western Jamaica as a Category 5. St Elizabeth, the breadbasket parish, was among the hardest hit. Our own analysis of NOAA's HURDAT2 shows storm-force wind reaching a St Elizabeth farm about once every four years, with most events since 2000. Trinidad has a different risk: flooding. One tool has to handle both.");
+    { text: "A strong El Niño is under way (NOAA ONI +2.5 °C).", options: { bullet: true, breakLine: true } },
+    { text: "At the Caroni farm, El Niño years brought only 64% of normal Dec-Feb rain (30 years of NASA POWER).", options: { bullet: true, breakLine: true } },
+    { text: "At St Elizabeth, storm-force wind arrives about 1 year in 4, mostly Aug to Oct (NOAA HURDAT2).", options: { bullet: true, breakLine: true } },
+    { text: "Calendars were set for an older climate. Farmers need to know which crop belongs in which month, on their own farm.", options: { bullet: true } },
+  ], { x: 5.2, y: 1.9, w: 4.1, h: 3.0, fontSize: 13, color: C.text1, paraSpaceAfter: 8, valign: "top", margin: 0, isTextBox: true });
+  s.addNotes("Melissa made landfall as a Category 5 and hit Jamaica's breadbasket. The Ministry counted about 32,400 hectares of vegetables and 47,500 farmers. Three months later prices fell sharply because so many farmers replanted the same fast crops. And storms are only half of it: a strong El Niño is under way, and at our Trinidad farm El Niño years brought only two-thirds of normal dry-season rain.");
 
-  // ---------------- 3. Solution journey
-  pres.addSection({ title: "Solution" });
-  s = pres.addSlide({ masterName: "CONTENT", sectionTitle: "Solution" });
-  s.addText("Pick a farm, get four calendars and a recovery plan", { placeholder: "title" });
-  const steps = [
-    [I.map, "Farm profile", "Climate, soil, slope and storm history from one map click"],
-    [I.shift, "Field shift", "First 15 years vs last 15 years of NASA climate"],
-    [I.cal, "Compare", "Current rotation vs Storm-smart, Soil builder, Water saver"],
-    [I.test, "Stress test", "Replay Melissa; simulate 5,000 seasons"],
-    [I.camera, "After the storm", "Photo, AI, rules: a staged recovery calendar"],
+  // ---------------- 3. The journey
+  pres.addSection({ title: "Journey" });
+  s = pres.addSlide({ masterName: "PAPER", sectionTitle: "Journey" });
+  s.addText("One scroll, from the sky to the bedrock", { placeholder: "title" });
+  s.addImage({ path: "world.png", x: 0.5, y: 1.12, w: 1.0, h: 4.05, objectName: "world strip", sizing: { type: "cover", w: 1.0, h: 4.05 } });
+  const layers = [
+    [1.15, "Storms", "Live NOAA storm watch, checklist, alerts, exposure, replay a real storm"],
+    [1.72, "Plant", "Your rotation vs three better ones; the planting-window orchard"],
+    [2.38, "Recover", "Photo check, IMERG rain, flood maps, staged path back, insurance"],
+    [3.02, "Water", "SMAP, MODIS plant stress, IMERG, El Niño test, water bank"],
+    [3.68, "Soil & ask", "Texture, drainage, pH, slope; soil probe; Ask FarmFit"],
+    [4.45, "Evidence", "Every dataset, method and limit"],
   ];
-  const fills = [C.accent1, C.text2, C.accent4, C.accent3, C.accent5];
-  steps.forEach(([ic, t, d], i) => {
-    const x = 0.5 + i * 1.84;
-    circleIcon(s, ic, x + 0.6, 1.1, 0.55, fills[i], t);
-    s.addText(t, { x, y: 1.72, w: 1.75, h: 0.32, fontSize: 14, bold: true, color: C.text1, align: "center", margin: 0, isTextBox: true });
-    s.addText(d, { x, y: 2.04, w: 1.75, h: 0.62, fontSize: 11, color: "4A5A4F", align: "center", valign: "top", margin: 0, isTextBox: true });
+  layers.forEach(([y, t, d]) => {
+    s.addShape(pres.shapes.LINE, { x: 1.5, y: y + 0.13, w: 0.22, h: 0, line: { color: HEX.dk1, width: 1 }, objectName: t + " tick" });
+    s.addText(t, { x: 1.78, y, w: 1.25, h: 0.28, fontSize: 13, bold: true, color: C.accent1, fontFace: "Cambria", margin: 0, isTextBox: true });
+    s.addText(d, { x: 1.78, y: y + 0.25, w: 3.0, h: 0.35, fontSize: 10, color: C.text1, margin: 0, isTextBox: true });
   });
-  s.addImage({ path: "cal_rows.png", x: 0.9, y: 2.82, w: 8.2, h: 8.2 * 240 / 1060, objectName: "calendar screenshot" });
-  s.addText("Top row: chance per year of storm-force wind or a waterlogging rain day. Striped: bare soil. Red outline: the month Melissa struck.", { x: 0.9, y: 4.75, w: 8.2, h: 0.3, fontSize: 10, color: "617064", margin: 0, isTextBox: true });
-  s.addNotes("The farmer picks a farm or a demo site. Five steps follow. The heart of it is the comparison: their current rotation against three alternatives, found by searching around 200,000 possible 12-month rotations. Each one shows why it was suggested, its evidence, benefits, data gaps and what to check locally.");
+  pic(s, "intro.jpg", 5.0, 1.2, 4.5, 1400, 681, "intro screenshot");
+  s.addText([
+    { text: "The farmer picks their farm first. ", options: { bold: true } },
+    { text: "A hand-drawn world slides behind the page as they scroll, so each tool sits in its layer of the farm. A tree on the side comes alive as they go: canopy above ground, roots below. Short story beats carry them from one layer to the next." },
+  ], { x: 5.0, y: 3.55, w: 4.5, h: 1.5, fontSize: 12, color: C.text1, valign: "top", margin: 0, isTextBox: true });
+  s.addNotes("This is the interface. There are no tabs. The farmer picks a farm, then scrolls down through it. The background moves from sky to field to topsoil, clay, the water table and bedrock, and each tool sits in its own layer. A living tree on the side fills in as they go and doubles as navigation. The opening line is specific to the farm: on 28 October 2025, Melissa reached this field with about 95 knots of wind.");
 
-  // ---------------- 4. Data
+  // ---------------- 4. The field decides
+  pres.addSection({ title: "Field" });
+  s = pres.addSlide({ masterName: "PAPER", sectionTitle: "Field" });
+  s.addText("When the sky clears, the field decides", { placeholder: "title" });
+  pic(s, "calendar.jpg", 0.5, 1.2, 5.6, 1600, 355, "calendar screenshot");
+  pic(s, "orchard.jpg", 0.5, 2.62, 5.6, 1600, 515, "orchard screenshot");
+  s.addText([
+    { text: "241,772 rotations searched", options: { bold: true, color: HEX.accent1, breakLine: true } },
+    { text: "for this farm; the best Storm-smart, Soil builder and Water saver plans shown beside the farmer's own.", options: { breakLine: true } },
+    { text: " ", options: { fontSize: 6, breakLine: true } },
+    { text: "Each plan says why", options: { bold: true, color: HEX.accent1, breakLine: true } },
+    { text: "evidence, benefits, pest-cycle breaks, livestock feed, market timing (NAMDEVCO prices), information gaps, and what to check with an extension officer.", options: { breakLine: true } },
+    { text: " ", options: { fontSize: 6, breakLine: true } },
+    { text: "The orchard", options: { bold: true, color: HEX.accent1, breakLine: true } },
+    { text: "one tree per planting month. Blossom and fruit show the chance of a good harvest: 4,000 simulated seasons of storm and flood × climate fit × water. Capped at 95%+." },
+  ], { x: 6.35, y: 1.2, w: 3.15, h: 3.95, fontSize: 11.5, color: C.text1, valign: "top", margin: 0, isTextBox: true });
+  s.addNotes("This is the decision layer. FarmFit searches every 12-month rotation of up to four crops, about 240,000 for this farm, and shows the best three beside the farmer's own. The striped and outlined months are where Melissa would have hit. The orchard answers a simpler question: if I plant sweet peppers, which month? January is best, July riskiest, because a July planting is in the field through the storm peak. We cap at 95% because the model leaves out pests, prices and luck.");
+
+  // ---------------- 5. Data
   pres.addSection({ title: "Data" });
-  s = pres.addSlide({ masterName: "CONTENT", sectionTitle: "Data" });
-  s.addText("Eight open datasets fused onto one farm-month grid", { placeholder: "title" });
-  const ds = [
-    ["NASA POWER", "30 yr daily rain, temp, wind, soil wetness", "≈ 55 km"],
-    ["GPM IMERG", "Storm-date rainfall map layer", "0.1°"],
-    ["SMAP L4", "Surface soil moisture layer", "9 km"],
-    ["MODIS", "NDVI and true-colour after storms", "250 m"],
-    ["NASA SRTM", "Elevation and slope for erosion", "30 m"],
-    ["NOAA HURDAT2", "Every storm track 1950-2025", "6-hourly"],
-    ["SoilGrids", "pH, carbon, texture, drainage", "250 m"],
-    ["FAO crop data", "ECOCROP ranges, FAO-56 water use", "25 crops"],
+  s = pres.addSlide({ masterName: "PAPER", sectionTitle: "Data" });
+  s.addText("Eight NASA datasets, plus partner and local data", { placeholder: "title" });
+  const nasa = [
+    ["NASA POWER", "30 yr daily rain, heat, wind, soil wetness", "≈ 55 km"],
+    ["GPM IMERG V07", "Daily rain at the farm, storm windows", "0.1°"],
+    ["SMAP L3", "Surface soil moisture", "9 km"],
+    ["SMAP L4", "Root-zone moisture, top 1 m", "9 km"],
+    ["MODIS NDVI", "How green the crops are", "250 m"],
+    ["MODIS ET / PET", "Plant water stress (ET ÷ PET)", "500 m"],
+    ["NASA SRTM", "Elevation, slope, erosion", "30 m"],
+    ["MODIS flood · OPERA", "Where flood water stood", "250 / 30 m"],
   ];
-  ds.forEach(([n, u, r], i) => {
-    const col = i % 2, row = Math.floor(i / 2);
-    const x = 0.5 + col * 3.05, y = 1.2 + row * 0.95;
-    card(s, x, y, 2.9, 0.82, "dataset " + n, i < 5 ? "E6F0F4" : C.background2);
-    s.addText(n, { x: x + 0.15, y: y + 0.08, w: 1.9, h: 0.3, fontSize: 14, bold: true, color: C.text1, margin: 0, isTextBox: true });
-    s.addText(r, { x: x + 1.95, y: y + 0.08, w: 0.82, h: 0.3, fontSize: 10, color: C.accent1, bold: true, align: "right", margin: 0, isTextBox: true });
-    s.addText(u, { x: x + 0.15, y: y + 0.4, w: 2.65, h: 0.35, fontSize: 11, color: "4A5A4F", margin: 0, isTextBox: true });
+  nasa.forEach(([n, u, r], i) => {
+    const col = i % 2, row = Math.floor(i / 2), x = 0.5 + col * 2.95, y = 1.18 + row * 0.82;
+    card(s, x, y, 2.8, 0.72, "nasa " + n, "DCE8EE");
+    s.addText(n, { x: x + 0.12, y: y + 0.06, w: 1.85, h: 0.28, fontSize: 12.5, bold: true, color: C.text1, margin: 0, isTextBox: true });
+    s.addText(r, { x: x + 1.9, y: y + 0.06, w: 0.78, h: 0.28, fontSize: 9.5, bold: true, color: C.accent4, align: "right", margin: 0, isTextBox: true });
+    s.addText(u, { x: x + 0.12, y: y + 0.36, w: 2.6, h: 0.3, fontSize: 10, color: C.text2, margin: 0, isTextBox: true });
   });
-  s.addShape(pres.shapes.RIGHT_ARROW, { x: 6.7, y: 2.75, w: 0.5, h: 0.45, fill: { color: C.accent2 }, line: { color: C.accent2 }, objectName: "fusion arrow" });
-  card(s, 7.35, 1.2, 2.15, 3.75, "scores card", HEX.dk1);
-  s.addText("12 months × 1 farm", { x: 7.5, y: 1.35, w: 1.9, h: 0.35, fontSize: 14, bold: true, color: C.accent2, margin: 0, isTextBox: true });
+  card(s, 6.5, 1.18, 3.0, 3.2, "partner card", HEX.dk1);
+  s.addText("Partner and local", { x: 6.65, y: 1.3, w: 2.7, h: 0.32, fontSize: 14, bold: true, color: C.accent2, margin: 0, isTextBox: true });
   s.addText([
-    { text: "Climate fit", options: { bullet: true, breakLine: true } },
-    { text: "Storm and flood safety", options: { bullet: true, breakLine: true } },
-    { text: "Soil health", options: { bullet: true, breakLine: true } },
-    { text: "Water saving", options: { bullet: true, breakLine: true } },
-    { text: "Food months", options: { bullet: true } },
-  ], { x: 7.5, y: 1.8, w: 1.9, h: 1.9, fontSize: 14, color: C.background1, paraSpaceAfter: 6, valign: "top", margin: 0, isTextBox: true });
-  s.addText("A data passport shows each dataset's resolution, period and live/cached status.", { x: 7.5, y: 3.85, w: 1.9, h: 0.95, fontSize: 11, italic: true, color: "DBE7F3", valign: "top", margin: 0, isTextBox: true });
-  s.addNotes("Blue cards are NASA data; green are partner data. Everything is resampled to the farm and to calendar months, so the data become five transparent scores. The data passport tells farmers and judges which data are live, cached or missing, and at what resolution. Satellite cells are bigger than a farm, so farmers can correct the soil with their own test.");
+    { text: "NOAA HURDAT2, IBTrACS, live NHC storms", options: { bullet: true, breakLine: true } },
+    { text: "NOAA ENSO index (season ahead)", options: { bullet: true, breakLine: true } },
+    { text: "ISRIC SoilGrids; FAO ECOCROP, FAO-56", options: { bullet: true, breakLine: true } },
+    { text: "NAMDEVCO wholesale prices (TT open data)", options: { bullet: true, breakLine: true } },
+    { text: "CIMH drought bulletin; CCRIF micro-insurance; RADA", options: { bullet: true } },
+  ], { x: 6.65, y: 1.7, w: 2.75, h: 2.6, fontSize: 11, color: C.background1, paraSpaceAfter: 5, valign: "top", margin: 0, isTextBox: true });
+  card(s, 0.5, 4.5, 9.0, 0.62, "pipeline", C.background2);
+  s.addText([
+    { text: "Kept live: ", options: { bold: true, color: HEX.accent1 } },
+    { text: "GitHub Actions refreshes the data daily in hurricane season and twice a week otherwise (Earthdata login, AppEEARS tasks carried between runs); storm alerts every 3 hours. A data passport shows each dataset's resolution and freshness." },
+  ], { x: 0.65, y: 4.55, w: 8.7, h: 0.52, fontSize: 11, color: C.text1, valign: "middle", margin: 0, isTextBox: true });
+  s.addNotes("Blue cards are NASA. POWER gives 30 years of daily climate. IMERG, SMAP surface and root zone, MODIS greenness and evapotranspiration come through the scheduled refresh with an Earthdata login; flood maps come live from GIBS. Partner and local data add the storms, the El Niño index, soils, crop science, Trinidad wholesale prices, the regional drought bulletin and insurance.");
 
-  // ---------------- 5. Science
-  pres.addSection({ title: "Science" });
-  s = pres.addSlide({ masterName: "CONTENT", sectionTitle: "Science" });
-  s.addText("Transparent models anyone can audit", { placeholder: "title" });
-  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-  s.addChart(pres.charts.BAR, [
-    { name: "St Elizabeth, Jamaica", labels: months, values: [0,0,0,0,0,0,3.6,10.9,3.6,3.6,1.8,0] },
-    { name: "Caroni, Trinidad", labels: months, values: [0,0,0,0,0,1.8,0,3.6,1.8,0,0,0] },
-  ], { x: 0.4, y: 1.15, w: 5.0, h: 3.75, barDir: "col", barGapWidthPct: 60,
-    chartColors: [HEX.accent3, HEX.accent6], showTitle: true, title: "Chance a month brings storm-force wind to the farm (%)",
-    titleFontSize: 12, titleColor: HEX.dk1, titleFontFace: "+mn-lt",
-    showLegend: true, legendPos: "b", legendFontSize: 11, legendFontFace: "+mn-lt", legendColor: HEX.dk1,
-    catAxisLabelColor: "4A5A4F", valAxisLabelColor: "4A5A4F", catAxisLabelFontSize: 10, valAxisLabelFontSize: 10,
-    catAxisLabelFontFace: "+mn-lt", valAxisLabelFontFace: "+mn-lt",
-    valGridLine: { color: "E2E8E0", size: 0.5 }, catGridLine: { style: "none" }, valAxisLabelFormatCode: "0" });
-  s.addText("NOAA HURDAT2 1971-2025, wind estimated at each farm", { x: 0.5, y: 4.9, w: 4.8, h: 0.25, fontSize: 10, color: "617064", margin: 0, isTextBox: true });
-  const methods = [
-    ["Wind at the farm", "Every track at 15-min steps; modified Rankine vortex V = Vmax(Rm/r)^0.6. Melissa ranks #1 at St Elizabeth, Beryl at Carriacou."],
-    ["Water", "FAO-56 Hargreaves ET0 and stage Kc; irrigation = Σ max(0, ETc − 0.8P)"],
-    ["Soil", "Living cover weighted by monthly rain (RUSLE C×R), legume months, family diversity, SRTM slope"],
-    ["Search and test", "≈ 200,000 rotations enumerated; 5,000-season Monte Carlo; 10 automated tests"],
-  ];
-  methods.forEach(([h, b], i) => {
-    const y = 1.15 + i * 0.95;
-    s.addText(h, { x: 5.75, y, w: 3.75, h: 0.3, fontSize: 14, bold: true, color: C.accent1, margin: 0, isTextBox: true });
-    s.addText(b, { x: 5.75, y: y + 0.3, w: 3.75, h: 0.6, fontSize: 11, color: C.text1, valign: "top", margin: 0, isTextBox: true });
-  });
-  s.addNotes("Science we can defend. Wind at each farm comes from NOAA tracks with a standard vortex profile, and it reproduces history: Melissa is the top storm at St Elizabeth and Beryl at Carriacou. Water uses FAO-56; soil uses RUSLE logic. Every weight is published in the code. The model screens exposure; it does not forecast storms.");
-
-  // ---------------- 6. Result
+  // ---------------- 6. Results
   pres.addSection({ title: "Results" });
-  s = pres.addSlide({ masterName: "CONTENT", sectionTitle: "Results" });
-  s.addText("Replaying Melissa on each calendar", { placeholder: "title" });
-  s.addImage({ path: "replay_cards.png", x: 0.5, y: 1.15, w: 6.0, h: 6.0 * 152 / 1060, objectName: "replay screenshot" });
-  s.addText("Estimated loss on 28 Oct 2025 (≈ 95 kt at the farm)", { x: 0.5, y: 2.05, w: 6.0, h: 0.25, fontSize: 10, color: "617064", margin: 0, isTextBox: true });
-  s.addText("On 28 Oct 2025 the typical rotation had sweet peppers mid-season (≈ 60% loss). The Storm-smart calendar had harvested earlier and held the soil under a cover crop.", { x: 0.5, y: 2.5, w: 6.0, h: 1.2, fontSize: 15, color: C.text1, valign: "top", margin: 0, isTextBox: true });
-  card(s, 0.5, 3.95, 6.0, 1.05, "after storm flow", "F3EFE8");
-  const flow = [["Photo", I.camera, C.accent5], ["Gemini", I.sat, C.text2], ["Rules + FDA", I.check, C.accent3], ["Recovery", I.leaf, C.accent4]];
-  flow.forEach(([t, ic, f], i) => {
-    const x = 0.75 + i * 1.45;
-    circleIcon(s, ic, x, 4.1, 0.45, f, t);
-    s.addText(t, { x: x + 0.5, y: 4.15, w: 0.9, h: 0.35, fontSize: 12, bold: true, color: C.text1, margin: 0, isTextBox: true });
-  });
-  s.addText("After the storm: AI describes the photo; rules decide; the farmer confirms what a photo can't show.", { x: 0.75, y: 4.6, w: 5.6, h: 0.3, fontSize: 11, color: "4A5A4F", margin: 0, isTextBox: true });
-  card(s, 6.85, 1.15, 2.65, 3.85, "monte carlo card", HEX.dk1);
-  s.addText("5,000", { x: 7.05, y: 1.35, w: 2.3, h: 0.75, fontSize: 44, bold: true, color: C.accent2, margin: 0, isTextBox: true });
-  s.addText("simulated storm seasons per farm", { x: 7.05, y: 2.1, w: 2.3, h: 0.5, fontSize: 13, color: C.background1, margin: 0, isTextBox: true });
-  s.addText("Average loss, bad-year (1 in 10) loss and the chance of losing more than half. Sliders test a stormier or wetter future.", { x: 7.05, y: 2.75, w: 2.3, h: 1.4, fontSize: 12, color: "DBE7F3", valign: "top", margin: 0, isTextBox: true });
-  s.addText("Exposure screen, not a forecast", { x: 7.05, y: 4.35, w: 2.3, h: 0.4, fontSize: 11, italic: true, color: C.accent2, margin: 0, isTextBox: true });
-  s.addNotes("The demo: Melissa hit on 28 October. The typical St Elizabeth rotation had sweet peppers in the field, an estimated 60 percent loss. The alternatives had harvested before the peak and kept a cover crop on the soil. The Monte Carlo turns the farm's own history into a distribution of bad years. After a storm, a photo plus a few questions produce a gated recovery plan that follows FDA flood-crop safety guidance.");
+  s = pres.addSlide({ masterName: "PAPER", sectionTitle: "Results" });
+  s.addText("What the data says, farm by farm", { placeholder: "title" });
+  kicker(s, "ST ELIZABETH, JAMAICA · REPLAYING MELISSA", 0.5, 1.12, 4.4);
+  pic(s, "replay.jpg", 0.5, 1.42, 4.35, 1600, 480, "replay screenshot");
+  s.addText("On 28 Oct 2025 the farm's usual rotation had sweet peppers mid-season: an estimated 60% loss. The Storm-smart and Soil builder calendars had harvested earlier and had a cover crop holding the soil.",
+    { x: 0.5, y: 2.85, w: 4.35, h: 1.0, fontSize: 11.5, color: C.text1, valign: "top", margin: 0, isTextBox: true });
+  s.addText("Wind at the farm from NOAA tracks with a modified Rankine vortex: an exposure screen, not a forecast.", { x: 0.5, y: 3.9, w: 4.35, h: 0.45, fontSize: 9.5, italic: true, color: C.text2, margin: 0, isTextBox: true });
+  kicker(s, "CARONI PLAINS, TRINIDAD · THE SEASON AHEAD", 5.15, 1.12, 4.4, C.accent4);
+  pic(s, "enso.jpg", 5.15, 1.42, 4.35, 1600, 977, "enso screenshot");
+  s.addText("SMAP: driest of 4 Novembers on record (0.43 vs usual 0.51 m³/m³). MODIS: plants using 0.58 of the water they could.",
+    { x: 5.15, y: 4.2, w: 4.35, h: 0.6, fontSize: 10.5, color: C.text1, valign: "top", margin: 0, isTextBox: true });
+  s.addNotes("Two farms, two hazards. In Jamaica, replaying Melissa: the usual rotation loses about 60%; the storm-smart calendar loses almost nothing because the harvest is in and a cover crop holds the soil. In Trinidad, the risk is drought: El Niño years brought 64% of normal Dec-Feb rain, this year is a strong El Niño, SMAP has the driest November in its short record, and MODIS shows plants already short of water. So the advice is: bank water and favour drought-tolerant crops.");
 
   // ---------------- 7. Impact
   pres.addSection({ title: "Impact" });
-  s = pres.addSlide({ masterName: "DARK", sectionTitle: "Impact" });
-  s.addText("From two Caribbean farms to every storm coast", { x: 0.6, y: 0.45, w: 8.8, h: 0.7, fontSize: 30, bold: true, color: C.background1, margin: 0, isTextBox: true });
+  s = pres.addSlide({ masterName: "INK", sectionTitle: "Impact" });
+  s.addText("Ready before the storm, back faster after it", { x: 0.55, y: 0.4, w: 8.9, h: 0.7, fontSize: 28, bold: true, color: C.background1, fontFace: "Cambria", margin: 0, isTextBox: true });
   const cols = [
-    [I.leaf, "Local", ["Pilots in Jamaica and Trinidad with extension officers", "Works offline: text plan plus WhatsApp share", "IFRS rain tanks bank storm water for the dry season"]],
-    [I.globe, "Global", ["Any farm in the Atlantic basin today", "Next: IBTrACS for typhoons and cyclones (Philippines, Bangladesh, Pacific)", "Rice submergence guidance from PhilRice"]],
-    [I.check, "Validate", ["Crop vulnerability values reviewed with CARDI and the USDA Caribbean Climate Hub", "Ground sensors (IFRS-style JSON feed) to check SMAP", "Supports, never replaces, farmer judgment"]],
+    [I.seed, "Farmers", ["Plans that keep fragile stages out of the storm peak", "Phone alerts, printable almanac, WhatsApp, offline text", "English, Español, Français, Kreyòl"]],
+    [I.globe, "Region", ["Glut warning: stagger replanting after storms", "Parametric micro-insurance explained with the farm's own storm odds", "Advice that reaches farms an extension officer can't visit this week"]],
+    [I.check, "Next", ["Validate crop values with CARDI, RADA and extension officers", "Soil-probe network to check SMAP on the ground", "Typhoon and cyclone coasts via NOAA IBTrACS"]],
   ];
   cols.forEach(([ic, t, items], i) => {
-    const x = 0.6 + i * 3.0;
-    card(s, x, 1.45, 2.8, 3.05, "impact " + t, HEX.dk2);
-    circleIcon(s, ic, x + 0.2, 1.62, 0.5, [C.accent4, C.accent1, C.accent5][i], t);
-    s.addText(t, { x: x + 0.8, y: 1.67, w: 1.8, h: 0.4, fontSize: 18, bold: true, color: C.accent2, margin: 0, isTextBox: true });
+    const x = 0.55 + i * 3.0;
+    card(s, x, 1.35, 2.8, 3.15, "impact " + t, "2C3B4E");
+    s.addShape(pres.shapes.OVAL, { x: x + 0.2, y: 1.52, w: 0.5, h: 0.5, fill: { color: [HEX.accent3, HEX.accent4, HEX.accent1][i] }, line: { color: [HEX.accent3, HEX.accent4, HEX.accent1][i] }, objectName: t + " circle" });
+    s.addImage({ data: ic, x: x + 0.31, y: 1.63, w: 0.28, h: 0.28, objectName: t + " icon" });
+    s.addText(t, { x: x + 0.8, y: 1.57, w: 1.8, h: 0.4, fontSize: 18, bold: true, color: C.accent2, fontFace: "Cambria", margin: 0, isTextBox: true });
     s.addText(items.map((it, k) => ({ text: it, options: { bullet: true, breakLine: k < items.length - 1 } })),
-      { x: x + 0.2, y: 2.3, w: 2.45, h: 2.4, fontSize: 12, color: C.background1, paraSpaceAfter: 6, valign: "top", margin: 0, isTextBox: true });
+      { x: x + 0.2, y: 2.2, w: 2.45, h: 2.2, fontSize: 12, color: C.background1, paraSpaceAfter: 6, valign: "top", margin: 0, isTextBox: true });
   });
-  s.addText("Live app: [add Streamlit URL]   ·   Code: github.com/keydahknow/FarmFit", { x: 0.6, y: 4.8, w: 8.8, h: 0.3, fontSize: 12, color: "9FB3C8", margin: 0, isTextBox: true });
-  s.addNotes("Locally, we start with extension officers in Jamaica and Trinidad. The plan works offline and shares on WhatsApp. It links to our IFRS flood-resilience work, banking storm water for the dry season. Globally, the same engine extends to typhoon and cyclone basins with IBTrACS. Before anyone plants by it, the crop vulnerability values need local validation. The tool supports farmers; it never replaces their judgment.");
+  s.addText("Live app: [add Streamlit URL]   ·   Code: github.com/keydahknow/FarmFit   ·   Supports farmers' judgment; never replaces it.", { x: 0.55, y: 4.75, w: 8.9, h: 0.3, fontSize: 11, color: "BCD5E1", margin: 0, isTextBox: true });
+  s.addNotes("For farmers, the point is preparedness: the right crop in the ground before the storm, and a safe path back after it, in their language, on paper or on their phone. For the region, FarmFit warns about the glut that follows a storm and explains parametric insurance using the farm's own storm odds. Next we validate the crop values with CARDI and extension officers, ground-truth SMAP with cheap soil probes, and take the same engine to typhoon and cyclone coasts.");
 
-  await pres.writeFile({ fileName: "FarmFit_Hurricane_to_Harvest.pptx" });
-  await applyTheme("FarmFit_Hurricane_to_Harvest.pptx", THEME);
+  await pres.writeFile({ fileName: "../FarmFit_Hurricane_to_Harvest.pptx" });
+  await applyTheme("../FarmFit_Hurricane_to_Harvest.pptx", THEME);
   console.log("written");
 })();
