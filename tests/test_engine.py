@@ -114,12 +114,62 @@ def test_flood_contact_blocks_food_and_flags_contamination():
     assert "Pak Choi" not in stages[2]["crops"]
 
 
-def test_datarods_line_parser():
-    from fieldshift.earthdata import LINE
-    for line in ("2025-10-28T00:00:00\t1.25", "2025-10-28 00Z 1.25", "2025-10-28T00:30 1.25e0"):
-        m = LINE.match(line)
-        assert m and float(m.group(4)) == 1.25
-    assert LINE.match("Location: lat 18.05") is None
+def test_giovanni_timeseries_parser():
+    from fieldshift.earthdata import parse_timeseries
+    text = "\n".join([
+        "prod_name,GPM_3IMERGDF", "param_short_name,precipitation", "param_name,Daily mean precipitation",
+        "unit,mm/day", "lat,18.05", "lon,-77.75", "",
+        "Timestamp (UTC),Data",
+        "2025-10-27T00:00:00,12.5", "2025-10-28T00:00:00,210.25", "2025-10-29T00:00:00,-9999.9",
+    ])
+    headers, s = parse_timeseries(text)
+    assert headers["unit"] == "mm/day"
+    assert list(s.values) == [12.5, 210.25]  # fill value dropped
+    assert parse_timeseries("<html>error</html>")[1] is None
+
+
+def test_ibtracs_north_atlantic_is_not_read_as_missing():
+    import io
+    import pandas as pd
+    csv = "SID,SEASON,BASIN\n,Year,\nX1,2026,NA\nX2,2026,EP\n"
+    naive = pd.read_csv(io.StringIO(csv), skiprows=[1])
+    fixed = pd.read_csv(io.StringIO(csv), skiprows=[1], keep_default_na=False, na_values=["", " "])
+    assert (naive["BASIN"] == "NA").sum() == 0   # the bug
+    assert (fixed["BASIN"] == "NA").sum() == 1   # the fix
+
+
+def test_soilgrids_falls_back_to_wcs(tmp_path, monkeypatch):
+    import io
+    import numpy as np
+    import tifffile
+    from fieldshift import soil_terrain as st
+
+    monkeypatch.setattr(st, "CACHE_DIR", tmp_path)
+    raw = {"phh2o": 65, "soc": 150, "clay": 450, "sand": 250, "silt": 300, "nitrogen": 180, "bdod": 130}
+
+    class Resp:
+        def __init__(self, content):
+            self.content = content
+            self.text = ""
+
+        def raise_for_status(self):
+            pass
+
+    def fake_get(url, params=None, timeout=None):
+        if url == st.SOILGRIDS:
+            raise ConnectionError("REST paused")
+        prop = dict(params)["COVERAGEID"].split("_")[0]
+        grid = np.full((4, 4), raw[prop], dtype="int16")
+        grid[0, 0] = -32768  # nodata pixel
+        buf = io.BytesIO()
+        tifffile.imwrite(buf, grid)
+        return Resp(buf.getvalue())
+
+    monkeypatch.setattr(st.requests, "get", fake_get)
+    soil = st.get_soil(18.05, -77.72)
+    assert soil["origin"] == "live" and "WCS" in soil["source"]
+    assert soil["ph"] == 6.5 and soil["clay_pct"] == 45.0 and soil["bulk_density"] == 1.3
+    assert soil["texture"] == "Clay"
 
 
 def test_water_watch_percentiles_and_ordinals():

@@ -1,4 +1,4 @@
-"""NASA Earthdata access: GPM IMERG point rain (GES DISC data rods) and
+"""NASA Earthdata access: GPM IMERG point rain (Giovanni Time Series API) and
 SMAP soil moisture / MODIS NDVI point time series (LP DAAC AppEEARS).
 
 Both need a free NASA Earthdata Login (https://urs.earthdata.nasa.gov).
@@ -20,9 +20,16 @@ import requests
 
 URS_HOST = "urs.earthdata.nasa.gov"
 APPEEARS = "https://appeears.earthdatacloud.nasa.gov/api/"
-DATARODS = "https://hydro1.gesdisc.eosdis.nasa.gov/daac-bin/access/timeseries.cgi"
-# IMERG Final half-hourly V07 (mm/hr). Override if GES DISC renames it.
-IMERG_VARIABLE = os.environ.get("IMERG_DATAROD_VARIABLE", "GPM:GPM_3IMERGHH.07:precipitation")
+# GES DISC retired Hydrology Data Rods (Oct 2025); its replacement is the
+# "Giovanni in the Cloud" Time Series API, which takes an Earthdata bearer token.
+GIOVANNI_TS = "https://api.giovanni.earthdata.nasa.gov/timeseries"
+EDL_TOKEN = "https://urs.earthdata.nasa.gov/api/users/find_or_create_token"
+# Giovanni data ids: IMERG Final V07 daily (mm/day), then half-hourly (mm/hr).
+IMERG_DATA_IDS = [v for v in os.environ.get("IMERG_GIOVANNI_DATA", "").split(",") if v] or [
+    "GPM_3IMERGDF_07_precipitation",
+    "GPM_3IMERGHH_07_precipitation",
+]
+IMERG_START = pd.Timestamp("2000-06-01")  # first IMERG day
 
 
 def credentials():
@@ -55,46 +62,70 @@ class EarthdataSession(requests.Session):
 
 
 # ---------------------------------------------------------------------------
-# GPM IMERG via Hydrology Data Rods
+# GPM IMERG via the Giovanni Time Series API
 # ---------------------------------------------------------------------------
 
-LINE = re.compile(r"^(\d{4}-\d{2}-\d{2})[T ](\d{2})(?::?(\d{2}))?\S*\s+(-?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?)\s*$")
+ROW = re.compile(r"^(\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2})?)?)Z?\s*,\s*(-?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?)\s*$")
 
 
-def imerg_daily(lat, lon, start, end, timeout=90):
-    """Daily IMERG Final rain (mm/day) at a point. Returns (Series or None, info)."""
+def edl_token(timeout=60):
+    """An Earthdata Login bearer token (valid for weeks) from username + password."""
     creds = credentials()
     if not creds:
-        return None, {"error": "No Earthdata credentials"}
-    params = {
-        "variable": IMERG_VARIABLE,
-        "location": f"GEOM:POINT({lon:.4f}, {lat:.4f})",
-        "startDate": f"{pd.Timestamp(start):%Y-%m-%dT00}",
-        "endDate": f"{pd.Timestamp(end):%Y-%m-%dT23}",
-        "type": "asc2",
-    }
-    try:
-        with EarthdataSession(creds) as session:
-            response = session.get(DATARODS, params=params, timeout=timeout)
-            response.raise_for_status()
-            text = response.text
-    except Exception as error:  # noqa: BLE001
-        return None, {"error": str(error)}
+        raise RuntimeError("No Earthdata credentials")
+    r = requests.post(EDL_TOKEN, auth=creds, timeout=timeout)
+    r.raise_for_status()
+    return r.json()["access_token"]
 
-    rows = []
+
+def parse_timeseries(text):
+    """Giovanni CSV -> (header dict, Series). Header lines are 'key,value'."""
+    headers, rows = {}, []
     for line in text.splitlines():
-        m = LINE.match(line.strip())
+        line = line.strip()
+        m = ROW.match(line)
         if m:
-            day, hour, minute, value = m.groups()
-            v = float(value)
-            if v < 0:  # fill value
-                continue
-            rows.append((pd.Timestamp(f"{day} {hour}:{minute or '00'}"), v))
-    if not rows:
-        return None, {"error": "Data rods returned no values", "head": text[:300]}
-    s = pd.Series(dict(rows)).sort_index()
-    daily = (s * 0.5).resample("D").sum()  # half-hourly mm/hr -> mm per day
-    return daily.rename("imerg_mm"), {"source": response.url, "n": len(s)}
+            v = float(m.group(2))
+            if 0 <= v < 1e4:  # drop fill values
+                rows.append((pd.Timestamp(m.group(1)), v))
+        elif line.count(",") == 1 and not rows:
+            key, value = line.split(",")
+            headers[key.strip()] = value.strip()
+    series = pd.Series(dict(rows), dtype=float).sort_index() if rows else None
+    return headers, series
+
+
+def imerg_daily(lat, lon, start, end, timeout=120, token=None):
+    """Daily IMERG Final rain (mm/day) at a point. Returns (Series or None, info)."""
+    start, end = max(pd.Timestamp(start), IMERG_START), pd.Timestamp(end)
+    if start > end:
+        return None, {"error": "before IMERG starts (June 2000)"}
+    try:
+        token = token or edl_token()
+    except Exception as error:  # noqa: BLE001
+        return None, {"error": f"token: {error}"}
+    tried = []
+    for data_id in IMERG_DATA_IDS:
+        params = {"data": data_id, "location": f"[{lat:.4f},{lon:.4f}]",
+                  "time": f"{start:%Y-%m-%dT00:00:00}/{end:%Y-%m-%dT23:59:59}"}
+        try:
+            r = requests.get(GIOVANNI_TS, params=params, timeout=timeout,
+                             headers={"Authorization": f"Bearer {token}"})
+            text = r.text
+            r.raise_for_status()
+        except Exception as error:  # noqa: BLE001
+            tried.append(f"{data_id}: {str(error)[:120]}")
+            continue
+        headers, s = parse_timeseries(text)
+        if s is None:
+            tried.append(f"{data_id}: no rows ({text[:120]!r})")
+            continue
+        unit = headers.get("unit", "").lower()
+        if "hr" in unit or "HH" in data_id:
+            s = s * 0.5  # half-hourly mm/hr -> mm per half hour
+        daily = s.resample("D").sum()
+        return daily.rename("imerg_mm"), {"source": data_id, "unit": unit, "n": len(s)}
+    return None, {"error": "; ".join(tried)}
 
 
 # ---------------------------------------------------------------------------
