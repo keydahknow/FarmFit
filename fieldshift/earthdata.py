@@ -147,12 +147,22 @@ def parse_opendap_value(text):
     return None
 
 
-def imerg_day(session, lat, lon, day, run):
+def imerg_day(session, lat, lon, day, run, attempts=4):
     collection, name = IMERG_RUNS[run]
     i, j = imerg_cell(lat, lon)
     url = (f"{OPENDAP}/{collection}/{day:%Y}/{day:%m}/{name.format(d=day)}.ascii"
            f"?precipitation[0:0][{i}:{i}][{j}:{j}]")
-    r = session.get(url, timeout=60)
+    for k in range(attempts):  # GES DISC answers 503 / drops connections when busy: back off and retry
+        try:
+            r = session.get(url, timeout=60)
+            if r.status_code in (429, 500, 502, 503, 504) and k < attempts - 1:
+                time.sleep(2 * (k + 1) ** 2)
+                continue
+            break
+        except requests.exceptions.ConnectionError:
+            if k == attempts - 1:
+                raise
+            time.sleep(2 * (k + 1) ** 2)
     if r.status_code == 404:
         return None, "missing"
     r.raise_for_status()
@@ -162,7 +172,7 @@ def imerg_day(session, lat, lon, day, run):
     return (v if v >= 0 else None), run
 
 
-def imerg_daily(lat, lon, start, end, token=None, workers=8):
+def imerg_daily(lat, lon, start, end, token=None, workers=3):
     """Daily IMERG rain (mm/day) at a point: Final where it exists, else Late.
     Returns (Series or None, info)."""
     from concurrent.futures import ThreadPoolExecutor
