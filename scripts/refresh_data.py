@@ -20,6 +20,7 @@ dataset was last refreshed. Each source fails independently.
 import argparse
 import json
 import sys
+import time
 import traceback
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -109,20 +110,54 @@ def refresh_imerg(farms, manifest):
 
 
 def refresh_appeears(farms, manifest, max_wait_s):
+    """SMAP + NDVI via AppEEARS without long waits.
+
+    A task submitted in one run is collected in a later run (AppEEARS can queue
+    requests for a long time). The pending task id lives in the manifest.
+    """
+    name = "SMAP + MODIS NDVI (AppEEARS)"
     if not earthdata.credentials():
-        record(manifest, "SMAP + MODIS NDVI (AppEEARS)", "skipped", reason="no Earthdata credentials")
+        record(manifest, name, "skipped", reason="no Earthdata credentials")
         return
+    pending = manifest.get("appeears_pending")
     try:
-        df = earthdata.appeears_points(
+        if pending:
+            status = earthdata.task_status(pending["task_id"])
+            print(f"AppEEARS pending task {pending['task_id']}: {status}")
+            if status == "done":
+                df = earthdata.download_points(pending["task_id"], pending["layers"])
+                df.to_csv(CACHE / "appeears_points.csv", index=False)
+                manifest.pop("appeears_pending", None)
+                record(manifest, name, "ok", rows=len(df), products=sorted(df["product"].unique().tolist()))
+                return
+            if status in ("error", "expired"):
+                manifest.pop("appeears_pending", None)
+            else:
+                prev = manifest["datasets"].get(name, {})
+                manifest["datasets"][name] = {**prev, "pending": pending["task_id"], "pending_status": status}
+                print("Still processing; will collect on the next run.")
+                return
+        task_id, layers = earthdata.submit_points(
             [{"id": f["id"], "lat": f["lat"], "lon": f["lon"]} for f in farms],
-            start=date.today() - timedelta(days=3 * 365), end=date.today(), max_wait_s=max_wait_s,
-        )
-        df.to_csv(CACHE / "appeears_points.csv", index=False)
-        record(manifest, "SMAP + MODIS NDVI (AppEEARS)", "ok", rows=len(df),
-               products=sorted(df["product"].unique().tolist()))
+            start=date.today() - timedelta(days=3 * 365), end=date.today())
+        manifest["appeears_pending"] = {"task_id": task_id, "layers": layers, "submitted": now()}
+        waited = 0
+        while waited < max_wait_s:  # short wait: small requests often finish quickly
+            time.sleep(30)
+            waited += 30
+            status = earthdata.task_status(task_id)
+            if status == "done":
+                df = earthdata.download_points(task_id, layers)
+                df.to_csv(CACHE / "appeears_points.csv", index=False)
+                manifest.pop("appeears_pending", None)
+                record(manifest, name, "ok", rows=len(df), products=sorted(df["product"].unique().tolist()))
+                return
+        prev = manifest["datasets"].get(name, {})
+        manifest["datasets"][name] = {**prev, "pending": task_id}
+        print(f"AppEEARS task {task_id} submitted; it will be collected on the next run.")
     except Exception as error:  # noqa: BLE001
         traceback.print_exc()
-        record(manifest, "SMAP + MODIS NDVI (AppEEARS)", "failed", error=str(error)[:300])
+        record(manifest, name, "failed", error=str(error)[:300])
 
 
 def refresh_ibtracs(manifest):
@@ -156,7 +191,7 @@ def refresh_ibtracs(manifest):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--quick", action="store_true", help="skip the AppEEARS task")
-    parser.add_argument("--appeears-wait", type=int, default=2700, help="max seconds to wait for AppEEARS")
+    parser.add_argument("--appeears-wait", type=int, default=480, help="seconds to wait before leaving the AppEEARS task for the next run")
     args = parser.parse_args()
 
     CACHE.mkdir(parents=True, exist_ok=True)
