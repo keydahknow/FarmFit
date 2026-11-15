@@ -342,3 +342,15 @@ def test_market_index_from_wide_table():
     plan = __import__("fieldshift.planner", fromlist=["x"]).Plan("x", [__import__("fieldshift.planner", fromlist=["x"]).Planting("Tomato", 9, 4)])
     mk = market.plan_market(plan, market.tidy(wide))
     assert mk[0]["harvest"] == 12 and mk[0]["best"] == 12
+
+
+def test_satellite_series_with_text_dates_and_few_years():
+    import pandas as pd
+    from fieldshift import water
+    idx = [d.strftime("%Y-%m-%d") for d in pd.date_range("2023-11-01", "2026-11-12", freq="3D")]
+    sm = pd.Series([0.5] * len(idx), index=idx)
+    sm.iloc[-4:] = 0.3
+    out = water.smap_anomaly(sm)
+    assert out["percentile"] is None and out["rank_text"].startswith("driest of 4")
+    et = pd.Series(20.0, index=[d.strftime("%Y-%m-%d") for d in pd.date_range("2024-01-01", periods=60, freq="8D")])
+    assert water.crop_stress(et, et * 2)["ratio"] == 0.5

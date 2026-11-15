@@ -107,7 +107,8 @@ def satellite_pulse(farm_id):
     out = {}
     path = CACHE_DIR / "appeears_points.csv"
     if farm_id and path.exists():
-        df = pd.read_csv(path, parse_dates=["date"])
+        df = pd.read_csv(path)
+        df["date"] = pd.to_datetime(df["date"], format="mixed")
         df = df[df["id"] == farm_id]
         for key, pattern in (("smap", "AM_soil_moisture"), ("rootzone", "sm_rootzone$"), ("ndvi", "NDVI"),
                              ("et", r"(?:^|_)ET_500m$"), ("pet", "PET_500m")):
@@ -116,7 +117,9 @@ def satellite_pulse(farm_id):
                 out[key] = part.set_index("date")["value"].sort_index()
     ip = CACHE_DIR / f"imerg_{farm_id}.csv"
     if farm_id and ip.exists():
-        out["imerg"] = pd.read_csv(ip, parse_dates=["date"]).set_index("date")["imerg_mm"]
+        im = pd.read_csv(ip)
+        im["date"] = pd.to_datetime(im["date"], format="mixed")
+        out["imerg"] = im.set_index("date")["imerg_mm"].sort_index()
     return out
 
 
@@ -708,6 +711,8 @@ def render_water(bundle):
         sub = f"m³/m³ on {smap_now['date']:%d %b}"
         if smap_now.get("percentile") is not None:
             sub += f" · {water.ordinal(smap_now['percentile'])} percentile for the month"
+        elif smap_now.get("rank_text"):
+            sub += f" · {smap_now['rank_text']} (usual {smap_now['normal']:.2f})"
         items.append(("NASA SMAP soil moisture", f"{smap_now['value']:.2f}", sub, None))
     if root_now:
         sub = f"m³/m³, top 1 m, week to {root_now['date']:%d %b}"
@@ -838,14 +843,34 @@ def render_season_ahead(bundle):
                       if now["phase"] == wetter else "the signal is neutral.")))
     st.caption(verdict + f" Normal {win} rain here is {o['normal_mm']:.0f} mm (NASA POWER). "
                "These are tendencies from about 30 years, not a forecast.")
+    st.markdown(enso_svg(o, win), unsafe_allow_html=True)
+
+
+def enso_svg(o, win):
+    """One dot per year: the Pacific before the season (x) and rain at this farm (y)."""
     d = o["years"]
-    st.altair_chart(alt.Chart(d).mark_circle(size=70, opacity=.85).encode(
-        x=alt.X("oni:Q", title="ENSO index (ONI, °C) before the season"),
-        y=alt.Y("pct_normal:Q", title=f"{win} rain, % of normal"),
-        color=alt.Color("phase:N", title=None, scale=alt.Scale(domain=["El Niño", "Neutral", "La Niña"],
-                                                              range=[art.TERRA, "#9aa3ad", art.SEA])),
-        tooltip=["year", alt.Tooltip("oni:Q", format="+.1f"), alt.Tooltip("pct_normal:Q", format=".0f")],
-    ).properties(height=200), use_container_width=True)
+    W, H, l, r, top, b = 900, 250, 56, 16, 18, 42
+    xmin, xmax = min(-2.0, d["oni"].min()), max(2.5, d["oni"].max())
+    ymax = max(200.0, d["pct_normal"].max() * 1.05)
+    X = lambda v: l + (v - xmin) / (xmax - xmin) * (W - l - r)
+    Y = lambda v: top + (1 - v / ymax) * (H - top - b)
+    col = {"El Niño": art.TERRA, "Neutral": "#9aa3ad", "La Niña": art.SEA}
+    grid = "".join(f'<line x1="{l}" x2="{W - r}" y1="{Y(v):.1f}" y2="{Y(v):.1f}" stroke="rgba(31,43,58,{.35 if v == 100 else .1})" '
+                   f'stroke-dasharray="{"4 3" if v == 100 else ""}"/><text x="{l - 8}" y="{Y(v) + 4:.1f}" text-anchor="end">{v}%</text>'
+                   for v in range(0, int(ymax) + 1, 50))
+    xt = "".join(f'<text x="{X(v):.1f}" y="{H - b + 18}" text-anchor="middle">{v:+.1f}</text>' for v in (-2, -1, 0, 1, 2))
+    bands = (f'<rect x="{X(0.5):.1f}" y="{top}" width="{X(xmax) - X(0.5):.1f}" height="{H - top - b}" fill="{art.TERRA}" opacity=".06"/>'
+             f'<rect x="{X(xmin):.1f}" y="{top}" width="{X(-0.5) - X(xmin):.1f}" height="{H - top - b}" fill="{art.SEA}" opacity=".06"/>')
+    dots = "".join(f'<circle cx="{X(row.oni):.1f}" cy="{Y(row.pct_normal):.1f}" r="7" fill="{col[row.phase]}" opacity=".9">'
+                   f'<title>{row.year}: ONI {row.oni:+.1f}, {win} rain {row.pct_normal:.0f}% of normal</title></circle>' for row in d.itertuples())
+    now = o["now"]["anom"]
+    marker = (f'<line x1="{X(now):.1f}" x2="{X(now):.1f}" y1="{top}" y2="{H - b}" stroke="{art.INK}" stroke-width="2" stroke-dasharray="5 4"/>'
+              f'<text x="{X(now) - 6:.1f}" y="{top + 12}" text-anchor="end" style="font-weight:600;fill:{art.INK}">this year</text>'
+              if xmin <= now <= xmax else "")
+    return (f'<svg viewBox="0 0 {W} {H}" style="width:100%;height:auto;font:11px InterVar,sans-serif;fill:{art.INK2}" '
+            f'xmlns="http://www.w3.org/2000/svg">{bands}{grid}{xt}{marker}{dots}'
+            f'<text x="{(W + l) / 2}" y="{H - 6}" text-anchor="middle">Pacific before the season (ONI, °C): La Niña ← · → El Niño</text>'
+            f'<text x="{l}" y="{top - 4}" style="font-weight:600;fill:{art.INK}">{win} rain at this farm, % of normal · one dot per year since 1996</text></svg>')
 
 
 def render_water_bank(bundle, site, crops, current, plans):

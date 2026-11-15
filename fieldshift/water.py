@@ -122,20 +122,34 @@ def dry_spell(recent):
     return days
 
 
+def _dated(series):
+    """Same values with a sorted DatetimeIndex (cached files can carry dates as text)."""
+    s = series.copy()
+    s.index = pd.to_datetime(s.index, format="mixed")
+    return s.groupby(level=0).mean().sort_index()
+
+
 def smap_anomaly(series):
     """Latest SMAP value vs the same month in earlier years of the cached record."""
     if series is None or len(series) < 30:
         return None
-    s = series.dropna()
+    s = _dated(series).dropna()
     latest_date = s.index.max()
     latest = float(s.loc[latest_date - pd.Timedelta(days=6):].mean())
     same = s[(s.index.month == latest_date.month) & (s.index.year < latest_date.year)]
     if len(same) < 5:
         return {"value": latest, "date": latest_date, "percentile": None}
-    pct = percentile_rank(latest, same.groupby(same.index.year).mean().to_numpy())
+    yearly = same.groupby(same.index.year).mean()
+    rank = int((yearly.to_numpy() < latest).sum()) + 1  # 1 = driest
+    out = {"value": latest, "date": latest_date, "normal": float(same.median()), "years": len(yearly) + 1,
+           "rank_text": f"{'driest' if rank == 1 else ordinal(rank) + ' driest'} of {len(yearly) + 1} {latest_date:%B}s on record"}
+    if len(yearly) < 5:  # too few years for a percentile
+        out.update({"percentile": None})
+        return out
+    pct = percentile_rank(latest, yearly.to_numpy())
     label, key = classify(pct) if pct is not None else (None, None)
-    return {"value": latest, "date": latest_date, "percentile": pct, "label": label, "key": key,
-            "normal": float(same.median())}
+    out.update({"percentile": pct, "label": label, "key": key})
+    return out
 
 
 def forecast(lat, lon, timeout=15):
@@ -212,7 +226,7 @@ def crop_stress(et, pet):
     ~1 = plants transpire freely; below ~0.5 = water-limited."""
     if et is None or pet is None:
         return None
-    d = pd.concat({"et": et, "pet": pet}, axis=1).dropna()
+    d = pd.concat({"et": _dated(et), "pet": _dated(pet)}, axis=1).dropna()
     d = d[d["pet"] > 1]
     if len(d) < 6:
         return None
@@ -231,7 +245,7 @@ def rootzone_status(series, lookback=30):
     """Latest week of SMAP L4 root-zone moisture and its change over `lookback` days."""
     if series is None or len(series.dropna()) < 10:
         return None
-    s = series.dropna()
+    s = _dated(series).dropna()
     end = s.index.max()
     now = float(s.loc[end - pd.Timedelta(days=6):].mean())
     before = s.loc[end - pd.Timedelta(days=lookback + 6): end - pd.Timedelta(days=lookback)]
