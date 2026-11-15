@@ -69,6 +69,8 @@ def setup_page():
     ss.setdefault("fs_wet_field", FARMS["jamaica"]["wet_field"])
     ss.setdefault("fs_irrigation", FARMS["jamaica"]["irrigation"])
     ss.setdefault("fs_priority", "Survive storms")
+    if "fs_lang" not in ss and st.query_params.get("lang") in LANGS:
+        ss.fs_lang = st.query_params.get("lang")
     ss.setdefault("fs_lang", "en")
     ss.setdefault("fs_chat", [])
 
