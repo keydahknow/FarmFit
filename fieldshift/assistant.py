@@ -57,16 +57,23 @@ def model_candidates(api_key, preferred=None, ttl=6 * 3600):
     return list(dict.fromkeys(out))
 
 
-def generate(api_key, body, preferred=None, timeout=60):
-    """POST to Gemini, trying models in order; one short retry when a model is busy (503/429).
-    Returns (response_json, model) or raises RuntimeError with every error."""
+def generate(api_key, body, preferred=None, timeout=60, budget=45):
+    """POST to Gemini, trying models in order, within an overall time budget (seconds).
+    One short retry when a model is busy (429/503). Returns (response_json, model);
+    raises RuntimeError listing every error."""
     errors = []
+    deadline = time.time() + budget
     for name in model_candidates(api_key, preferred):
         for attempt in range(2):
+            left = deadline - time.time()
+            if left < 4:
+                errors.append("stopped: Gemini is slow or busy right now, please try again in a minute")
+                raise RuntimeError(" | ".join(errors))
             try:
-                r = requests.post(GEMINI_URL.format(model=name), params={"key": api_key}, json=body, timeout=timeout)
-                if r.status_code in (429, 503) and attempt == 0:
-                    time.sleep(2)
+                r = requests.post(GEMINI_URL.format(model=name), params={"key": api_key}, json=body,
+                                  timeout=(5, min(timeout, left)))
+                if r.status_code in (429, 503) and attempt == 0 and left > 15:
+                    time.sleep(1.5)
                     continue
                 r.raise_for_status()
                 return r.json(), name
@@ -75,6 +82,7 @@ def generate(api_key, body, preferred=None, timeout=60):
                 errors.append(f"{name}: {msg[:90]}")
                 break
     raise RuntimeError(" | ".join(errors) or "no models available")
+
 
 LANG_NAMES = {"en": "English", "es": "Spanish", "fr": "French", "ht": "Haitian Creole (Kreyòl ayisyen)"}
 
@@ -124,7 +132,7 @@ def ask(api_key, history, question, briefing, lang="en", model=None, timeout=60)
     body = {
         "system_instruction": {"parts": [{"text": RULES.format(language=LANG_NAMES.get(lang, "English")) + "\n\n" + briefing}]},
         "contents": contents,
-        "generationConfig": {"temperature": 0.3, "maxOutputTokens": 900},
+        "generationConfig": {"temperature": 0.3, "maxOutputTokens": 2048},
     }
     try:
         data, name = generate(api_key, body, preferred=model, timeout=timeout)
