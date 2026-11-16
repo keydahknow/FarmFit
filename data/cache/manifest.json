@@ -1,34 +1,34 @@
 {
   "datasets": {
     "NASA POWER": {
-      "updated": "2026-11-15T20:46:35+00:00",
+      "updated": "2026-11-16T00:34:36+00:00",
       "status": "ok",
       "farms": 2,
       "period": "1996-2025 + last 45 days"
     },
     "ISRIC SoilGrids": {
-      "updated": "2026-11-15T20:46:35+00:00",
+      "updated": "2026-11-16T00:34:36+00:00",
       "status": "ok",
       "farms": 2,
       "errors": []
     },
     "NASA SRTM": {
-      "updated": "2026-11-15T20:46:35+00:00",
+      "updated": "2026-11-16T00:34:36+00:00",
       "status": "ok",
       "farms": 2
     },
     "GPM IMERG": {
-      "updated": "2026-11-15T20:54:47+00:00",
+      "updated": "2026-11-16T00:50:42+00:00",
       "status": "partial",
       "farms": 1,
       "note": "IMERG V07 daily: Final (gauge-adjusted) where available, else Late (~1 day behind)",
       "errors": [
-        "jamaica 2026-07-18..2026-11-14: OPeNDAP: no values (2026-07-19 late: 503 Server Error: Service Unavailable for url: https://gpm1.gesdisc.eosdis.nasa.gov/opendap/GPM_L3/GPM_3IMERGDL.07/2026/07/3B-DAY-L.MS.MRG.3IMERG.20260719-S0000) || Giovanni: GPM_3IMERGDF_07_precipitation: HTTP 404 'Data, GPM_3IMERGDF_07_precipitation, was not found for the requested time range 2026-07-18T00:00:00/2026-11-14T23:59:59.'; GPM_3IMERGHH_07_precipitation: HTTP 404 'Data, GPM_3IMERGHH_07_precipitation, was not found for the requested time range 2026-07-18T00:00:00/2026-11-14T23:59:59.'",
-        "trinidad 2026-07-18..2026-11-14: OPeNDAP: 2026-07-18 late: HTTPSConnectionPool(host='gpm1.gesdisc.eosdis.nasa.gov', port=443): Max retries exceeded with url: /data-redirect?code=_m7j6AuCd0Hi9f84B8VKIBF5rQTile0Xoxq_u4NI8 || Giovanni: GPM_3IMERGDF_07_precipitation: HTTP 404 'Data, GPM_3IMERGDF_07_precipitation, was not found for the requested time range 2026-07-18T00:00:00/2026-11-14T23:59:59.'; GPM_3IMERGHH_07_precipitation: HTTP 404 'Data, GPM_3IMERGHH_07_precipitation, was not found for the requested time range 2026-07-18T00:00:00/2026-11-14T23:59:59.'"
+        "jamaica 2026-07-19..2026-11-15: OPeNDAP: no values || Giovanni: GPM_3IMERGDF_07_precipitation: HTTP 404 'Data, GPM_3IMERGDF_07_precipitation, was not found for the requested time range 2026-07-19T00:00:00/2026-11-15T23:59:59.'; GPM_3IMERGHH_07_precipitation: HTTP 404 'Data, GPM_3IMERGHH_07_precipitation, was not found for the requested time range 2026-07-19T00:00:00/2026-11-15T23:59:59.'",
+        "trinidad 2026-07-19..2026-11-15: OPeNDAP: 2026-07-19 late: HTTPSConnectionPool(host='gpm1.gesdisc.eosdis.nasa.gov', port=443): Max retries exceeded with url: /opendap/GPM_L3/GPM_3IMERGDL.07/2026/07/3B-DAY-L.MS.MRG.3IMER || Giovanni: GPM_3IMERGDF_07_precipitation: HTTP 404 'Data, GPM_3IMERGDF_07_precipitation, was not found for the requested time range 2026-07-19T00:00:00/2026-11-15T23:59:59.'; GPM_3IMERGHH_07_precipitation: HTTP 404 'Data, GPM_3IMERGHH_07_precipitation, was not found for the requested time range 2026-07-19T00:00:00/2026-11-15T23:59:59.'"
       ]
     },
     "NOAA IBTrACS (current season)": {
-      "updated": "2026-11-15T21:03:26+00:00",
+      "updated": "2026-11-16T00:51:22+00:00",
       "status": "ok",
       "storms": 8,
       "seasons_after": 2025,
@@ -47,7 +47,7 @@
       "atlantic_new": 458
     },
     "NASA AppEEARS (SMAP, MODIS NDVI + ET)": {
-      "updated": "2026-11-15T21:03:25+00:00",
+      "updated": "2026-11-16T00:51:21+00:00",
       "status": "partial",
       "groups": {
         "core": {
@@ -71,38 +71,30 @@
           "latest": "2026-10-24"
         },
         "rootzone": {
-          "status": "pending",
-          "task_status": "submitted"
+          "status": "failed",
+          "task_status": "submitted",
+          "error": "Mixed timezones detected. Pass utc=True in to_datetime or tz='UTC' in DatetimeIndex to convert to a common timezone."
         }
       },
-      "pending": [
-        "rootzone"
-      ]
+      "pending": []
     },
     "NOAA ENSO (ONI)": {
-      "updated": "2026-11-15T21:03:26+00:00",
+      "updated": "2026-11-16T00:51:22+00:00",
       "status": "ok",
       "latest": "ASO 2026",
       "anomaly": 2.46,
       "phase": "El Ni\u00f1o"
+    },
+    "NAMDEVCO wholesale prices": {
+      "updated": "2026-11-16T00:51:23+00:00",
+      "status": "failed",
+      "error": "HTTPSConnectionPool(host='data.gov.tt', port=443): Max retries exceeded with url: /api/3/action/package_search?q=namdevco+wholesale+prices&rows=30 (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1018)')))"
     }
   },
   "farms": [
     "jamaica",
     "trinidad"
   ],
-  "generated": "2026-11-15T21:03:26+00:00",
-  "appeears_tasks": {
-    "rootzone": {
-      "task_id": "375d80da-1ec1-4d59-a4a1-f13dba6ef8ef",
-      "layers": [
-        {
-          "product": "SPL4SMGP.008",
-          "layer": "Geophysical_Data_sm_rootzone"
-        }
-      ],
-      "submitted": "2026-11-15T20:55:00+00:00",
-      "state": "pending"
-    }
-  }
+  "generated": "2026-11-16T00:51:23+00:00",
+  "appeears_tasks": {}
 }
