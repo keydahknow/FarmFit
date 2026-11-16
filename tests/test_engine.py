@@ -354,3 +354,55 @@ def test_satellite_series_with_text_dates_and_few_years():
     assert out["percentile"] is None and out["rank_text"].startswith("driest of 4")
     et = pd.Series(20.0, index=[d.strftime("%Y-%m-%d") for d in pd.date_range("2024-01-01", periods=60, freq="8D")])
     assert water.crop_stress(et, et * 2)["ratio"] == 0.5
+
+
+def test_profile_link_round_trip_and_rotation():
+    from fieldshift import planner, profile
+    p = profile.new("farm")
+    p.update({"name": "Test", "lat": 10.6, "lon": -61.38, "crops": ["Corn", "Tomato"], "water": profile.WATER[1],
+              "soil_type": profile.SOIL_TYPES[1], "ph": 5.8})
+    back = profile.decode(profile.encode(p))
+    assert back["lat"] == 10.6 and back["crops"] == ["Corn", "Tomato"] and back["ph"] == 5.8
+    assert profile.decode("not-a-profile") is None
+    assert profile.irrigation(p) == "Limited irrigation"
+    assert profile.soil_override(p) == {"ph": 5.8, "drainage": "Slow"}
+    rows = profile.rotation_from_crops(["Corn", "Tomato"], 11, planner.load_crops())
+    assert rows[0][0] == "Corn" and rows[0][1] == 11 and rows[1][1] == (11 - 1 + rows[0][2]) % 12 + 1
+
+
+def test_community_reports_are_blurred_unverified_and_clustered(tmp_path, monkeypatch):
+    from datetime import datetime, timezone
+    from fieldshift import community
+    monkeypatch.setattr(community, "DIR", tmp_path)
+    r = community.add(10.6123, -61.3876, "insects", "high", "armyworm in corn", crop="Corn")
+    assert r["status"] == "unverified"
+    assert (r["lat"], r["lon"]) != (10.6123, -61.3876)
+    assert abs(r["lat"] - 10.6123) <= community.GRID and abs(r["lon"] + 61.3876) <= community.GRID
+    for _ in range(2):
+        community.add(10.62, -61.39, "insects", "medium", "more armyworm")
+    community.update(r["id"], status="verified", guidance="Scout twice a week")
+    rs = community.load()
+    assert any(x["status"] == "verified" and x["guidance"] for x in rs)
+    near = community.nearby(rs, 10.6, -61.38, km=10)
+    assert len(near) == 3 and near[0]["km"] < 10
+    hs = community.hotspots(rs)
+    assert hs and hs[0]["category"] == "insects" and hs[0]["count"] == 3
+    assert all(x["simulated"] for x in community.example_reports(10.6, -61.38))
+
+
+def test_restoration_only_suggests_rice_where_it_can_grow():
+    from fieldshift import restore
+    caroni = restore.field_facts({"clay_pct": 49, "drainage": "Very slow"}, {"slope_pct": 0.8}, "No irrigation", True)
+    dry_slope = restore.field_facts({"clay_pct": 20, "drainage": "Moderate"}, {"slope_pct": 9}, "No irrigation", False)
+    rice = lambda f: next(r for r in restore.recommend("waterlogged", f) if r["name"] == "Rice")
+    assert rice(caroni)["suits"] is True
+    assert rice(dry_slope)["suits"] is False and rice(dry_slope)["caveat"]
+    assert "Rice is also" in restore.CONDITIONS["salt"]["avoid"]
+
+
+def test_news_rss_parser():
+    from fieldshift import news
+    xml = """<rss><channel><item><title>Farmers count losses - Newsday</title><link>https://example.org/a</link>
+    <source>Newsday</source><pubDate>Sat, 14 Nov 2026 10:00:00 GMT</pubDate></item></channel></rss>"""
+    items = news.parse_rss(xml)
+    assert items == [{"title": "Farmers count losses", "link": "https://example.org/a", "source": "Newsday", "date": "2026-11-14"}]
