@@ -46,6 +46,10 @@ FARMS = {
     },
 }
 CUSTOM = "custom"
+# Small drawn storm marker (replaces the cyclone emoji on calendars)
+STORM_DOT = ('<svg width="11" height="11" viewBox="0 0 12 12" style="vertical-align:-1px;margin-right:3px">'
+             '<path d="M6 1.5a4.5 4.5 0 1 0 4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>'
+             '<circle cx="6" cy="6" r="1.6" fill="currentColor"/></svg>')
 
 GIBS = "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/{layer}/default/{date}/GoogleMapsCompatible_Level{level}/{{z}}/{{y}}/{{x}}.{ext}"
 GIBS_LAYERS = [
@@ -454,7 +458,7 @@ def _segment_style(row):
 
 def calendar_html(plans, site, crops, storm_month=None, storm_label=None, risk=True):
     head = '<div></div>' + "".join(
-        f'<div class="mh{" hit" if storm_month == i + 1 else ""}">{"🌀 " if storm_month == i + 1 else ""}{mname(i + 1, L())}</div>'
+        f'<div class="mh{" hit" if storm_month == i + 1 else ""}">{STORM_DOT if storm_month == i + 1 else ""}{mname(i + 1, L())}</div>'
         for i in range(12))
     rows = [head]
     if risk:
@@ -498,7 +502,7 @@ def calendar_html(plans, site, crops, storm_month=None, storm_label=None, risk=T
            f'<span><b style="border-style:dashed;background:transparent"></b>bare soil</span>'
            f'<span><b style="background:{legume}"></b>legume</span>'
            f'<span><b style="background:{cover}"></b>cover crop</span>'
-           + (f'<span>🌀 {storm_label}</span>' if storm_label else "") + '</div>')
+           + (f'<span>{STORM_DOT}{storm_label}</span>' if storm_label else "") + '</div>')
     return '<div class="al-cal">' + "".join(rows) + "</div>" + key
 
 
@@ -1303,43 +1307,50 @@ def farm_briefing(bundle):
 
 
 def render_ask(bundle):
+    """Ask FarmFit: a compact chat that lives in the floating panel on every page."""
     ss = st.session_state
     lg = L()
-    st.markdown(art.section("plan", t("Ask FarmFit", lg),
-                            t("Ask anything about your farm, in your language. Answers draw on this farm's NASA climate record, storm history, rotations and water status.", lg)),
-                unsafe_allow_html=True)
     key = secret("GEMINI_API_KEY")
-    if not key:
-        st.info("The assistant needs a Gemini API key in the app's secrets (GEMINI_API_KEY).")
     farm_key = f"{bundle['lat']:.3f},{bundle['lon']:.3f}"
     if ss.get("fs_chat_farm") != farm_key:
         ss.fs_chat, ss.fs_chat_farm = [], farm_key
-    for turn in ss.fs_chat:
-        with st.chat_message("user" if turn["role"] == "user" else "assistant", avatar="🧑🏾‍🌾" if turn["role"] == "user" else "🌱"):
-            st.markdown(turn["content"])
+    title = t("Ask FarmFit", lg)
+    sub = t("Answers use this farm’s NASA climate record, storm history and water status. Check big decisions with your extension officer.", lg)
+    st.markdown(f'<div class="fs-ask-head"><div class="t">{title}</div><div class="s">{sub}</div></div>',
+                unsafe_allow_html=True)
+    if not key:
+        st.caption("The assistant is not switched on yet: the app needs a Gemini API key in its secrets.")
+    box = st.container(height=330, border=False, key="fs_ask_log")
     question = None
-    if not ss.fs_chat:
-        st.caption(t("Try asking", lg))
-        cols = st.columns(3)
-        for col, q in zip(cols, assistant.SUGGESTED.get(lg, assistant.SUGGESTED["en"])):
-            if col.button(q, use_container_width=True, key=f"sugg_{hash(q)}"):
-                question = q
-    typed = st.chat_input(t("Ask a question about your farm…", lg), disabled=not key)
+    with box:
+        for turn in ss.fs_chat:
+            with st.chat_message(turn["role"], avatar=":material/person:" if turn["role"] == "user" else ":material/eco:"):
+                st.markdown(turn["content"])
+        if not ss.fs_chat:
+            st.caption(t("Try asking", lg))
+            for q in assistant.SUGGESTED.get(lg, assistant.SUGGESTED["en"]):
+                if st.button(q, use_container_width=True, key=f"sugg_{abs(hash(q))}", disabled=not key):
+                    question = q
+    typed = st.chat_input(t("Ask a question about your farm…", lg), disabled=not key, key="fs_ask_input")
     question = typed or question
     if question and key:
-        with st.chat_message("user", avatar="🧑🏾‍🌾"):
-            st.markdown(question)
-        with st.chat_message("assistant", avatar="🌱"):
-            with st.spinner("…"):
-                briefing = farm_briefing(bundle)
-                answer, info = assistant.ask(key, ss.fs_chat, question, briefing, lang=lg, model=secret("GEMINI_MODEL"))
-            if answer:
-                st.markdown(answer)
-                ss.fs_chat += [{"role": "user", "content": question}, {"role": "assistant", "content": answer}]
-            else:
-                st.error(f"The assistant is unavailable right now ({info.get('error')}).")
-    with st.expander("What the assistant knows about this farm"):
+        with box:
+            with st.chat_message("user", avatar=":material/person:"):
+                st.markdown(question)
+            with st.chat_message("assistant", avatar=":material/eco:"):
+                with st.spinner("Thinking…"):
+                    answer, info = assistant.ask(key, ss.fs_chat, question, farm_briefing(bundle), lang=lg, model=secret("GEMINI_MODEL"))
+                if not answer:
+                    st.error(f"The assistant is unavailable right now ({info.get('error')}).")
+        if answer:
+            ss.fs_chat += [{"role": "user", "content": question}, {"role": "assistant", "content": answer}]
+            st.rerun(scope="fragment")  # redraw without the starter questions
+    c1, c2 = st.columns(2)
+    with c1.popover("What it knows", use_container_width=True):
         st.code(farm_briefing(bundle), language=None)
+    if c2.button("Clear chat", use_container_width=True, disabled=not ss.fs_chat, key="fs_ask_clear"):
+        ss.fs_chat = []
+        st.rerun(scope="fragment")
 
 
 def render_ground_truth(bundle):

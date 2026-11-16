@@ -8,10 +8,73 @@ extension officers and official warnings, follow FDA flood food-safety
 guidance, and answer in the farmer's language.
 """
 
+import re
+import time
+
 import requests
 
 GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
-MODELS = ["gemini-2.5-flash", "gemini-flash-latest", "gemini-2.0-flash"]
+LIST_URL = "https://generativelanguage.googleapis.com/v1beta/models"
+# Used only if Google's model list can't be read. Google retires model names over time,
+# so the app normally asks which models this key can use (see model_candidates).
+MODELS = ["gemini-flash-latest", "gemini-flash-lite-latest", "gemini-2.5-flash"]
+_CACHE = {}
+
+
+def rank_models(names):
+    """Order Gemini model names: the 'latest' flash alias, then newest stable flash, then lite, then previews."""
+    keep = []
+    for raw in names:
+        n = raw.split("/")[-1]
+        if "flash" not in n or any(w in n for w in ("image", "tts", "audio", "live", "embed", "thinking", "native")):
+            continue
+        keep.append(n)
+
+    def key(n):
+        m = re.search(r"gemini-(\d+(?:\.\d+)?)", n)
+        version = float(m.group(1)) if m else 0.0
+        return (n != "gemini-flash-latest", "preview" in n or "exp" in n, "lite" in n, -version,
+                bool(re.search(r"-\d{3}$", n)), n)
+    return sorted(dict.fromkeys(keep), key=key)
+
+
+def model_candidates(api_key, preferred=None, ttl=6 * 3600):
+    """Models to try, best first: the configured one, then what Google says this key can use today."""
+    hit = _CACHE.get(api_key)
+    if not hit or time.time() - hit[0] > ttl:
+        try:
+            r = requests.get(LIST_URL, params={"key": api_key, "pageSize": 200}, timeout=20)
+            r.raise_for_status()
+            names = [m["name"] for m in r.json().get("models", [])
+                     if "generateContent" in m.get("supportedGenerationMethods", [])]
+            found = rank_models(names)
+        except Exception:  # noqa: BLE001
+            found = []
+        hit = (time.time(), found)
+        if found:
+            _CACHE[api_key] = hit
+    out = ([preferred] if preferred else []) + hit[1][:3] + MODELS
+    return list(dict.fromkeys(out))
+
+
+def generate(api_key, body, preferred=None, timeout=60):
+    """POST to Gemini, trying models in order; one short retry when a model is busy (503/429).
+    Returns (response_json, model) or raises RuntimeError with every error."""
+    errors = []
+    for name in model_candidates(api_key, preferred):
+        for attempt in range(2):
+            try:
+                r = requests.post(GEMINI_URL.format(model=name), params={"key": api_key}, json=body, timeout=timeout)
+                if r.status_code in (429, 503) and attempt == 0:
+                    time.sleep(2)
+                    continue
+                r.raise_for_status()
+                return r.json(), name
+            except Exception as error:  # noqa: BLE001
+                msg = str(error).split(" for url")[0]
+                errors.append(f"{name}: {msg[:90]}")
+                break
+    raise RuntimeError(" | ".join(errors) or "no models available")
 
 LANG_NAMES = {"en": "English", "es": "Spanish", "fr": "French", "ht": "Haitian Creole (Kreyòl ayisyen)"}
 
@@ -63,20 +126,13 @@ def ask(api_key, history, question, briefing, lang="en", model=None, timeout=60)
         "contents": contents,
         "generationConfig": {"temperature": 0.3, "maxOutputTokens": 900},
     }
-    errors = []
-    for name in ([model] if model else []) + [m for m in MODELS if m != model]:
-        try:
-            r = requests.post(GEMINI_URL.format(model=name), params={"key": api_key}, json=body, timeout=timeout)
-            r.raise_for_status()
-            data = r.json()
-            parts = data["candidates"][0]["content"]["parts"]
-            text = "".join(p.get("text", "") for p in parts).strip()
-            if text:
-                return text, {"model": name}
-            errors.append(f"{name}: empty reply")
-        except Exception as error:  # noqa: BLE001
-            errors.append(f"{name}: {str(error)[:120]}")
-    return None, {"error": " | ".join(errors)}
+    try:
+        data, name = generate(api_key, body, preferred=model, timeout=timeout)
+        parts = data["candidates"][0]["content"]["parts"]
+        text = "".join(p.get("text", "") for p in parts).strip()
+        return (text, {"model": name}) if text else (None, {"error": f"{name}: empty reply"})
+    except Exception as error:  # noqa: BLE001
+        return None, {"error": str(error)[:400]}
 
 
 SUGGESTED = {

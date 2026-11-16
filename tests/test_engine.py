@@ -210,6 +210,7 @@ def test_assistant_briefing_and_request(monkeypatch):
 
     class R:
         ok = True
+        status_code = 200
         def raise_for_status(self): pass
         def json(self): return {"candidates": [{"content": {"parts": [{"text": "Plant cowpea."}]}}]}
 
@@ -218,6 +219,8 @@ def test_assistant_briefing_and_request(monkeypatch):
         return R()
 
     monkeypatch.setattr(assistant.requests, "post", fake_post)
+    monkeypatch.setattr(assistant.requests, "get", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("offline")))
+    assistant._CACHE.clear()
     answer, info = assistant.ask("k", [{"role": "user", "content": "hi"}, {"role": "assistant", "content": "hello"}],
                                  "What now?", text, lang="es")
     assert answer == "Plant cowpea." and "Spanish" in captured["body"]["system_instruction"]["parts"][0]["text"]
@@ -419,3 +422,35 @@ def test_merge_points_handles_three_hourly_time_zones(tmp_path, monkeypatch):
     out = pd.read_csv(tmp_path / "p.csv")
     assert list(out["date"]) == ["2026-11-14", "2026-11-15"]
     assert abs(out["value"].iloc[0] - 0.32) < 1e-9
+
+
+def test_rank_models_prefers_latest_then_newest_stable_flash():
+    from fieldshift import assistant
+    names = ["models/gemini-2.0-flash", "models/gemini-3.0-flash", "models/gemini-3.0-flash-lite", "models/gemini-3.5-flash-preview-09",
+             "models/gemini-flash-latest", "models/gemini-3.0-pro", "models/gemini-3.0-flash-image", "models/text-embedding-004"]
+    ranked = assistant.rank_models(names)
+    assert ranked[:3] == ["gemini-flash-latest", "gemini-3.0-flash", "gemini-2.0-flash"]
+    assert "gemini-3.0-pro" not in ranked and "gemini-3.0-flash-image" not in ranked
+
+
+def test_generate_falls_back_when_a_model_is_retired(monkeypatch):
+    from fieldshift import assistant
+
+    class R:
+        def __init__(self, code, data=None):
+            self.status_code, self._d = code, data or {}
+        def raise_for_status(self):
+            if self.status_code >= 400:
+                raise RuntimeError(f"{self.status_code} error")
+        def json(self):
+            return self._d
+    monkeypatch.setattr(assistant.requests, "get", lambda *a, **k: R(200, {"models": [
+        {"name": "models/gemini-9.0-flash", "supportedGenerationMethods": ["generateContent"]}]}))
+    calls = []
+    def post(url, **k):
+        calls.append(url)
+        return R(404) if "gemini-old" in url else R(200, {"candidates": [{"content": {"parts": [{"text": "hi"}]}}]})
+    monkeypatch.setattr(assistant.requests, "post", post)
+    assistant._CACHE.clear()
+    text, info = assistant.ask("k", [], "q", "brief", model="gemini-old")
+    assert text == "hi" and info["model"] == "gemini-9.0-flash"

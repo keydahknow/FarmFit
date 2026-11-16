@@ -198,27 +198,23 @@ def notify_area(report, timeout=10):
         return False
 
 
-def ai_triage(image_bytes, mime_type, api_key, models=("gemini-2.5-flash", "gemini-flash-latest", "gemini-2.0-flash")):
+def ai_triage(image_bytes, mime_type, api_key, model=None):
     """Gemini's suggestion for a photo. A suggestion only, never a diagnosis."""
     if not api_key:
         return {"ok": False, "error": "No Gemini API key configured."}
+    from . import assistant
     body = {"contents": [{"parts": [{"text": AI_PROMPT}, {"inline_data": {"mime_type": mime_type or "image/jpeg",
                                                                           "data": base64.b64encode(image_bytes).decode()}}]}],
             "generationConfig": {"response_mime_type": "application/json", "temperature": 0.1}}
-    errors = []
-    for model in models:
-        try:
-            r = requests.post(f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
-                              params={"key": api_key}, json=body, timeout=60)
-            r.raise_for_status()
-            data = json.loads(r.json()["candidates"][0]["content"]["parts"][0]["text"])
-            if data.get("category") not in CATEGORIES:
-                data["category"] = "other"
-            data["confidence"] = max(0.0, min(1.0, float(data.get("confidence", 0))))
-            return {"ok": True, "result": data, "model": model}
-        except Exception as error:  # noqa: BLE001
-            errors.append(f"{model}: {str(error)[:100]}")
-    return {"ok": False, "error": " | ".join(errors)}
+    try:
+        resp, name = assistant.generate(api_key, body, preferred=model)
+        data = json.loads(resp["candidates"][0]["content"]["parts"][0]["text"])
+        if data.get("category") not in CATEGORIES:
+            data["category"] = "other"
+        data["confidence"] = max(0.0, min(1.0, float(data.get("confidence", 0))))
+        return {"ok": True, "result": data, "model": name}
+    except Exception as error:  # noqa: BLE001
+        return {"ok": False, "error": str(error)[:400]}
 
 
 def example_reports(lat, lon, now=None):

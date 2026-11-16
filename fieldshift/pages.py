@@ -178,15 +178,15 @@ def ob_who(d):
     st.markdown("### Who is FarmFit for today?")
     c1, c2 = st.columns(2)
     with c1:
-        st.markdown('<div class="fs-demo"><b>🌾 A farm</b><div class="s">Fields, crops for sale, livestock. Full planning, '
-                    'storm, market and recovery tools.</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="fs-demo">{journey.ICON_FARM}<div><b>A farm</b><div class="s">Fields, crops for sale, livestock. Full planning, '
+                    'storm, market and recovery tools.</div></div></div>', unsafe_allow_html=True)
         if st.button("Set up a farm", use_container_width=True, type="primary" if d["mode"] == "farm" else "secondary"):
             d["mode"] = "farm"
             ss.ob_step = 1
             st.rerun()
     with c2:
-        st.markdown('<div class="fs-demo"><b>🪴 A home garden</b><div class="s">Pots, a backyard bed or a balcony. Simple, '
-                    'beginner-friendly guidance.</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="fs-demo">{journey.ICON_GARDEN}<div><b>A home garden</b><div class="s">Pots, a backyard bed or a balcony. Simple, '
+                    'beginner-friendly guidance.</div></div></div>', unsafe_allow_html=True)
         if st.button("Set up a home garden", use_container_width=True, type="primary" if d["mode"] == "garden" else "secondary"):
             d["mode"] = "garden"
             ss.ob_step = 1
@@ -1003,9 +1003,10 @@ def restoration(b, p):
     with right:
         st.markdown("**Crops that restore this kind of land, checked against your farm**")
         for r in restore.recommend(key, facts):
-            mark = "✅" if r["suits"] else "⚠️"
-            note = "" if r["suits"] else f" **Not a good match here:** {r['caveat']}"
-            st.markdown(f"{mark} **{r['name']}**: {r['why']}{note}")
+            tag = ('<span class="fs-fit ok">Suits this farm</span>' if r["suits"]
+                   else '<span class="fs-fit no">Not a good match here</span>')
+            note = "" if r["suits"] else f"<br><span class='fs-fit-note'>{r['caveat']}</span>"
+            st.markdown(f"{tag} <b>{r['name']}</b>: {r['why']}{note}", unsafe_allow_html=True)
     soil = b.get("soil") or {}
     st.caption(f"Checked against this farm: clay {facts['clay']:.0f}% (SoilGrids), drainage {soil.get('drainage', 'unknown')}, "
                f"{'flat' if facts['flat'] else 'sloping'} land (SRTM), water: {p.get('water')}"
@@ -1243,7 +1244,7 @@ def load_news(region):
 def page_news():
     shell("water", "news")
     p, b = P(), bundle()
-    hero("News & learning", "What's happening, who to ask, and an assistant that knows your farm")
+    hero("News & learning", "What's happening in Caribbean farming, and who to ask")
     with st.container(key="layer_news"):
         left, right = st.columns([1.3, 1], gap="large")
         with left:
@@ -1268,8 +1269,7 @@ def page_news():
                 with st.expander(title):
                     for tip in tips:
                         st.markdown(f"- {tip}")
-    with st.container(key="layer_ask"):
-        st.fragment(ui.render_ask)(b)
+        st.caption("Questions about your own farm? Use Ask FarmFit at the bottom right of any page.")
 
 
 def page_data():
@@ -1380,13 +1380,13 @@ def render():
     if p["mode"] == "garden":
         spec = [("home", page_garden_home, "Home", ":material/home:"), ("grow", page_garden_grow, "Grow guide", ":material/potted_plant:"),
                 ("weather", page_weather, "Weather", ":material/partly_cloudy_day:"), ("pests", page_pests, "Pest watch", ":material/bug_report:"),
-                ("storms", page_garden_storm, "Storm ready", ":material/cyclone:"), ("news", page_news, "Learn & ask", ":material/school:"),
+                ("storms", page_garden_storm, "Storm ready", ":material/cyclone:"), ("news", page_news, "Learn", ":material/school:"),
                 ("myfarm", page_myfarm, "My garden", ":material/person:")]
     else:
         spec = [("home", page_home, "Home", ":material/home:"), ("myfarm", page_myfarm, "My farm", ":material/agriculture:"),
                 ("weather", page_weather, "Weather", ":material/partly_cloudy_day:"), ("crops", page_crops, "Crops & market", ":material/storefront:"),
                 ("planner", page_planner, "Planner", ":material/calendar_month:"), ("storms", page_storms, "Storms & recovery", ":material/cyclone:"),
-                ("pests", page_pests, "Pest watch", ":material/bug_report:"), ("news", page_news, "News & ask", ":material/forum:"),
+                ("pests", page_pests, "Pest watch", ":material/bug_report:"), ("news", page_news, "News", ":material/newspaper:"),
                 ("data", page_data, "Data", ":material/dataset:")]
     pages = {k: st.Page(fn, title=title, icon=icon, url_path=k, default=(k == "home")) for k, fn, title, icon in spec}
     pages.setdefault("planner", pages.get("home"))
@@ -1394,3 +1394,11 @@ def render():
     ss.fs_pages = pages
     pg = st.navigation(list({id(v): v for v in pages.values()}.values()), position="top")
     pg.run()
+    ask_fab()
+
+
+def ask_fab():
+    """Floating Ask FarmFit button, bottom right of every page."""
+    with st.container(key="fs_fab"):
+        with st.popover("Ask FarmFit", icon=":material/forum:", key="fs_fab_pop"):
+            st.fragment(ui.render_ask)(bundle())

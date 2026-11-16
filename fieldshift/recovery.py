@@ -14,10 +14,7 @@ should not enter the food supply.
 import base64
 import json
 
-import requests
 
-GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
-DEFAULT_MODEL = "gemini-2.5-flash"
 
 PROMPT = """You are helping a small-scale Caribbean farmer after a hurricane or heavy rain.
 Look ONLY at what is visible in this field photo. Do not guess at things you cannot see.
@@ -36,46 +33,24 @@ Return JSON with exactly these keys:
 }"""
 
 
-FALLBACK_MODELS = ["gemini-2.5-flash", "gemini-flash-latest", "gemini-2.0-flash"]
 
 
 def assess_photo(image_bytes, mime_type, api_key, model=None, timeout=60):
-    """Try the configured model, then fall back through FALLBACK_MODELS."""
+    """Describe a field photo, trying the configured model and then the ones this key can use."""
     if not api_key:
         return {"ok": False, "error": "No Gemini API key configured."}
-    errors = []
-    for name in ([model] if model else []) + [m for m in FALLBACK_MODELS if m != model]:
-        res = _assess_once(image_bytes, mime_type, api_key, name, timeout)
-        if res["ok"]:
-            return res
-        errors.append(f"{name}: {res['error'][:120]}")
-    return {"ok": False, "error": " | ".join(errors)}
-
-
-def _assess_once(image_bytes, mime_type, api_key, model, timeout):
+    from . import assistant
     body = {
-        "contents": [{
-            "parts": [
-                {"text": PROMPT},
-                {"inline_data": {"mime_type": mime_type or "image/jpeg",
-                                 "data": base64.b64encode(image_bytes).decode()}},
-            ]
-        }],
+        "contents": [{"parts": [{"text": PROMPT}, {"inline_data": {"mime_type": mime_type or "image/jpeg",
+                                                                   "data": base64.b64encode(image_bytes).decode()}}]}],
         "generationConfig": {"response_mime_type": "application/json", "temperature": 0.1},
     }
     try:
-        response = requests.post(GEMINI_URL.format(model=model), params={"key": api_key}, json=body, timeout=timeout)
-        response.raise_for_status()
-        text = response.json()["candidates"][0]["content"]["parts"][0]["text"]
-        data = json.loads(text)
-        return {"ok": True, "result": data, "model": model}
+        data, name = assistant.generate(api_key, body, preferred=model, timeout=timeout)
+        return {"ok": True, "result": json.loads(data["candidates"][0]["content"]["parts"][0]["text"]), "model": name}
     except Exception as error:  # noqa: BLE001
-        return {"ok": False, "error": str(error)}
+        return {"ok": False, "error": str(error)[:400]}
 
-
-# ---------------------------------------------------------------------------
-# Rule-based field state
-# ---------------------------------------------------------------------------
 
 def field_state(photo, answers, recent_rain_mm=None, soil_wet_root=None, drainage=None):
     """Combine photo findings, farmer answers and satellite context into flags."""
