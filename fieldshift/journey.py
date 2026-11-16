@@ -312,3 +312,124 @@ def orchard_html(window, month_names, crop):
         cells.append(f'<div class="{cls}" title="{html.escape(tip)}">{fruit_tree(w["p_good"], storm=w["p_safe"] < 0.6)}'
                      f'<div class="m">{month_names[w["start"] - 1]}</div><div class="p">{pct(w["p_good"])}</div></div>')
     return f'<div class="fs-orchard">{"".join(cells)}</div>'
+
+
+# ---------------------------------------------------------------------------
+# Multi-page mode: each page sits at its own depth of the world
+# ---------------------------------------------------------------------------
+
+DEPTH = {"sky": 0.0, "home": 0.20, "field": 0.27, "recover": 0.31, "water": 0.43, "soil": 0.62, "bedrock": 0.93}
+
+
+def install_static(st, depth="home", dark=False, zoom=1.0):
+    """World background fixed at one depth (no scroll script), plus display settings."""
+    st.markdown(CSS, unsafe_allow_html=True)
+    uri = "data:image/svg+xml;charset=utf-8," + quote(world_svg(), safe="")
+    extra = ""
+    if dark:
+        # Invert the paper panels (keeps hues, swaps light and dark); photos and maps are flipped back.
+        extra += """
+[class*="st-key-layer_"],.st-key-topbar,.st-key-landing,.st-key-onboard{filter:invert(1) hue-rotate(180deg)}
+[class*="st-key-layer_"] img,[class*="st-key-layer_"] iframe,.st-key-onboard iframe,.st-key-onboard img,.st-key-landing iframe,
+[class*="st-key-layer_"] .keep-colour,.st-key-onboard .keep-colour{filter:invert(1) hue-rotate(180deg)}
+#fs-world{filter:brightness(.42) saturate(.8)}
+.fs-beat .h,.fs-beat .d,.fs-hero .t,.fs-hero .d{color:#F3EEE3}
+"""
+    if zoom and abs(zoom - 1) > 0.01:
+        extra += f'[data-testid="stMainBlockContainer"]{{zoom:{zoom}}}'
+    st.markdown(f'<style>#fs-world{{background-image:url("{uri}")}} :root{{--fs-bg:{DEPTH.get(depth, 0.2):.3f}}}'
+                f'.block-container{{padding-left:2.2rem !important;max-width:1180px !important}}{extra}</style>'
+                f'<div id="fs-world"></div>', unsafe_allow_html=True)
+
+
+def growth_tree(stage, total=5, size=150):
+    """Onboarding progress: seed -> sprout -> sapling -> tree -> fruiting tree."""
+    s = max(0, min(total, stage))
+    trunk_h = [0, 22, 46, 70, 82, 86][s]
+    parts = [f'<ellipse cx="60" cy="146" rx="46" ry="7" fill="{C}" opacity=".35"/>',
+             f'<path d="M14 146 Q60 138 106 146" stroke="{C}" stroke-width="3" fill="none"/>']
+    if s == 0:
+        parts.append(f'<ellipse cx="60" cy="140" rx="7" ry="5" fill="#8a5a3b"/>')
+    if s >= 1:
+        parts.append(f'<path d="M60 144 L60 {144 - trunk_h}" stroke="#6b4a32" stroke-width="{3 + s * 1.6:.1f}" stroke-linecap="round"/>')
+    if s == 1:
+        parts.append(f'<path d="M60 124 q -14 -8 -18 -18 q 14 2 18 18 M60 126 q 12 -10 18 -16 q -4 14 -18 16" fill="{Lf}"/>')
+    if s >= 2:
+        r = [0, 0, 18, 28, 36, 38][s]
+        top = 144 - trunk_h
+        parts.append(f'<circle cx="60" cy="{top}" r="{r}" fill="{Lf}"/>'
+                     f'<circle cx="{60 - r * .8:.0f}" cy="{top + r * .5:.0f}" r="{r * .6:.0f}" fill="#5c9a5f"/>'
+                     f'<circle cx="{60 + r * .8:.0f}" cy="{top + r * .45:.0f}" r="{r * .62:.0f}" fill="#5c9a5f"/>')
+    if s >= 4:
+        top = 144 - trunk_h
+        parts += [f'<g transform="translate({x} {top + dy})"><circle r="4.6" fill="#F4B6C2"/><circle r="1.7" fill="{O}"/></g>'
+                  for x, dy in ((44, -10), (70, -18), (58, 4), (80, 2), (38, 12))]
+    if s >= 5:
+        top = 144 - trunk_h
+        parts += [f'<circle cx="{x}" cy="{top + dy}" r="5.5" fill="{O if i % 2 else T}"/>'
+                  for i, (x, dy) in enumerate(((50, -22), (74, -6), (62, 14), (40, 4)))]
+    return (f'<svg viewBox="0 0 120 160" width="{size}" height="{size * 160 / 120:.0f}" xmlns="http://www.w3.org/2000/svg">'
+            + "".join(parts) + "</svg>")
+
+
+def gauge(value, label, level, sub, size=170):
+    """Semicircle risk gauge. value 0-1; level one of low / medium / high / unknown."""
+    import math
+    colours = {"low": Lf, "medium": O, "high": T, "unknown": "#9aa3ad"}
+    v = 0 if value is None else max(0.0, min(1.0, value))
+    ang = math.pi * (1 - v)
+    nx, ny = 60 + 42 * math.cos(ang), 62 - 42 * math.sin(ang)
+    arcs = "".join(
+        f'<path d="M{60 + 50 * math.cos(math.pi * (1 - a)):.1f} {62 - 50 * math.sin(math.pi * (1 - a)):.1f} '
+        f'A50 50 0 0 1 {60 + 50 * math.cos(math.pi * (1 - b)):.1f} {62 - 50 * math.sin(math.pi * (1 - b)):.1f}" '
+        f'stroke="{c}" stroke-width="11" fill="none" opacity=".9"/>'
+        for a, b, c in ((0, .33, Lf), (.335, .66, O), (.665, 1, T)))
+    word = {"low": "Low", "medium": "Watch", "high": "High", "unknown": "No data"}[level]
+    needle = "" if value is None else (f'<line x1="60" y1="62" x2="{nx:.1f}" y2="{ny:.1f}" stroke="{I}" stroke-width="3.5" '
+                                       f'stroke-linecap="round"/><circle cx="60" cy="62" r="5" fill="{I}"/>')
+    return (f'<div class="fs-gauge"><svg viewBox="0 0 120 74" width="{size}" xmlns="http://www.w3.org/2000/svg">{arcs}{needle}</svg>'
+            f'<div class="gl">{html.escape(label)}</div><div class="gv" style="color:{colours[level]}">{word}</div>'
+            f'<div class="gs">{html.escape(sub)}</div></div>')
+
+
+def spark(values, highlight=None, w=140, h=34, colour=Lf):
+    """12 tiny bars (one per month), the current month outlined."""
+    bw = w / len(values)
+    bars = []
+    for i, v in enumerate(values):
+        bh = max(1.5, v * (h - 4))
+        stroke = f' stroke="{I}" stroke-width="1.6"' if highlight == i else ""
+        bars.append(f'<rect x="{i * bw + 1:.1f}" y="{h - bh:.1f}" width="{bw - 2:.1f}" height="{bh:.1f}" rx="1.5" '
+                    f'fill="{colour}" opacity="{0.35 + 0.65 * v:.2f}"{stroke}/>')
+    return f'<svg viewBox="0 0 {w} {h}" width="100%" height="{h}" preserveAspectRatio="none">{"".join(bars)}</svg>'
+
+
+EXTRA_CSS = f"""
+<style>
+.st-key-onboard{{background:rgba(243,238,227,.96);border-radius:18px;padding:1.6rem 1.8rem !important;
+  box-shadow:0 18px 50px rgba(20,28,40,.2);border:1px solid rgba(255,255,255,.5)}}
+.fs-gauge{{text-align:center;padding:.2rem .2rem .4rem .2rem}}
+.fs-gauge .gl{{font:600 .72rem/1.2 'InterVar',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:{art.INK2};margin-top:.1rem}}
+.fs-gauge .gv{{font:600 1.45rem/1.1 'Fraunces',serif}}
+.fs-gauge .gs{{font-size:.8rem;color:{art.INK2};line-height:1.35;margin-top:.15rem}}
+.fs-card{{border-radius:14px;padding:.85rem 1rem;background:rgba(255,255,255,.55);border:1px solid rgba(31,43,58,.12);height:100%}}
+.fs-card .c{{font:600 1.05rem 'Fraunces',serif;color:{I}}}
+.fs-card .v{{display:inline-block;font:600 .74rem 'InterVar',sans-serif;letter-spacing:.06em;text-transform:uppercase;
+  border-radius:999px;padding:.2rem .6rem;margin:.35rem 0 .3rem 0;color:#fff}}
+.fs-card .w{{font-size:.84rem;color:{art.INK2};line-height:1.4}}
+.fs-badge{{display:inline-block;font:600 .66rem 'InterVar',sans-serif;letter-spacing:.06em;text-transform:uppercase;
+  border-radius:4px;padding:.12rem .4rem;margin-left:.35rem;vertical-align:middle}}
+.fs-badge.data{{background:#DCE8EE;color:{S}}} .fs-badge.model{{background:#F5E6C8;color:#8a5a12}} .fs-badge.yours{{background:#E3EEDF;color:{Lf}}}
+.fs-badge.sim{{background:#F6DCD3;color:{T}}}
+.fs-hero2{{padding:1.2rem 0 .6rem 0}}
+.fs-hero2 .k{{font:600 .72rem/1 'InterVar',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.35)}}
+.fs-hero2 .h{{font:600 clamp(1.8rem,3.6vw,2.8rem)/1.05 'Fraunces',serif;color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.35);margin:.3rem 0}}
+.fs-hero2 .d{{font:italic 400 1.05rem/1.45 'Fraunces',serif;color:#fff;max-width:44rem;text-shadow:0 1px 12px rgba(0,0,0,.45)}}
+.fs-steps{{display:flex;gap:.4rem;flex-wrap:wrap;margin:.2rem 0 .8rem 0}}
+.fs-steps span{{font:600 .72rem 'InterVar',sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:.25rem .6rem;border-radius:999px;
+  background:rgba(31,43,58,.08);color:{art.INK2}}}
+.fs-steps span.on{{background:{Lf};color:#fff}} .fs-steps span.done{{background:#cfe0c9;color:{Lf}}}
+@media (max-width:720px){{.block-container{{padding-left:.8rem !important;padding-right:.8rem !important}}
+  [class*="st-key-layer_"],.st-key-onboard{{padding:1rem .9rem !important}}}}
+</style>
+"""

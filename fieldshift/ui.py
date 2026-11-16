@@ -752,7 +752,7 @@ def render_water(bundle):
     left, right = st.columns([1.3, 1], gap="large")
     with left:
         if fc is not None:
-            fc2 = fc.assign(day=fc["date"].dt.strftime("%a %d"))
+            fc2 = fc.head(7).assign(day=fc["date"].head(7).dt.strftime("%a %d"))
             bars = alt.Chart(fc2).mark_bar(color=art.SEA, width=26).encode(
                 x=alt.X("day:N", sort=None, title=None), y=alt.Y("rain_mm:Q", title="mm"),
                 tooltip=["day", alt.Tooltip("rain_mm:Q", title="rain", format=".1f"), alt.Tooltip("et0_mm:Q", title="ET₀", format=".1f")])

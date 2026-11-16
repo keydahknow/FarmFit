@@ -152,17 +152,21 @@ def smap_anomaly(series):
     return out
 
 
-def forecast(lat, lon, timeout=15):
+def forecast(lat, lon, timeout=15, days=16):
+    """Open-Meteo daily forecast (keyless): rain, rain chance, temperature, humidity, wind gusts, ET0."""
     try:
         r = requests.get(FORECAST_API, params={
-            "latitude": lat, "longitude": lon, "forecast_days": 7, "timezone": "auto",
-            "daily": "precipitation_sum,et0_fao_evapotranspiration,temperature_2m_max",
+            "latitude": lat, "longitude": lon, "forecast_days": days, "timezone": "auto",
+            "daily": "precipitation_sum,precipitation_probability_max,et0_fao_evapotranspiration,temperature_2m_max,"
+                     "temperature_2m_min,relative_humidity_2m_mean,wind_gusts_10m_max",
         }, timeout=timeout)
         r.raise_for_status()
         d = r.json()["daily"]
         return pd.DataFrame({
             "date": pd.to_datetime(d["time"]), "rain_mm": d["precipitation_sum"],
-            "et0_mm": d["et0_fao_evapotranspiration"], "tmax": d["temperature_2m_max"],
+            "rain_chance": d.get("precipitation_probability_max"), "et0_mm": d["et0_fao_evapotranspiration"],
+            "tmax": d["temperature_2m_max"], "tmin": d.get("temperature_2m_min"),
+            "rh": d.get("relative_humidity_2m_mean"), "gust_kmh": d.get("wind_gusts_10m_max"),
         })
     except Exception:  # noqa: BLE001
         return None
@@ -172,9 +176,10 @@ def weekly_irrigation(fc, kc):
     """mm of irrigation needed over the forecast week for a crop with coefficient kc."""
     if fc is None or kc is None:
         return None
-    etc = float((fc["et0_mm"] * kc).sum())
-    eff_rain = float((fc["rain_mm"] * 0.8).sum())
-    return {"etc_mm": etc, "rain_mm": float(fc["rain_mm"].sum()), "need_mm": max(0.0, etc - eff_rain)}
+    week = fc.head(7)
+    etc = float((week["et0_mm"] * kc).sum())
+    eff_rain = float((week["rain_mm"] * 0.8).sum())
+    return {"etc_mm": etc, "rain_mm": float(week["rain_mm"].sum()), "need_mm": max(0.0, etc - eff_rain)}
 
 
 def irrigation_need_from_climate(et0_month_mm, rain_month_mm, kc, days=7):

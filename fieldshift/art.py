@@ -32,7 +32,8 @@ CSS = f"""
 html, body, [data-testid="stAppViewContainer"], .stApp{{background:var(--paper)}}
 .stApp, .stApp p, .stApp li, .stApp label, .stApp input, .stApp textarea, .stApp button, .stMarkdown{{font-family:'InterVar',Inter,system-ui,sans-serif}}
 .stApp h1,.stApp h2,.stApp h3,.stApp h4{{font-family:'Fraunces',Georgia,serif !important;color:var(--ink);letter-spacing:-.01em;font-weight:600}}
-[data-testid="stHeader"], [data-testid="stToolbar"], footer, #MainMenu{{display:none !important}}
+footer, #MainMenu, [data-testid="stMainMenu"], [data-testid="stAppDeployButton"], [data-testid="stDecoration"], [data-testid="stStatusWidget"]{{display:none !important}}
+[data-testid="stHeader"]{{background:rgba(243,238,227,.92) !important;backdrop-filter:blur(6px);border-bottom:1px solid rgba(31,43,58,.12)}}
 .block-container{{padding-top:1.2rem !important;max-width:1180px}}
 .stApp [data-testid="stVerticalBlockBorderWrapper"]{{border-color:rgba(31,43,58,.14) !important;border-radius:6px !important;background:rgba(255,255,255,.35)}}
 
