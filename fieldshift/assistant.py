@@ -17,7 +17,7 @@ GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:ge
 LIST_URL = "https://generativelanguage.googleapis.com/v1beta/models"
 # Used only if Google's model list can't be read. Google retires model names over time,
 # so the app normally asks which models this key can use (see model_candidates).
-MODELS = ["gemini-flash-latest", "gemini-flash-lite-latest", "gemini-2.5-flash-lite"]
+MODELS = ["gemini-flash-lite-latest", "gemini-flash-latest", "gemini-2.5-flash-lite"]
 _CACHE = {}
 
 
@@ -33,7 +33,7 @@ def rank_models(names):
     def key(n):
         m = re.search(r"gemini-(\d+(?:\.\d+)?)", n)
         version = float(m.group(1)) if m else 0.0
-        alias = {"gemini-flash-latest": 0, "gemini-flash-lite-latest": 1}.get(n, 2)
+        alias = {"gemini-flash-lite-latest": 0, "gemini-flash-latest": 1}.get(n, 2)
         return (alias, "preview" in n or "exp" in n, "lite" in n, -version,
                 bool(re.search(r"-\d{3}$", n)), n)
     return sorted(dict.fromkeys(keep), key=key)
@@ -44,7 +44,7 @@ def model_candidates(api_key, preferred=None, ttl=6 * 3600):
     hit = _CACHE.get(api_key)
     if not hit or time.time() - hit[0] > ttl:
         try:
-            r = requests.get(LIST_URL, params={"key": api_key, "pageSize": 200}, timeout=20)
+            r = requests.get(LIST_URL, params={"key": api_key, "pageSize": 200}, timeout=8)
             r.raise_for_status()
             names = [m["name"] for m in r.json().get("models", [])
                      if "generateContent" in m.get("supportedGenerationMethods", [])]
@@ -58,7 +58,7 @@ def model_candidates(api_key, preferred=None, ttl=6 * 3600):
     return list(dict.fromkeys(out))
 
 
-def generate(api_key, body, preferred=None, timeout=20, budget=55):
+def generate(api_key, body, preferred=None, timeout=25, budget=60):
     """POST to Gemini, trying models in order, within an overall time budget (seconds).
     One short retry when a model is busy (429/503). Returns (response_json, model);
     raises RuntimeError listing every error."""
@@ -73,7 +73,7 @@ def generate(api_key, body, preferred=None, timeout=20, budget=55):
             try:
                 r = requests.post(GEMINI_URL.format(model=name), params={"key": api_key}, json=body,
                                   timeout=(5, min(timeout, left)))
-                if r.status_code in (429, 503) and attempt == 0 and left > 15:
+                if r.status_code in (429, 503) and attempt == 0 and left > 40:
                     time.sleep(1.5)
                     continue
                 r.raise_for_status()
