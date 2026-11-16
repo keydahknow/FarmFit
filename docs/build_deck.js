@@ -64,11 +64,11 @@ process.chdir(require("path").join(__dirname, "deck_assets"));
   s.addText("A farm's year, read from the sky to the bedrock", { x: 0.55, y: 2.75, w: 4.4, h: 0.8, fontSize: 19, italic: true, color: "E9E1CF", fontFace: "Cambria", margin: 0, isTextBox: true });
   s.addText([
     { text: "FarmFit", options: { bold: true, color: "F3EEE3", breakLine: true } },
-    { text: "Pick your farm. Scroll down through it: storms, planting, recovery, water, soil, evidence.", options: { color: "BCD5E1" } },
+    { text: "Set up your farm or garden, then: plant now or wait, weather, crops and markets, storms and recovery, pest watch.", options: { color: "BCD5E1" } },
   ], { x: 0.55, y: 3.75, w: 4.3, h: 0.85, fontSize: 12, margin: 0, valign: "top", isTextBox: true });
   pic(s, "landing.jpg", 5.25, 0.95, 4.3, 1400, 974, "landing screenshot");
   s.addText("Demo farms: St Elizabeth, Jamaica · Caroni plains, Trinidad", { x: 5.25, y: 4.05, w: 4.3, h: 0.3, fontSize: 11, color: "BCD5E1", align: "center", margin: 0, isTextBox: true });
-  s.addNotes("Hurricane to Harvest is FarmFit rebuilt as one journey. A farmer picks their farm and scrolls from the sky above it to the rock beneath it. Every layer answers one question with open NASA and partner data: what storms do here, what to plant when, how to recover, whether the field is heading into drought, and what the soil is like.");
+  s.addNotes("Hurricane to Harvest is a Caribbean farm-resilience platform. A farmer or home gardener sets up their land once, and every page answers one question with open NASA and partner data, worked out for that exact field: what to plant and when, what storms and drought mean here, how to recover, and what neighbours are seeing.");
 
   // ---------------- 2. Problem
   pres.addSection({ title: "Problem" });
@@ -92,48 +92,47 @@ process.chdir(require("path").join(__dirname, "deck_assets"));
   ], { x: 5.2, y: 1.9, w: 4.1, h: 3.0, fontSize: 13, color: C.text1, paraSpaceAfter: 8, valign: "top", margin: 0, isTextBox: true });
   s.addNotes("Melissa made landfall as a Category 5 and hit Jamaica's breadbasket. The Ministry counted about 32,400 hectares of vegetables and 47,500 farmers. Three months later prices fell sharply because so many farmers replanted the same fast crops. And storms are only half of it: a strong El Niño is under way, and at our Trinidad farm El Niño years brought only two-thirds of normal dry-season rain.");
 
-  // ---------------- 3. The journey
-  pres.addSection({ title: "Journey" });
-  s = pres.addSlide({ masterName: "PAPER", sectionTitle: "Journey" });
-  s.addText("One scroll, from the sky to the bedrock", { placeholder: "title" });
-  s.addImage({ path: "world.png", x: 0.5, y: 1.12, w: 1.0, h: 4.05, objectName: "world strip", sizing: { type: "cover", w: 1.0, h: 4.05 } });
-  const layers = [
-    [1.15, "Storms", "Live NOAA storm watch, checklist, alerts, exposure, replay a real storm"],
-    [1.72, "Plant", "Your rotation vs three better ones; the planting-window orchard"],
-    [2.38, "Recover", "Photo check, IMERG rain, flood maps, staged path back, insurance"],
-    [3.02, "Water", "SMAP, MODIS plant stress, IMERG, El Niño test, water bank"],
-    [3.68, "Soil & ask", "Texture, drainage, pH, slope; soil probe; Ask FarmFit"],
-    [4.45, "Evidence", "Every dataset, method and limit"],
-  ];
-  layers.forEach(([y, t, d]) => {
-    s.addShape(pres.shapes.LINE, { x: 1.5, y: y + 0.13, w: 0.22, h: 0, line: { color: HEX.dk1, width: 1 }, objectName: t + " tick" });
-    s.addText(t, { x: 1.78, y, w: 1.25, h: 0.28, fontSize: 13, bold: true, color: C.accent1, fontFace: "Cambria", margin: 0, isTextBox: true });
-    s.addText(d, { x: 1.78, y: y + 0.25, w: 3.0, h: 0.35, fontSize: 10, color: C.text1, margin: 0, isTextBox: true });
-  });
-  pic(s, "intro.jpg", 5.0, 1.2, 4.5, 1400, 681, "intro screenshot");
+  // ---------------- 3. Set up, then decide
+  pres.addSection({ title: "Platform" });
+  s = pres.addSlide({ masterName: "PAPER", sectionTitle: "Platform" });
+  s.addText("Set up once. Then: plant now, or wait?", { placeholder: "title" });
+  kicker(s, "1 · A MINUTE TO SET UP", 0.5, 1.12, 3.6);
+  pic(s, "p_onboard.jpg", 0.5, 1.42, 3.6, 1500, 894, "onboarding screenshot");
   s.addText([
-    { text: "The farmer picks their farm first. ", options: { bold: true } },
-    { text: "A hand-drawn world slides behind the page as they scroll, so each tool sits in its layer of the farm. A tree on the side comes alive as they go: canopy above ground, roots below. Short story beats carry them from one layer to the next." },
-  ], { x: 5.0, y: 3.55, w: 4.5, h: 1.5, fontSize: 12, color: C.text1, valign: "top", margin: 0, isTextBox: true });
-  s.addNotes("This is the interface. There are no tabs. The farmer picks a farm, then scrolls down through it. The background moves from sky to field to topsoil, clay, the water table and bedrock, and each tool sits in its own layer. A living tree on the side fills in as they go and doubles as navigation. The opening line is specific to the farm: on 28 October 2025, Melissa reached this field with about 95 knots of wind.");
+    { text: "Farm or home garden; location by search, map pin or coordinates; size, crops and water. ", options: { breakLine: false } },
+    { text: "Soil test and sensors are optional", options: { bold: true } },
+    { text: ": most farmers have neither, so FarmFit uses satellite soil maps until they do. A tree grows as each step is done." },
+  ], { x: 0.5, y: 3.7, w: 3.6, h: 1.4, fontSize: 11, color: C.text1, valign: "top", margin: 0, isTextBox: true });
+  kicker(s, "2 · HOME: THE ANSWER FIRST", 4.35, 1.12, 5.1);
+  pic(s, "p_home.jpg", 4.35, 1.42, 5.15, 1500, 851, "home screenshot");
+  s.addText([
+    { text: "For each crop: the chance of a good harvest if planted now vs its best month. ", options: { bold: true } },
+    { text: "Then four risk gauges (storm, drought, flooding, heat), 16 days of weather and the El Niño season ahead. Every number is tagged measured data, model estimate or your numbers." },
+  ], { x: 4.35, y: 4.42, w: 5.15, h: 0.75, fontSize: 10.5, color: C.text1, valign: "top", margin: 0, isTextBox: true });
+  s.addNotes("The farmer sets up once: farm or home garden, where it is, how big, what they grow and how they water it. Soil tests and sensors are optional because most farmers have neither. Home then answers the question every farmer asks: plant now, or wait? For each crop it compares this month with the crop's best month, then shows four plain risk gauges and the next 16 days. Every number says whether it is measured, modelled or the farmer's own.");
 
-  // ---------------- 4. The field decides
-  pres.addSection({ title: "Field" });
-  s = pres.addSlide({ masterName: "PAPER", sectionTitle: "Field" });
-  s.addText("When the sky clears, the field decides", { placeholder: "title" });
-  pic(s, "calendar.jpg", 0.5, 1.2, 5.6, 1600, 355, "calendar screenshot");
-  pic(s, "orchard.jpg", 0.5, 2.62, 5.6, 1600, 515, "orchard screenshot");
-  s.addText([
-    { text: "241,772 rotations searched", options: { bold: true, color: HEX.accent1, breakLine: true } },
-    { text: "for this farm; the best Storm-smart, Soil builder and Water saver plans shown beside the farmer's own.", options: { breakLine: true } },
-    { text: " ", options: { fontSize: 6, breakLine: true } },
-    { text: "Each plan says why", options: { bold: true, color: HEX.accent1, breakLine: true } },
-    { text: "evidence, benefits, pest-cycle breaks, livestock feed, market timing (NAMDEVCO prices), information gaps, and what to check with an extension officer.", options: { breakLine: true } },
-    { text: " ", options: { fontSize: 6, breakLine: true } },
-    { text: "The orchard", options: { bold: true, color: HEX.accent1, breakLine: true } },
-    { text: "one tree per planting month. Blossom and fruit show the chance of a good harvest: 4,000 simulated seasons of storm and flood × climate fit × water. Capped at 95%+." },
-  ], { x: 6.35, y: 1.2, w: 3.15, h: 3.95, fontSize: 11.5, color: C.text1, valign: "top", margin: 0, isTextBox: true });
-  s.addNotes("This is the decision layer. FarmFit searches every 12-month rotation of up to four crops, about 240,000 for this farm, and shows the best three beside the farmer's own. The striped and outlined months are where Melissa would have hit. The orchard answers a simpler question: if I plant sweet peppers, which month? January is best, July riskiest, because a July planting is in the field through the storm peak. We cap at 95% because the model leaves out pests, prices and luck.");
+  // ---------------- 4. Plan, restore, warn
+  pres.addSection({ title: "Tools" });
+  s = pres.addSlide({ masterName: "PAPER", sectionTitle: "Tools" });
+  s.addText("Plan the year, restore the soil, warn the neighbours", { placeholder: "title" });
+  const tools = [
+    ["p_heatmap.jpg", 797, "CROPS & PLANNER", [
+      { text: "Every crop × every planting month", options: { bold: true, breakLine: true } },
+      { text: "4,000 simulated seasons of storm and flood × FAO climate fit × water. Compare crops side by side; profit uses only the farmer's own yields and costs. Planner: 3 months, 1 year (your rotation vs 3 of 241,772 searched), 5 years, and a +1/+2 °C what-if." }]],
+    ["p_restore.jpg", 849, "STORMS & RECOVERY", [
+      { text: "Prepare → respond → restore → resist", options: { bold: true, breakLine: true } },
+      { text: "Restoration by field condition, checked against the farm's soil, slope and water. Rice only for waterlogged clay that can hold water (IRRI Sub1), never as a universal fix; salt damage notes rice is moderately sensitive (FAO 29)." }]],
+    ["p_pests.jpg", 837, "PEST WATCH", [
+      { text: "A Waze for pests and disease", options: { bold: true, breakLine: true } },
+      { text: "Photo reports blurred to about 2 km, Unverified until an officer checks them. Filters, free area alerts, outbreak flags. Gemini gives a suggestion, never a diagnosis. Demo reports are marked simulated." }]],
+  ];
+  tools.forEach(([img, ph, k, txt], i) => {
+    const x = 0.5 + i * 3.05;
+    kicker(s, k, x, 1.12, 2.9, [C.accent1, C.accent2, C.accent4][i]);
+    pic(s, img, x, 1.42, 2.9, 1500, ph, k + " screenshot");
+    s.addText(txt, { x, y: 3.2, w: 2.9, h: 1.95, fontSize: 10.5, color: C.text1, valign: "top", margin: 0, isTextBox: true });
+  });
+  s.addNotes("Three of the nine pages. Crops and planner: the heatmap shows the chance of a good harvest for every crop and planting month on this farm, and the planner goes from the next three months to a five-year roadmap and a warming what-if, clearly labelled as a scenario, not a forecast. Storms and recovery covers the whole cycle; soil restoration is checked against the farm, and rice appears only where it actually suits. Pest watch is a community map: reports are blurred for privacy and stay unverified until an agricultural officer reviews them.");
 
   // ---------------- 5. Data
   pres.addSection({ title: "Data" });
@@ -192,8 +191,8 @@ process.chdir(require("path").join(__dirname, "deck_assets"));
   s = pres.addSlide({ masterName: "INK", sectionTitle: "Impact" });
   s.addText("Ready before the storm, back faster after it", { x: 0.55, y: 0.4, w: 8.9, h: 0.7, fontSize: 28, bold: true, color: C.background1, fontFace: "Cambria", margin: 0, isTextBox: true });
   const cols = [
-    [I.seed, "Farmers", ["Plans that keep fragile stages out of the storm peak", "Phone alerts, printable almanac, WhatsApp, offline text", "English, Español, Français, Kreyòl"]],
-    [I.globe, "Region", ["Glut warning: stagger replanting after storms", "Parametric micro-insurance explained with the farm's own storm odds", "Advice that reaches farms an extension officer can't visit this week"]],
+    [I.seed, "Farmers", ["Plans that keep fragile stages out of the storm peak", "Phone alerts, printable summaries, dark mode and large text", "English, Español, Français, Kreyòl"]],
+    [I.globe, "Region", ["Glut warning: stagger replanting after storms", "Parametric micro-insurance explained with the farm's own storm odds", "Pest watch: officers verify reports and spot outbreaks early"]],
     [I.check, "Next", ["Validate crop values with CARDI, RADA and extension officers", "Soil-probe network to check SMAP on the ground", "Typhoon and cyclone coasts via NOAA IBTrACS"]],
   ];
   cols.forEach(([ic, t, items], i) => {
