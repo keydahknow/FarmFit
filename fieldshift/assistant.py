@@ -17,7 +17,7 @@ GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:ge
 LIST_URL = "https://generativelanguage.googleapis.com/v1beta/models"
 # Used only if Google's model list can't be read. Google retires model names over time,
 # so the app normally asks which models this key can use (see model_candidates).
-MODELS = ["gemini-flash-latest", "gemini-flash-lite-latest", "gemini-2.5-flash"]
+MODELS = ["gemini-flash-latest", "gemini-flash-lite-latest", "gemini-2.5-flash-lite"]
 _CACHE = {}
 
 
@@ -33,7 +33,8 @@ def rank_models(names):
     def key(n):
         m = re.search(r"gemini-(\d+(?:\.\d+)?)", n)
         version = float(m.group(1)) if m else 0.0
-        return (n != "gemini-flash-latest", "preview" in n or "exp" in n, "lite" in n, -version,
+        alias = {"gemini-flash-latest": 0, "gemini-flash-lite-latest": 1}.get(n, 2)
+        return (alias, "preview" in n or "exp" in n, "lite" in n, -version,
                 bool(re.search(r"-\d{3}$", n)), n)
     return sorted(dict.fromkeys(keep), key=key)
 
@@ -57,7 +58,7 @@ def model_candidates(api_key, preferred=None, ttl=6 * 3600):
     return list(dict.fromkeys(out))
 
 
-def generate(api_key, body, preferred=None, timeout=60, budget=45):
+def generate(api_key, body, preferred=None, timeout=20, budget=55):
     """POST to Gemini, trying models in order, within an overall time budget (seconds).
     One short retry when a model is busy (429/503). Returns (response_json, model);
     raises RuntimeError listing every error."""

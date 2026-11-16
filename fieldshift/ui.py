@@ -1341,7 +1341,9 @@ def render_ask(bundle):
                 with st.spinner("Thinking…"):
                     answer, info = assistant.ask(key, ss.fs_chat, question, farm_briefing(bundle), lang=lg, model=secret("GEMINI_MODEL"))
                 if not answer:
-                    st.error(f"The assistant is unavailable right now ({info.get('error')}).")
+                    st.error("The assistant couldn't answer just now: Google's Gemini service is slow or busy. "
+                             "Please try again in a minute.")
+                    st.caption(f"Details: {info.get('error')}")
         if answer:
             ss.fs_chat += [{"role": "user", "content": question}, {"role": "assistant", "content": answer}]
             st.rerun(scope="fragment")  # redraw without the starter questions
