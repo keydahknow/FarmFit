@@ -404,8 +404,36 @@ def spark(values, highlight=None, w=140, h=34, colour=Lf):
     return f'<svg viewBox="0 0 {w} {h}" width="100%" height="{h}" preserveAspectRatio="none">{"".join(bars)}</svg>'
 
 
+# Line icons for the "who is it for" cards (drawn, not emoji)
+ICON_FARM = ('<svg class="fs-ico" viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">'
+             '<circle cx="36" cy="12" r="5" fill="#D99A2B"/>'
+             '<path d="M4 30 Q24 20 44 30 L44 44 L4 44 Z" fill="#5E8C5A"/>'
+             '<path d="M8 44 Q16 34 24 30 M18 44 Q24 36 32 31 M28 44 Q33 38 40 33" stroke="#F3EEE3" stroke-width="1.6" fill="none" stroke-linecap="round"/>'
+             '<path d="M10 30 V22 M10 24 l-3-3 M10 26 l3-3" stroke="#3F7A4C" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>')
+ICON_GARDEN = ('<svg class="fs-ico" viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">'
+               '<path d="M24 30 V14" stroke="#3F7A4C" stroke-width="2" stroke-linecap="round"/>'
+               '<path d="M24 20 C17 19 14 14 14 9 C20 10 24 14 24 20 Z" fill="#5E8C5A"/>'
+               '<path d="M24 17 C30 16 34 12 35 7 C29 7 24 11 24 17 Z" fill="#7FA36F"/>'
+               '<path d="M13 29 H35 L32 43 H16 Z" fill="#C2502F"/><rect x="11" y="27" width="26" height="4" rx="1.5" fill="#9A6B43"/></svg>')
+
 EXTRA_CSS = f"""
 <style>
+.fs-demo:has(.fs-ico){{display:flex;gap:.9rem;align-items:flex-start}}
+.fs-demo .fs-ico{{flex:0 0 44px}}
+.fs-fit{{display:inline-block;font:600 .7rem/1 'InterVar',sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:.28rem .5rem;border-radius:999px;margin-right:.35rem;vertical-align:1px}}
+.fs-fit.ok{{background:#DCEBD9;color:#2E5E39}}
+.fs-fit.no{{background:#F3DDD3;color:#8E3A21}}
+.fs-fit-note{{font-size:.85rem;color:{art.INK2}}}
+.st-key-fs_fab{{position:fixed !important;right:22px;bottom:22px;z-index:999990;width:auto !important}}
+.st-key-fs_fab button{{border-radius:999px !important;padding:.55rem 1.15rem !important;background:{art.INK} !important;color:{art.PAPER} !important;
+  border:none !important;box-shadow:0 8px 24px rgba(20,28,40,.35) !important;font-weight:600}}
+.st-key-fs_fab button:hover{{background:#2C3B4E !important}}
+.st-key-fs_fab button p{{color:{art.PAPER} !important}}
+[data-testid="stPopoverBody"]:has(.fs-ask-head){{width:min(430px,94vw) !important;max-width:94vw !important;max-height:82vh;overflow-y:auto}}
+.fs-ask-head .t{{font:600 1.2rem 'Fraunces',serif;color:{art.INK}}}
+.fs-ask-head .s{{font-size:.8rem;color:{art.INK2};margin:.15rem 0 .2rem 0}}
+@media (max-width:640px){{.st-key-fs_fab{{right:12px;bottom:12px}}}}
+@media print{{.st-key-fs_fab{{display:none !important}}}}
 .st-key-onboard{{background:rgba(243,238,227,.96);border-radius:18px;padding:1.6rem 1.8rem !important;
   box-shadow:0 18px 50px rgba(20,28,40,.2);border:1px solid rgba(255,255,255,.5)}}
 .fs-gauge{{text-align:center;padding:.2rem .2rem .4rem .2rem}}
