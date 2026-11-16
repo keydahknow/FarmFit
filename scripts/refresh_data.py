@@ -142,7 +142,10 @@ def merge_points(df):
         old = pd.read_csv(POINTS)
         old = old[~old["product"].isin(df["product"].unique())]
         df = pd.concat([old, df], ignore_index=True)
-    df["date"] = pd.to_datetime(df["date"], format="mixed").dt.strftime("%Y-%m-%d")  # one format for every product
+    # One format for every product. SMAP L4 is 3-hourly with time zones, so keep the day
+    # and average the readings within it.
+    df["date"] = pd.to_datetime(df["date"].astype(str).str[:10], format="%Y-%m-%d").dt.strftime("%Y-%m-%d")
+    df = df.groupby(["id", "date", "product", "layer"], as_index=False)["value"].mean()
     df.to_csv(POINTS, index=False)
 
 
