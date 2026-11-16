@@ -406,3 +406,16 @@ def test_news_rss_parser():
     <source>Newsday</source><pubDate>Sat, 14 Nov 2026 10:00:00 GMT</pubDate></item></channel></rss>"""
     items = news.parse_rss(xml)
     assert items == [{"title": "Farmers count losses", "link": "https://example.org/a", "source": "Newsday", "date": "2026-11-14"}]
+
+
+def test_merge_points_handles_three_hourly_time_zones(tmp_path, monkeypatch):
+    import pandas as pd
+    from scripts import refresh_data
+    monkeypatch.setattr(refresh_data, "POINTS", tmp_path / "p.csv")
+    df = pd.DataFrame({"id": ["a"] * 3, "product": ["SPL4SMGP.008"] * 3, "layer": ["sm_rootzone"] * 3,
+                       "date": ["2026-11-14T01:30:00+00:00", "2026-11-14T04:30:00Z", "2026-11-15"],
+                       "value": [0.30, 0.34, 0.40]})
+    refresh_data.merge_points(df)
+    out = pd.read_csv(tmp_path / "p.csv")
+    assert list(out["date"]) == ["2026-11-14", "2026-11-15"]
+    assert abs(out["value"].iloc[0] - 0.32) < 1e-9
