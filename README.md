@@ -4,7 +4,7 @@
 
 FarmFit helps small-scale farmers in hurricane-prone regions plan a farm year that **survives the storm season, rebuilds soil and saves water**, and gives them a **safe, staged way back to production** after a storm.
 
-The farmer starts by picking their farm. Everything after that is worked out for that exact spot, as one scrolling journey **from the sky above the field to the bedrock beneath it**: storms in the sky, decisions in the field, water and soil underground, and the evidence at the bottom.
+The farmer (or home gardener) sets up their farm first: location, size, crops, water and, optionally, soil and equipment. Every page after that is worked out for that exact spot.
 
 > Live app: _add your Streamlit Cloud URL here_ · Demo video: _add link_ · Slides: `docs/FarmFit_Hurricane_to_Harvest.pptx`
 
@@ -25,21 +25,26 @@ Farm calendars were handed down from a climate that has since shifted, and the C
 | 🌀 **St Elizabeth, Jamaica** (18.05° N, 77.72° W) | Wind | Melissa 2025 tops this farm's storm list (≈ 95 kt estimated at the farm). Storm-force wind arrives about 1 year in 4. |
 | 🌧️ **Caroni plains, Trinidad** (10.60° N, 61.38° W) | Rain, waterlogging, dry-season drought | No hurricane-force wind since 1971. Heavy clay drains very slowly. With a strong El Niño under way (ONI +2.5 °C), El Niño years here brought only 64% of normal Dec-Feb rain. |
 
-## The journey
+## The pages
 
-| Layer | What the farmer sees | Data |
+| Page | What the farmer sees | Main data |
 |---|---|---|
-| **Pick your farm** | Demo farms, a place search, or a pin on the satellite map. Links like `?farm=jamaica` or `?lat=..&lon=..` open a farm directly. | Open-Meteo geocoding, Esri imagery |
-| **The sky: Storm ready** | Live NOAA NHC storm watch with a threat level and an ETA; a storm checklist for the crop in the field this month; storm-and-drought phone alerts; how exposed this farm is (every storm since 1971 turned into wind at the farm); replay a real storm (e.g. Melissa) on every calendar; 5,000 simulated seasons. | NOAA NHC, HURDAT2, IBTrACS |
-| **The field: Plan my season** | Current rotation vs **Storm-smart, Soil builder and Water saver**, month by month over a storm and flood risk row, chosen from ≈ 200,000 calendars. Each plan: why it was suggested, evidence, benefits (including pest-cycle breaks and livestock feed), market timing, information gaps and what to check locally. **The planting-window orchard:** twelve fruit trees, one per planting month; blossom and fruit show the chance of a good harvest. A printable A4 almanac and a WhatsApp share. | NASA POWER, HURDAT2, FAO ECOCROP / FAO-56, NAMDEVCO |
-| **After the storm** | Field photo described by Gemini vision, plus what a photo can't show; IMERG rain around the storm; **MODIS flood and OPERA radar water maps for the storm date**; four gated recovery stages; a recovery rotation that warns about post-storm gluts; where to report damage and how CCRIF's parametric micro-insurance works. | Gemini, NASA POWER, GPM IMERG, NASA GIBS, FDA guidance |
-| **Under the surface: Water watch** | Rain and root-zone wetness ranked against 30 years; SMAP surface and root-zone moisture; **plant water stress from MODIS ET ÷ PET**; **Season ahead**, which tests El Niño and La Niña against the farm's own rain; this week's watering advice; the storm water bank (from our IFRS project); field shift 1996-2010 against 2011-2025. | NASA POWER, SMAP L3/L4, MODIS MOD16A2, GPM IMERG, NOAA ENSO, Open-Meteo |
-| **Deeper: Soil and roots** | Texture, drainage, pH, organic matter and slope, with what they mean for the field; a US$15 soil probe compared with SMAP; **Ask FarmFit**, a chat assistant grounded in all of the above, in four languages. | ISRIC SoilGrids, NASA SRTM, ESP32 probe, Gemini |
-| **Bedrock: Data and method** | The data passport (every dataset, its resolution and when it was last refreshed), methods and limits. | all |
+| **Set up** (first visit) | Farm or home garden; location by search, map pin or coordinates; size; soil type and pH (optional); crops; water; equipment and sensors (optional). A tree grows from seed to fruit as the steps are done. Saved as a bookmarkable link or a JSON file; editable later. | Open-Meteo geocoding, Esri imagery |
+| **Home** | **Plant now, or wait?** for each of the farmer's crops and the best crops to plant this month; four risk gauges (storm, drought, flooding, heat) with plain reasons; 16-day rain and temperature chart; El Niño season-ahead; nearby pest reports; printable summary. | NASA POWER, NOAA, Open-Meteo, NOAA ENSO |
+| **My farm** | Hazard profile of the location (flooding, drought, storms, erosion); soil and terrain in plain language; soil probe; edit details; download the farm file. | ISRIC SoilGrids, NASA SRTM, NASA POWER, NOAA |
+| **Weather** | 16-day forecast with rain chance, highs and lows, and humidity; normal rain range versus this year; monthly heat, humidity and heavy-rain days; Water watch (SMAP, MODIS stress, IMERG, watering advice, water bank, field shift). | Open-Meteo, NASA POWER, SMAP, MODIS, IMERG |
+| **Crops & market** | Crop × planting-month heatmap of the chance of a good harvest; side-by-side comparison with data-source badges; profit calculator from the farmer's own yield, price and costs; NAMDEVCO price seasons. | NASA POWER, NOAA, FAO, NAMDEVCO |
+| **Planner** | Four horizons: next 3 months (rain, storm gauge, best crops, tasks), 1 year (current rotation vs three strategies, calendar, orchard), 5 years (rotation roadmap plus land, water and protection milestones), beyond 5 years (observed trends plus a +1 / +2 °C what-if). | all |
+| **Storms & recovery** | 1 Prepare (live storm watch, checklist, alerts, exposure, replay a real storm); 2 Respond & recover (photo check, staged recovery, where to report, insurance); 3 Restore the soil (by condition: waterlogged, eroded, salt-damaged, compacted, tired); 4 Build resilience (wind-resistant crops, protection, CCRIF). | NOAA, NASA, FDA, IRRI, FAO, USDA NRCS |
+| **Pest watch** | Community map of pest and disease reports, with filters by type, severity, distance and time; report a problem with a photo and an AI suggestion; follow my area (phone alerts); officer dashboard to verify reports and spot outbreaks. | farmer reports, Gemini (suggestion only), ntfy |
+| **News & ask** | Caribbean agriculture headlines; official sources (T&T Met Service, MALF, ODPM, NAMDEVCO, RADA, ODPEM, CIMH, CARDI, FAO, CCRIF); Ask FarmFit assistant. | Google News RSS, Gemini |
+| **Data** | Data passport, methods and limits. | all |
 
-**The living tree.** A tree on the left of the page comes alive as the farmer scrolls: canopy and blossom for the layers above ground, roots for the layers below. Its labels jump to each layer. On phones it becomes a thin growing vine at the top of the screen.
+**Home garden mode** has a lighter set of pages: Home (plant now or wait for garden crops, watering this week, risks), Grow guide (crops for containers, beds and walls, plus beginner guides), Weather, Pest watch, Storm ready, Learn & ask, My garden.
 
-**The orchard.** For any crop, each planting month gets a fruit tree. Chance of a good harvest = share of 4,000 simulated seasons (the farm's own storm and heavy-rain odds) in which storms and floods take less than 20% of the crop × climate fit (FAO ECOCROP with NASA POWER) × how much of the irrigation need the farmer's water covers. It leaves out pests, prices and luck, so it never shows more than 95%.
+**Display settings** (on every page): language (English, Español, Français, Kreyòl), text size, dark mode. Layouts work on phones; the menu folds into a side panel on small screens.
+
+**Every number is labelled:** *Measured data*, *Model estimate*, *Your numbers* or *Simulated example*. Simulated pest reports appear only when the user switches them on for a demonstration.
 
 ## Local and regional data
 
@@ -194,7 +199,13 @@ pip install pytest && pytest -q
 
 | Path | Purpose |
 |---|---|
-| `app.py` | Streamlit entry point: pick a farm, then one scrolling journey (sky → field → recovery → water → soil → bedrock) |
+| `app.py` | Streamlit entry point: onboarding, then the multi-page app |
+| `fieldshift/pages.py` | Onboarding, navigation and every page |
+| `fieldshift/profile.py` | The farmer's profile: optional fields, link and file saving |
+| `fieldshift/community.py` | Pest and disease reports: blurring, verification, area alerts, outbreak detection |
+| `fieldshift/restore.py` | Soil restoration by condition, checked against the farm |
+| `fieldshift/garden.py` | Home garden crops and beginner guides |
+| `fieldshift/news.py` | News feeds and official sources |
 | `legacy_app.py` | The original FarmFit crop-check app, still runnable with `streamlit run legacy_app.py` |
 | `fieldshift/storms.py` | HURDAT2 loading, interpolation, wind-at-farm, monthly exposure |
 | `fieldshift/power.py` | NASA POWER fetch and cache, climate normals, ET₀, field-shift statistics |
@@ -256,6 +267,8 @@ We use branches and pull requests on `main`. See [GIT_SHEET.md](GIT_SHEET.md).
 - CCRIF SPC, Livelihood Protection Policy (launched in Jamaica, December 2025).
 - Jamaica Ministry of Agriculture, Fisheries and Mining: Hurricane Melissa crop-loss assessment (2025) and post-recovery price statements (January 2026).
 - NOAA CPC Oceanic Niño Index; NASA MOD16A2 (Running et al.); SMAP L4 SPL4SMGP (Reichle et al.); OPERA DSWx-S1 (JPL); MODIS NRT Global Flood Product (LANCE).
+
+See also `docs/GEMINI.md` (connecting Gemini securely) and `docs/COMPETITION_REVIEW.md` (requirements and gaps).
 
 ## AI use
 

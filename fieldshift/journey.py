@@ -329,7 +329,7 @@ def install_static(st, depth="home", dark=False, zoom=1.0):
     if dark:
         # Invert the paper panels (keeps hues, swaps light and dark); photos and maps are flipped back.
         extra += """
-[class*="st-key-layer_"],.st-key-topbar,.st-key-landing,.st-key-onboard{filter:invert(1) hue-rotate(180deg)}
+[class*="st-key-layer_"],.st-key-topbar,.st-key-landing,.st-key-onboard,[data-testid="stHeader"]{filter:invert(1) hue-rotate(180deg)}
 [class*="st-key-layer_"] img,[class*="st-key-layer_"] iframe,.st-key-onboard iframe,.st-key-onboard img,.st-key-landing iframe,
 [class*="st-key-layer_"] .keep-colour,.st-key-onboard .keep-colour{filter:invert(1) hue-rotate(180deg)}
 #fs-world{filter:brightness(.42) saturate(.8)}

@@ -1250,7 +1250,7 @@ def farm_briefing(bundle):
 
     ctx = {
         "Today": date.today().isoformat(),
-        "Farm": f"{farm_label(bundle)} ({bundle['lat']:.3f}, {bundle['lon']:.3f})" + (f". {farm['story']}" if farm else ""),
+        "Farm": f"{farm_label(bundle) if current_farm()[1] else 'Farm'} (near {bundle['lat']:.1f}, {bundle['lon']:.1f})" + (f". {farm['story']}" if farm else ""),
         "Soil (ISRIC SoilGrids, 250 m)": ", ".join(f"{k} {v}" for k, v in soil.items() if k in ("ph", "texture", "organic_matter_pct", "drainage") and v) or "unknown",
         "Terrain (NASA SRTM)": f"elevation {terr.get('elevation_m')} m, slope {terr.get('slope_pct')} %" if terr.get("elevation_m") is not None else "unknown",
         "Climate (NASA POWER " + bundle.get("climate_period", "") + ")": [
