@@ -1,1578 +1,1936 @@
 id,date,product,layer,value
 jamaica,2023-11-01,MOD13Q1.061,_250m_16_days_NDVI,0.7506
+jamaica,2023-11-09,MOD16A2.061,ET_500m,24.9
+jamaica,2023-11-09,MOD16A2.061,PET_500m,30.3
 jamaica,2023-11-17,MOD13Q1.061,_250m_16_days_NDVI,0.8144
-jamaica,2023-12-03,MOD13Q1.061,_250m_16_days_NDVI,0.7689
-jamaica,2023-12-19,MOD13Q1.061,_250m_16_days_NDVI,0.7837
-jamaica,2024-01-01,MOD13Q1.061,_250m_16_days_NDVI,0.773
-jamaica,2024-01-17,MOD13Q1.061,_250m_16_days_NDVI,0.7463
-jamaica,2024-02-02,MOD13Q1.061,_250m_16_days_NDVI,0.7134
-jamaica,2024-02-18,MOD13Q1.061,_250m_16_days_NDVI,0.6784
-jamaica,2024-03-05,MOD13Q1.061,_250m_16_days_NDVI,0.6869
-jamaica,2024-03-21,MOD13Q1.061,_250m_16_days_NDVI,0.6514
-jamaica,2024-04-06,MOD13Q1.061,_250m_16_days_NDVI,0.744
-jamaica,2024-04-22,MOD13Q1.061,_250m_16_days_NDVI,0.697
-jamaica,2024-05-08,MOD13Q1.061,_250m_16_days_NDVI,0.7348
-jamaica,2024-05-24,MOD13Q1.061,_250m_16_days_NDVI,0.726
-jamaica,2024-06-09,MOD13Q1.061,_250m_16_days_NDVI,0.6912
-jamaica,2024-06-25,MOD13Q1.061,_250m_16_days_NDVI,0.6286
-jamaica,2024-07-11,MOD13Q1.061,_250m_16_days_NDVI,0.6558
-jamaica,2024-07-27,MOD13Q1.061,_250m_16_days_NDVI,0.7423
-jamaica,2024-08-12,MOD13Q1.061,_250m_16_days_NDVI,0.732
-jamaica,2024-08-28,MOD13Q1.061,_250m_16_days_NDVI,0.7187
-jamaica,2024-09-13,MOD13Q1.061,_250m_16_days_NDVI,0.6949
-jamaica,2024-09-29,MOD13Q1.061,_250m_16_days_NDVI,0.776
-jamaica,2024-10-15,MOD13Q1.061,_250m_16_days_NDVI,0.7757
-jamaica,2024-10-31,MOD13Q1.061,_250m_16_days_NDVI,0.7687
-jamaica,2024-11-16,MOD13Q1.061,_250m_16_days_NDVI,0.7927
-jamaica,2024-12-02,MOD13Q1.061,_250m_16_days_NDVI,0.7699
-jamaica,2024-12-18,MOD13Q1.061,_250m_16_days_NDVI,0.7106
-jamaica,2025-01-01,MOD13Q1.061,_250m_16_days_NDVI,0.7136
-jamaica,2025-01-17,MOD13Q1.061,_250m_16_days_NDVI,0.6797
-jamaica,2025-02-02,MOD13Q1.061,_250m_16_days_NDVI,0.6599
-jamaica,2025-02-18,MOD13Q1.061,_250m_16_days_NDVI,0.7278
-jamaica,2025-03-06,MOD13Q1.061,_250m_16_days_NDVI,0.7325
-jamaica,2025-03-22,MOD13Q1.061,_250m_16_days_NDVI,0.7059
-jamaica,2025-04-07,MOD13Q1.061,_250m_16_days_NDVI,0.7657
-jamaica,2025-04-23,MOD13Q1.061,_250m_16_days_NDVI,0.7512
-jamaica,2025-05-09,MOD13Q1.061,_250m_16_days_NDVI,0.7552
-jamaica,2025-05-25,MOD13Q1.061,_250m_16_days_NDVI,0.7264
-jamaica,2025-06-10,MOD13Q1.061,_250m_16_days_NDVI,0.6327
-jamaica,2025-06-26,MOD13Q1.061,_250m_16_days_NDVI,0.7025
-jamaica,2025-07-12,MOD13Q1.061,_250m_16_days_NDVI,0.6778
-jamaica,2025-07-28,MOD13Q1.061,_250m_16_days_NDVI,0.707
-jamaica,2025-08-13,MOD13Q1.061,_250m_16_days_NDVI,0.7876
-jamaica,2025-08-29,MOD13Q1.061,_250m_16_days_NDVI,0.7699
-jamaica,2025-09-14,MOD13Q1.061,_250m_16_days_NDVI,0.8169
-jamaica,2025-09-30,MOD13Q1.061,_250m_16_days_NDVI,0.7927
-jamaica,2025-10-16,MOD13Q1.061,_250m_16_days_NDVI,0.7557
-jamaica,2025-11-01,MOD13Q1.061,_250m_16_days_NDVI,0.6733
-jamaica,2025-11-17,MOD13Q1.061,_250m_16_days_NDVI,0.7297
-jamaica,2025-12-03,MOD13Q1.061,_250m_16_days_NDVI,0.7639
-jamaica,2025-12-19,MOD13Q1.061,_250m_16_days_NDVI,0.7325
-jamaica,2026-01-01,MOD13Q1.061,_250m_16_days_NDVI,0.7244
-jamaica,2026-01-17,MOD13Q1.061,_250m_16_days_NDVI,0.7239
-jamaica,2026-02-02,MOD13Q1.061,_250m_16_days_NDVI,0.7438
-jamaica,2026-02-18,MOD13Q1.061,_250m_16_days_NDVI,0.7512
-jamaica,2026-03-06,MOD13Q1.061,_250m_16_days_NDVI,0.7419
-jamaica,2026-03-22,MOD13Q1.061,_250m_16_days_NDVI,0.7525
-jamaica,2026-04-07,MOD13Q1.061,_250m_16_days_NDVI,0.7333
-jamaica,2026-04-23,MOD13Q1.061,_250m_16_days_NDVI,0.7597
-jamaica,2026-05-09,MOD13Q1.061,_250m_16_days_NDVI,0.7323
-jamaica,2026-05-25,MOD13Q1.061,_250m_16_days_NDVI,0.7006
-jamaica,2026-06-10,MOD13Q1.061,_250m_16_days_NDVI,0.675
-jamaica,2026-06-26,MOD13Q1.061,_250m_16_days_NDVI,0.7062
-jamaica,2026-07-12,MOD13Q1.061,_250m_16_days_NDVI,0.6939
-jamaica,2026-07-28,MOD13Q1.061,_250m_16_days_NDVI,0.778
-jamaica,2026-08-13,MOD13Q1.061,_250m_16_days_NDVI,0.7763
-jamaica,2026-08-29,MOD13Q1.061,_250m_16_days_NDVI,0.8043
-jamaica,2026-09-14,MOD13Q1.061,_250m_16_days_NDVI,0.7633
-jamaica,2026-09-30,MOD13Q1.061,_250m_16_days_NDVI,0.7306
-jamaica,2026-10-16,MOD13Q1.061,_250m_16_days_NDVI,0.797
+jamaica,2023-11-17,MOD16A2.061,ET_500m,28.6
+jamaica,2023-11-17,MOD16A2.061,PET_500m,39.7
 jamaica,2023-11-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2558005
 jamaica,2023-11-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4145909
 jamaica,2023-11-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2084498
 jamaica,2023-11-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2366114
+jamaica,2023-11-25,MOD16A2.061,ET_500m,28.0
+jamaica,2023-11-25,MOD16A2.061,PET_500m,40.4
 jamaica,2023-11-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1942094
 jamaica,2023-11-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2827816
 jamaica,2023-11-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1558893
 jamaica,2023-11-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.194081
+jamaica,2023-12-03,MOD13Q1.061,_250m_16_days_NDVI,0.7689
+jamaica,2023-12-03,MOD16A2.061,ET_500m,31.2
+jamaica,2023-12-03,MOD16A2.061,PET_500m,40.9
 jamaica,2023-12-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1164639
 jamaica,2023-12-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3475195
 jamaica,2023-12-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2301003
+jamaica,2023-12-11,MOD16A2.061,ET_500m,19.8
+jamaica,2023-12-11,MOD16A2.061,PET_500m,32.6
 jamaica,2023-12-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1243252
 jamaica,2023-12-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3255139
 jamaica,2023-12-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1919644
+jamaica,2023-12-19,MOD13Q1.061,_250m_16_days_NDVI,0.7837
+jamaica,2023-12-19,MOD16A2.061,ET_500m,25.5
+jamaica,2023-12-19,MOD16A2.061,PET_500m,37.1
 jamaica,2023-12-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2372188
 jamaica,2023-12-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3620461
 jamaica,2023-12-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2637062
+jamaica,2023-12-27,MOD16A2.061,ET_500m,14.8
+jamaica,2023-12-27,MOD16A2.061,PET_500m,19.6
 jamaica,2023-12-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2026087
 jamaica,2023-12-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4031259
+jamaica,2024-01-01,MOD13Q1.061,_250m_16_days_NDVI,0.773
+jamaica,2024-01-01,MOD16A2.061,ET_500m,29.3
+jamaica,2024-01-01,MOD16A2.061,PET_500m,40.2
 jamaica,2024-01-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2319078
 jamaica,2024-01-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1966584
 jamaica,2024-01-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4292502
 jamaica,2024-01-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1895655
+jamaica,2024-01-09,MOD16A2.061,ET_500m,30.0
+jamaica,2024-01-09,MOD16A2.061,PET_500m,41.2
 jamaica,2024-01-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1706274
 jamaica,2024-01-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1896981
 jamaica,2024-01-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3274605
 jamaica,2024-01-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1484377
+jamaica,2024-01-17,MOD13Q1.061,_250m_16_days_NDVI,0.7463
+jamaica,2024-01-17,MOD16A2.061,ET_500m,22.8
+jamaica,2024-01-17,MOD16A2.061,PET_500m,42.7
 jamaica,2024-01-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2295859
 jamaica,2024-01-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1544779
 jamaica,2024-01-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3488216
+jamaica,2024-01-25,MOD16A2.061,ET_500m,18.2
+jamaica,2024-01-25,MOD16A2.061,PET_500m,42.8
 jamaica,2024-01-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1302957
 jamaica,2024-01-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1687812
 jamaica,2024-01-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2647454
+jamaica,2024-02-02,MOD13Q1.061,_250m_16_days_NDVI,0.7134
+jamaica,2024-02-02,MOD16A2.061,ET_500m,16.5
+jamaica,2024-02-02,MOD16A2.061,PET_500m,44.1
 jamaica,2024-02-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2001877
 jamaica,2024-02-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1424533
 jamaica,2024-02-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3146007
+jamaica,2024-02-10,MOD16A2.061,ET_500m,22.7
+jamaica,2024-02-10,MOD16A2.061,PET_500m,47.3
 jamaica,2024-02-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1400412
 jamaica,2024-02-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1467747
 jamaica,2024-02-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3171924
 jamaica,2024-02-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1601982
+jamaica,2024-02-18,MOD13Q1.061,_250m_16_days_NDVI,0.6784
+jamaica,2024-02-18,MOD16A2.061,ET_500m,23.1
+jamaica,2024-02-18,MOD16A2.061,PET_500m,46.9
 jamaica,2024-02-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1324306
 jamaica,2024-02-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1592
 jamaica,2024-02-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2251534
+jamaica,2024-02-26,MOD16A2.061,ET_500m,23.6
+jamaica,2024-02-26,MOD16A2.061,PET_500m,50.3
 jamaica,2024-02-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0898793
 jamaica,2024-02-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1150711
+jamaica,2024-03-05,MOD13Q1.061,_250m_16_days_NDVI,0.6869
+jamaica,2024-03-05,MOD16A2.061,ET_500m,17.8
+jamaica,2024-03-05,MOD16A2.061,PET_500m,54.4
 jamaica,2024-03-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1066953
 jamaica,2024-03-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0590613
 jamaica,2024-03-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1299759
+jamaica,2024-03-13,MOD16A2.061,ET_500m,16.0
+jamaica,2024-03-13,MOD16A2.061,PET_500m,53.7
 jamaica,2024-03-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0621869
 jamaica,2024-03-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0339685
 jamaica,2024-03-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0908864
+jamaica,2024-03-21,MOD13Q1.061,_250m_16_days_NDVI,0.6514
+jamaica,2024-03-21,MOD16A2.061,ET_500m,30.4
+jamaica,2024-03-21,MOD16A2.061,PET_500m,55.3
 jamaica,2024-03-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0538733
 jamaica,2024-03-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1325456
 jamaica,2024-03-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2270715
+jamaica,2024-03-29,MOD16A2.061,ET_500m,19.0
+jamaica,2024-03-29,MOD16A2.061,PET_500m,58.3
 jamaica,2024-03-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1413257
 jamaica,2024-04-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1328108
 jamaica,2024-04-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3132734
 jamaica,2024-04-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0804888
+jamaica,2024-04-06,MOD13Q1.061,_250m_16_days_NDVI,0.744
+jamaica,2024-04-06,MOD16A2.061,ET_500m,25.6
+jamaica,2024-04-06,MOD16A2.061,PET_500m,60.0
 jamaica,2024-04-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1819912
 jamaica,2024-04-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1821418
 jamaica,2024-04-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2061479
 jamaica,2024-04-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1240894
+jamaica,2024-04-14,MOD16A2.061,ET_500m,31.1
+jamaica,2024-04-14,MOD16A2.061,PET_500m,58.7
 jamaica,2024-04-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2165572
 jamaica,2024-04-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2187673
 jamaica,2024-04-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4481775
 jamaica,2024-04-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2629285
+jamaica,2024-04-22,MOD13Q1.061,_250m_16_days_NDVI,0.697
+jamaica,2024-04-22,MOD16A2.061,ET_500m,27.4
+jamaica,2024-04-22,MOD16A2.061,PET_500m,58.8
 jamaica,2024-04-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2895757
 jamaica,2024-04-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2209006
 jamaica,2024-04-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.464475
 jamaica,2024-04-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1783636
+jamaica,2024-04-30,MOD16A2.061,ET_500m,29.8
+jamaica,2024-04-30,MOD16A2.061,PET_500m,54.5
 jamaica,2024-04-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3458327
 jamaica,2024-05-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2551557
 jamaica,2024-05-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3410994
 jamaica,2024-05-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1621812
+jamaica,2024-05-08,MOD13Q1.061,_250m_16_days_NDVI,0.7348
+jamaica,2024-05-08,MOD16A2.061,ET_500m,33.0
+jamaica,2024-05-08,MOD16A2.061,PET_500m,48.5
 jamaica,2024-05-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2045172
 jamaica,2024-05-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2546312
 jamaica,2024-05-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.201645
 jamaica,2024-05-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1679235
+jamaica,2024-05-16,MOD16A2.061,ET_500m,28.1
+jamaica,2024-05-16,MOD16A2.061,PET_500m,36.5
 jamaica,2024-05-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1538034
 jamaica,2024-05-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.118829
 jamaica,2024-05-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1656214
+jamaica,2024-05-24,MOD13Q1.061,_250m_16_days_NDVI,0.726
+jamaica,2024-05-24,MOD16A2.061,ET_500m,20.3
+jamaica,2024-05-24,MOD16A2.061,PET_500m,43.1
 jamaica,2024-05-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1132046
 jamaica,2024-05-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2361484
+jamaica,2024-06-01,MOD16A2.061,ET_500m,23.7
+jamaica,2024-06-01,MOD16A2.061,PET_500m,31.2
 jamaica,2024-06-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1334757
 jamaica,2024-06-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1487038
 jamaica,2024-06-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3045345
 jamaica,2024-06-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.02
+jamaica,2024-06-09,MOD13Q1.061,_250m_16_days_NDVI,0.6912
+jamaica,2024-06-09,MOD16A2.061,ET_500m,27.0
+jamaica,2024-06-09,MOD16A2.061,PET_500m,39.1
 jamaica,2024-06-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.131757
 jamaica,2024-06-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1373958
 jamaica,2024-06-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2436929
+jamaica,2024-06-17,MOD16A2.061,ET_500m,24.8
+jamaica,2024-06-17,MOD16A2.061,PET_500m,39.6
 jamaica,2024-06-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1580745
 jamaica,2024-06-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1282926
 jamaica,2024-06-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2626165
+jamaica,2024-06-25,MOD13Q1.061,_250m_16_days_NDVI,0.6286
+jamaica,2024-06-25,MOD16A2.061,ET_500m,25.8
+jamaica,2024-06-25,MOD16A2.061,PET_500m,37.5
 jamaica,2024-06-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2238175
 jamaica,2024-06-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0905972
 jamaica,2024-06-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2107288
+jamaica,2024-07-03,MOD16A2.061,ET_500m,22.0
+jamaica,2024-07-03,MOD16A2.061,PET_500m,33.5
 jamaica,2024-07-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1979541
 jamaica,2024-07-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3052539
 jamaica,2024-07-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3861763
+jamaica,2024-07-11,MOD13Q1.061,_250m_16_days_NDVI,0.6558
+jamaica,2024-07-11,MOD16A2.061,ET_500m,29.7
+jamaica,2024-07-11,MOD16A2.061,PET_500m,37.6
 jamaica,2024-07-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.262176
 jamaica,2024-07-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2357611
 jamaica,2024-07-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3630113
+jamaica,2024-07-19,MOD16A2.061,ET_500m,29.1
+jamaica,2024-07-19,MOD16A2.061,PET_500m,40.2
 jamaica,2024-07-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2918472
 jamaica,2024-07-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1600542
 jamaica,2024-07-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2845031
+jamaica,2024-07-27,MOD13Q1.061,_250m_16_days_NDVI,0.7423
+jamaica,2024-07-27,MOD16A2.061,ET_500m,27.1
+jamaica,2024-07-27,MOD16A2.061,PET_500m,34.7
 jamaica,2024-07-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2736557
 jamaica,2024-07-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.193625
 jamaica,2024-08-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3093987
 jamaica,2024-08-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1621029
+jamaica,2024-08-04,MOD16A2.061,ET_500m,25.8
+jamaica,2024-08-04,MOD16A2.061,PET_500m,38.2
 jamaica,2024-08-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2259016
 jamaica,2024-08-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1516754
 jamaica,2024-08-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2113471
 jamaica,2024-08-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1310754
+jamaica,2024-08-12,MOD13Q1.061,_250m_16_days_NDVI,0.732
+jamaica,2024-08-12,MOD16A2.061,ET_500m,28.0
+jamaica,2024-08-12,MOD16A2.061,PET_500m,40.8
 jamaica,2024-08-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1836221
 jamaica,2024-08-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1596838
 jamaica,2024-08-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0841703
+jamaica,2024-08-20,MOD16A2.061,ET_500m,29.9
+jamaica,2024-08-20,MOD16A2.061,PET_500m,40.5
 jamaica,2024-08-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1914949
 jamaica,2024-08-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1232388
 jamaica,2024-08-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1305838
 jamaica,2024-08-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1355238
+jamaica,2024-08-28,MOD13Q1.061,_250m_16_days_NDVI,0.7187
+jamaica,2024-08-28,MOD16A2.061,ET_500m,22.2
+jamaica,2024-08-28,MOD16A2.061,PET_500m,37.0
 jamaica,2024-08-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1546506
 jamaica,2024-09-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2705445
+jamaica,2024-09-05,MOD16A2.061,ET_500m,34.3
+jamaica,2024-09-05,MOD16A2.061,PET_500m,44.5
 jamaica,2024-09-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1370497
 jamaica,2024-09-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1185675
 jamaica,2024-09-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1531
+jamaica,2024-09-13,MOD13Q1.061,_250m_16_days_NDVI,0.6949
+jamaica,2024-09-13,MOD16A2.061,ET_500m,21.1
+jamaica,2024-09-13,MOD16A2.061,PET_500m,39.0
 jamaica,2024-09-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1970386
 jamaica,2024-09-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.152343
 jamaica,2024-09-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1660539
+jamaica,2024-09-21,MOD16A2.061,ET_500m,23.1
+jamaica,2024-09-21,MOD16A2.061,PET_500m,30.4
 jamaica,2024-09-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0921447
 jamaica,2024-09-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1121349
 jamaica,2024-09-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3171398
+jamaica,2024-09-29,MOD13Q1.061,_250m_16_days_NDVI,0.776
+jamaica,2024-09-29,MOD16A2.061,ET_500m,23.7
+jamaica,2024-09-29,MOD16A2.061,PET_500m,34.3
 jamaica,2024-09-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1596576
 jamaica,2024-10-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1360945
 jamaica,2024-10-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1813672
+jamaica,2024-10-07,MOD16A2.061,ET_500m,27.6
+jamaica,2024-10-07,MOD16A2.061,PET_500m,36.5
 jamaica,2024-10-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1604877
 jamaica,2024-10-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0540274
 jamaica,2024-10-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1408351
+jamaica,2024-10-15,MOD13Q1.061,_250m_16_days_NDVI,0.7757
+jamaica,2024-10-15,MOD16A2.061,ET_500m,25.7
+jamaica,2024-10-15,MOD16A2.061,PET_500m,32.5
 jamaica,2024-10-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1778998
 jamaica,2024-10-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2083335
 jamaica,2024-10-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3287215
+jamaica,2024-10-23,MOD16A2.061,ET_500m,20.3
+jamaica,2024-10-23,MOD16A2.061,PET_500m,31.0
 jamaica,2024-10-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2003391
 jamaica,2024-10-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1978839
 jamaica,2024-10-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3144202
+jamaica,2024-10-31,MOD13Q1.061,_250m_16_days_NDVI,0.7687
+jamaica,2024-10-31,MOD16A2.061,ET_500m,27.5
+jamaica,2024-10-31,MOD16A2.061,PET_500m,34.0
 jamaica,2024-10-31,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1859025
 jamaica,2024-11-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1691674
 jamaica,2024-11-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2949226
+jamaica,2024-11-08,MOD16A2.061,ET_500m,25.4
+jamaica,2024-11-08,MOD16A2.061,PET_500m,32.2
 jamaica,2024-11-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2571245
 jamaica,2024-11-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1446053
 jamaica,2024-11-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3865099
 jamaica,2024-11-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0793203
+jamaica,2024-11-16,MOD13Q1.061,_250m_16_days_NDVI,0.7927
+jamaica,2024-11-16,MOD16A2.061,ET_500m,27.3
+jamaica,2024-11-16,MOD16A2.061,PET_500m,39.0
 jamaica,2024-11-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2531461
 jamaica,2024-11-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2008488
 jamaica,2024-11-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2016184
 jamaica,2024-11-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1172954
+jamaica,2024-11-24,MOD16A2.061,ET_500m,17.8
+jamaica,2024-11-24,MOD16A2.061,PET_500m,25.2
 jamaica,2024-11-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2215755
 jamaica,2024-11-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2225249
 jamaica,2024-11-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2806228
 jamaica,2024-11-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1454004
+jamaica,2024-12-02,MOD13Q1.061,_250m_16_days_NDVI,0.7699
+jamaica,2024-12-02,MOD16A2.061,ET_500m,27.7
+jamaica,2024-12-02,MOD16A2.061,PET_500m,34.2
 jamaica,2024-12-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2478394
 jamaica,2024-12-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1435629
 jamaica,2024-12-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2996012
 jamaica,2024-12-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1200276
+jamaica,2024-12-10,MOD16A2.061,ET_500m,30.2
+jamaica,2024-12-10,MOD16A2.061,PET_500m,37.9
 jamaica,2024-12-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2178196
 jamaica,2024-12-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1962431
 jamaica,2024-12-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2244437
 jamaica,2024-12-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1299471
+jamaica,2024-12-18,MOD13Q1.061,_250m_16_days_NDVI,0.7106
+jamaica,2024-12-18,MOD16A2.061,ET_500m,19.0
+jamaica,2024-12-18,MOD16A2.061,PET_500m,31.2
 jamaica,2024-12-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.191315
 jamaica,2024-12-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1533502
 jamaica,2024-12-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2431816
 jamaica,2024-12-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0289042
+jamaica,2024-12-26,MOD16A2.061,ET_500m,15.3
+jamaica,2024-12-26,MOD16A2.061,PET_500m,19.8
 jamaica,2024-12-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2188465
 jamaica,2024-12-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.155248
 jamaica,2024-12-31,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2555252
+jamaica,2025-01-01,MOD13Q1.061,_250m_16_days_NDVI,0.7136
+jamaica,2025-01-01,MOD16A2.061,ET_500m,23.7
+jamaica,2025-01-01,MOD16A2.061,PET_500m,33.8
 jamaica,2025-01-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.176136
 jamaica,2025-01-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1848483
 jamaica,2025-01-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1866686
 jamaica,2025-01-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1822972
+jamaica,2025-01-09,MOD16A2.061,ET_500m,24.1
+jamaica,2025-01-09,MOD16A2.061,PET_500m,37.2
 jamaica,2025-01-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0533971
 jamaica,2025-01-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2414351
 jamaica,2025-01-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1817143
 jamaica,2025-01-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1974333
+jamaica,2025-01-17,MOD13Q1.061,_250m_16_days_NDVI,0.6797
+jamaica,2025-01-17,MOD16A2.061,ET_500m,22.6
+jamaica,2025-01-17,MOD16A2.061,PET_500m,39.6
 jamaica,2025-01-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0684656
 jamaica,2025-01-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.02
 jamaica,2025-01-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1701215
+jamaica,2025-01-25,MOD16A2.061,ET_500m,25.2
+jamaica,2025-01-25,MOD16A2.061,PET_500m,42.8
 jamaica,2025-01-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.02
 jamaica,2025-01-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1133605
 jamaica,2025-01-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0800459
 jamaica,2025-02-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2013878
+jamaica,2025-02-02,MOD13Q1.061,_250m_16_days_NDVI,0.6599
+jamaica,2025-02-02,MOD16A2.061,ET_500m,19.2
+jamaica,2025-02-02,MOD16A2.061,PET_500m,45.1
 jamaica,2025-02-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0801513
 jamaica,2025-02-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0751924
 jamaica,2025-02-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2024446
+jamaica,2025-02-10,MOD16A2.061,ET_500m,21.6
+jamaica,2025-02-10,MOD16A2.061,PET_500m,45.9
 jamaica,2025-02-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1546683
 jamaica,2025-02-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0717171
 jamaica,2025-02-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1673128
+jamaica,2025-02-18,MOD13Q1.061,_250m_16_days_NDVI,0.7278
+jamaica,2025-02-18,MOD16A2.061,ET_500m,19.3
+jamaica,2025-02-18,MOD16A2.061,PET_500m,47.5
 jamaica,2025-02-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1553256
 jamaica,2025-02-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0743153
 jamaica,2025-02-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.231521
+jamaica,2025-02-26,MOD16A2.061,ET_500m,27.2
+jamaica,2025-02-26,MOD16A2.061,PET_500m,50.5
 jamaica,2025-02-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1353495
 jamaica,2025-03-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2047432
 jamaica,2025-03-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4018928
+jamaica,2025-03-06,MOD13Q1.061,_250m_16_days_NDVI,0.7325
+jamaica,2025-03-06,MOD16A2.061,ET_500m,29.3
+jamaica,2025-03-06,MOD16A2.061,PET_500m,50.7
 jamaica,2025-03-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1874861
 jamaica,2025-03-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.02
 jamaica,2025-03-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1658526
+jamaica,2025-03-14,MOD16A2.061,ET_500m,27.6
+jamaica,2025-03-14,MOD16A2.061,PET_500m,53.7
 jamaica,2025-03-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1612285
 jamaica,2025-03-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1709666
 jamaica,2025-03-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2059105
+jamaica,2025-03-22,MOD13Q1.061,_250m_16_days_NDVI,0.7059
+jamaica,2025-03-22,MOD16A2.061,ET_500m,20.7
+jamaica,2025-03-22,MOD16A2.061,PET_500m,56.0
 jamaica,2025-03-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1308389
 jamaica,2025-03-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1366255
 jamaica,2025-03-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2500171
+jamaica,2025-03-30,MOD16A2.061,ET_500m,15.8
+jamaica,2025-03-30,MOD16A2.061,PET_500m,58.8
 jamaica,2025-04-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1052856
 jamaica,2025-04-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0764034
 jamaica,2025-04-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0549807
+jamaica,2025-04-07,MOD13Q1.061,_250m_16_days_NDVI,0.7657
+jamaica,2025-04-07,MOD16A2.061,ET_500m,26.5
+jamaica,2025-04-07,MOD16A2.061,PET_500m,54.0
 jamaica,2025-04-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0908182
 jamaica,2025-04-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1542331
 jamaica,2025-04-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2048217
+jamaica,2025-04-15,MOD16A2.061,ET_500m,27.5
+jamaica,2025-04-15,MOD16A2.061,PET_500m,57.1
 jamaica,2025-04-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1199499
 jamaica,2025-04-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1596445
 jamaica,2025-04-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.117809
 jamaica,2025-04-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.22931
+jamaica,2025-04-23,MOD13Q1.061,_250m_16_days_NDVI,0.7512
+jamaica,2025-04-23,MOD16A2.061,ET_500m,38.8
+jamaica,2025-04-23,MOD16A2.061,PET_500m,57.7
 jamaica,2025-04-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0924602
 jamaica,2025-04-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.203328
 jamaica,2025-04-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.212315
 jamaica,2025-04-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3123847
+jamaica,2025-05-01,MOD16A2.061,ET_500m,25.5
+jamaica,2025-05-01,MOD16A2.061,PET_500m,58.7
 jamaica,2025-05-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2183153
 jamaica,2025-05-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2199516
 jamaica,2025-05-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3415976
+jamaica,2025-05-09,MOD13Q1.061,_250m_16_days_NDVI,0.7552
+jamaica,2025-05-09,MOD16A2.061,ET_500m,37.2
+jamaica,2025-05-09,MOD16A2.061,PET_500m,54.7
 jamaica,2025-05-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2303439
 jamaica,2025-05-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2607564
 jamaica,2025-05-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3854155
+jamaica,2025-05-17,MOD16A2.061,ET_500m,38.0
+jamaica,2025-05-17,MOD16A2.061,PET_500m,56.5
 jamaica,2025-05-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.279185
 jamaica,2025-05-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1224571
 jamaica,2025-05-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1842055
+jamaica,2025-05-25,MOD13Q1.061,_250m_16_days_NDVI,0.7264
+jamaica,2025-05-25,MOD16A2.061,ET_500m,28.7
+jamaica,2025-05-25,MOD16A2.061,PET_500m,42.6
 jamaica,2025-05-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.119826
 jamaica,2025-05-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0850008
 jamaica,2025-06-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1990084
+jamaica,2025-06-02,MOD16A2.061,ET_500m,27.5
+jamaica,2025-06-02,MOD16A2.061,PET_500m,40.9
 jamaica,2025-06-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0252804
 jamaica,2025-06-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1169977
 jamaica,2025-06-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0646304
 jamaica,2025-06-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1528796
+jamaica,2025-06-10,MOD13Q1.061,_250m_16_days_NDVI,0.6327
+jamaica,2025-06-10,MOD16A2.061,ET_500m,24.3
+jamaica,2025-06-10,MOD16A2.061,PET_500m,40.6
 jamaica,2025-06-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0499496
 jamaica,2025-06-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.122461
 jamaica,2025-06-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0505948
 jamaica,2025-06-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1549733
+jamaica,2025-06-18,MOD16A2.061,ET_500m,25.2
+jamaica,2025-06-18,MOD16A2.061,PET_500m,34.9
 jamaica,2025-06-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.033726
 jamaica,2025-06-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1860397
 jamaica,2025-06-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1263241
 jamaica,2025-06-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3153406
+jamaica,2025-06-26,MOD13Q1.061,_250m_16_days_NDVI,0.7025
+jamaica,2025-06-26,MOD16A2.061,ET_500m,25.3
+jamaica,2025-06-26,MOD16A2.061,PET_500m,40.6
 jamaica,2025-06-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1739713
 jamaica,2025-06-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.154239
 jamaica,2025-07-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0649276
 jamaica,2025-07-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2289227
+jamaica,2025-07-04,MOD16A2.061,ET_500m,27.4
+jamaica,2025-07-04,MOD16A2.061,PET_500m,42.1
 jamaica,2025-07-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.0936614
 jamaica,2025-07-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1117921
 jamaica,2025-07-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1379187
 jamaica,2025-07-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1779046
+jamaica,2025-07-12,MOD13Q1.061,_250m_16_days_NDVI,0.6778
+jamaica,2025-07-12,MOD16A2.061,ET_500m,19.1
+jamaica,2025-07-12,MOD16A2.061,PET_500m,42.3
 jamaica,2025-07-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1681367
 jamaica,2025-07-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1287811
 jamaica,2025-07-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2438463
+jamaica,2025-07-20,MOD16A2.061,ET_500m,29.3
+jamaica,2025-07-20,MOD16A2.061,PET_500m,43.9
 jamaica,2025-07-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1445073
 jamaica,2025-07-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1389835
 jamaica,2025-07-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2454448
+jamaica,2025-07-28,MOD13Q1.061,_250m_16_days_NDVI,0.707
+jamaica,2025-07-28,MOD16A2.061,ET_500m,31.2
+jamaica,2025-07-28,MOD16A2.061,PET_500m,45.0
 jamaica,2025-07-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2505327
 jamaica,2025-08-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2217579
 jamaica,2025-08-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3058471
+jamaica,2025-08-05,MOD16A2.061,ET_500m,26.2
+jamaica,2025-08-05,MOD16A2.061,PET_500m,41.4
 jamaica,2025-08-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2467386
 jamaica,2025-08-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2158349
 jamaica,2025-08-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2882285
+jamaica,2025-08-13,MOD13Q1.061,_250m_16_days_NDVI,0.7876
+jamaica,2025-08-13,MOD16A2.061,ET_500m,29.5
+jamaica,2025-08-13,MOD16A2.061,PET_500m,41.5
 jamaica,2025-08-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2869883
 jamaica,2025-08-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2308028
 jamaica,2025-08-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3342628
+jamaica,2025-08-21,MOD16A2.061,ET_500m,28.2
+jamaica,2025-08-21,MOD16A2.061,PET_500m,36.8
 jamaica,2025-08-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2143507
 jamaica,2025-08-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.162691
 jamaica,2025-08-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.326966
+jamaica,2025-08-29,MOD13Q1.061,_250m_16_days_NDVI,0.7699
+jamaica,2025-08-29,MOD16A2.061,ET_500m,26.7
+jamaica,2025-08-29,MOD16A2.061,PET_500m,36.4
 jamaica,2025-08-31,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1922449
 jamaica,2025-09-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1950746
 jamaica,2025-09-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3296973
+jamaica,2025-09-06,MOD16A2.061,ET_500m,24.6
+jamaica,2025-09-06,MOD16A2.061,PET_500m,39.9
 jamaica,2025-09-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2272448
 jamaica,2025-09-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2334434
 jamaica,2025-09-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2929361
+jamaica,2025-09-14,MOD13Q1.061,_250m_16_days_NDVI,0.8169
+jamaica,2025-09-14,MOD16A2.061,ET_500m,22.3
+jamaica,2025-09-14,MOD16A2.061,PET_500m,35.4
 jamaica,2025-09-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1452464
 jamaica,2025-09-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2262096
 jamaica,2025-09-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1513804
 jamaica,2025-09-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4999748
+jamaica,2025-09-22,MOD16A2.061,ET_500m,21.5
+jamaica,2025-09-22,MOD16A2.061,PET_500m,36.2
 jamaica,2025-09-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2017476
 jamaica,2025-09-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3115248
 jamaica,2025-09-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2313271
 jamaica,2025-09-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3433184
+jamaica,2025-09-30,MOD13Q1.061,_250m_16_days_NDVI,0.7927
+jamaica,2025-09-30,MOD16A2.061,ET_500m,18.9
+jamaica,2025-09-30,MOD16A2.061,PET_500m,32.3
 jamaica,2025-10-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1693173
 jamaica,2025-10-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1912628
 jamaica,2025-10-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3451434
+jamaica,2025-10-08,MOD16A2.061,ET_500m,23.3
+jamaica,2025-10-08,MOD16A2.061,PET_500m,25.8
 jamaica,2025-10-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2815495
 jamaica,2025-10-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2232922
 jamaica,2025-10-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3968259
+jamaica,2025-10-16,MOD13Q1.061,_250m_16_days_NDVI,0.7557
+jamaica,2025-10-16,MOD16A2.061,ET_500m,23.7
+jamaica,2025-10-16,MOD16A2.061,PET_500m,26.5
 jamaica,2025-10-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3200619
 jamaica,2025-10-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2534733
 jamaica,2025-10-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.445037
+jamaica,2025-10-24,MOD16A2.061,ET_500m,24.3
+jamaica,2025-10-24,MOD16A2.061,PET_500m,29.4
 jamaica,2025-10-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2519756
 jamaica,2025-10-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5262884
 jamaica,2025-10-31,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5262884
+jamaica,2025-11-01,MOD13Q1.061,_250m_16_days_NDVI,0.6733
+jamaica,2025-11-01,MOD16A2.061,ET_500m,22.0
+jamaica,2025-11-01,MOD16A2.061,PET_500m,36.1
 jamaica,2025-11-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5043592
 jamaica,2025-11-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4329841
 jamaica,2025-11-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5262884
+jamaica,2025-11-09,MOD16A2.061,ET_500m,22.0
+jamaica,2025-11-09,MOD16A2.061,PET_500m,36.2
 jamaica,2025-11-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3773903
 jamaica,2025-11-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.517379
 jamaica,2025-11-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5258366
 jamaica,2025-11-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5262884
+jamaica,2025-11-17,MOD13Q1.061,_250m_16_days_NDVI,0.7297
+jamaica,2025-11-17,MOD16A2.061,ET_500m,22.8
+jamaica,2025-11-17,MOD16A2.061,PET_500m,38.2
 jamaica,2025-11-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.343574
 jamaica,2025-11-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.405812
 jamaica,2025-11-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4063847
 jamaica,2025-11-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5262884
+jamaica,2025-11-25,MOD16A2.061,ET_500m,22.7
+jamaica,2025-11-25,MOD16A2.061,PET_500m,37.0
 jamaica,2025-11-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3692237
 jamaica,2025-11-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3323875
 jamaica,2025-12-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4345843
+jamaica,2025-12-03,MOD13Q1.061,_250m_16_days_NDVI,0.7639
+jamaica,2025-12-03,MOD16A2.061,ET_500m,24.7
+jamaica,2025-12-03,MOD16A2.061,PET_500m,36.4
 jamaica,2025-12-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4032153
 jamaica,2025-12-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2750716
 jamaica,2025-12-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4232922
+jamaica,2025-12-11,MOD16A2.061,ET_500m,23.5
+jamaica,2025-12-11,MOD16A2.061,PET_500m,33.6
 jamaica,2025-12-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2922158
 jamaica,2025-12-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3043003
 jamaica,2025-12-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4196841
+jamaica,2025-12-19,MOD13Q1.061,_250m_16_days_NDVI,0.7325
+jamaica,2025-12-19,MOD16A2.061,ET_500m,22.9
+jamaica,2025-12-19,MOD16A2.061,PET_500m,37.8
 jamaica,2025-12-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3464463
 jamaica,2025-12-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3052965
 jamaica,2025-12-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.398006
+jamaica,2025-12-27,MOD16A2.061,ET_500m,13.3
+jamaica,2025-12-27,MOD16A2.061,PET_500m,22.5
 jamaica,2025-12-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.316204
+jamaica,2026-01-01,MOD13Q1.061,_250m_16_days_NDVI,0.7244
+jamaica,2026-01-01,MOD16A2.061,ET_500m,22.5
+jamaica,2026-01-01,MOD16A2.061,PET_500m,34.3
 jamaica,2026-01-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3708797
 jamaica,2026-01-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3392965
+jamaica,2026-01-09,MOD16A2.061,ET_500m,19.4
+jamaica,2026-01-09,MOD16A2.061,PET_500m,36.8
 jamaica,2026-01-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3082862
 jamaica,2026-01-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4420661
 jamaica,2026-01-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3129175
+jamaica,2026-01-17,MOD13Q1.061,_250m_16_days_NDVI,0.7239
+jamaica,2026-01-17,MOD16A2.061,ET_500m,23.9
+jamaica,2026-01-17,MOD16A2.061,PET_500m,36.6
 jamaica,2026-01-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2504776
 jamaica,2026-01-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3498866
 jamaica,2026-01-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2751787
+jamaica,2026-01-25,MOD16A2.061,ET_500m,15.8
+jamaica,2026-01-25,MOD16A2.061,PET_500m,41.3
 jamaica,2026-01-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2555291
 jamaica,2026-01-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3187751
+jamaica,2026-02-02,MOD13Q1.061,_250m_16_days_NDVI,0.7438
+jamaica,2026-02-02,MOD16A2.061,ET_500m,23.5
+jamaica,2026-02-02,MOD16A2.061,PET_500m,39.6
 jamaica,2026-02-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3072366
 jamaica,2026-02-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.341089
 jamaica,2026-02-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1981572
 jamaica,2026-02-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3124987
+jamaica,2026-02-10,MOD16A2.061,ET_500m,26.5
+jamaica,2026-02-10,MOD16A2.061,PET_500m,43.8
 jamaica,2026-02-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2130144
 jamaica,2026-02-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3441956
 jamaica,2026-02-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1949839
 jamaica,2026-02-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2427882
+jamaica,2026-02-18,MOD13Q1.061,_250m_16_days_NDVI,0.7512
+jamaica,2026-02-18,MOD16A2.061,ET_500m,16.4
+jamaica,2026-02-18,MOD16A2.061,PET_500m,47.7
 jamaica,2026-02-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2710721
 jamaica,2026-02-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3776565
 jamaica,2026-02-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1823755
 jamaica,2026-02-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2324121
+jamaica,2026-02-26,MOD16A2.061,ET_500m,29.8
+jamaica,2026-02-26,MOD16A2.061,PET_500m,46.4
 jamaica,2026-02-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1988596
 jamaica,2026-02-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3254032
 jamaica,2026-03-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2898024
+jamaica,2026-03-06,MOD13Q1.061,_250m_16_days_NDVI,0.7419
+jamaica,2026-03-06,MOD16A2.061,ET_500m,28.3
+jamaica,2026-03-06,MOD16A2.061,PET_500m,41.4
 jamaica,2026-03-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2136083
 jamaica,2026-03-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3463878
 jamaica,2026-03-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3087025
+jamaica,2026-03-14,MOD16A2.061,ET_500m,32.6
+jamaica,2026-03-14,MOD16A2.061,PET_500m,50.1
 jamaica,2026-03-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3243988
 jamaica,2026-03-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3951976
 jamaica,2026-03-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3134126
+jamaica,2026-03-22,MOD13Q1.061,_250m_16_days_NDVI,0.7525
+jamaica,2026-03-22,MOD16A2.061,ET_500m,31.4
+jamaica,2026-03-22,MOD16A2.061,PET_500m,47.1
 jamaica,2026-03-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2489954
 jamaica,2026-03-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3590469
 jamaica,2026-03-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2714675
+jamaica,2026-03-30,MOD16A2.061,ET_500m,33.8
+jamaica,2026-03-30,MOD16A2.061,PET_500m,51.5
 jamaica,2026-03-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2660574
 jamaica,2026-04-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3949289
 jamaica,2026-04-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2933935
+jamaica,2026-04-07,MOD13Q1.061,_250m_16_days_NDVI,0.7333
+jamaica,2026-04-07,MOD16A2.061,ET_500m,26.7
+jamaica,2026-04-07,MOD16A2.061,PET_500m,57.4
 jamaica,2026-04-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3307021
 jamaica,2026-04-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.364389
 jamaica,2026-04-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3930776
+jamaica,2026-04-15,MOD16A2.061,ET_500m,35.9
+jamaica,2026-04-15,MOD16A2.061,PET_500m,56.5
 jamaica,2026-04-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2536899
 jamaica,2026-04-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3319234
 jamaica,2026-04-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2971765
+jamaica,2026-04-23,MOD13Q1.061,_250m_16_days_NDVI,0.7597
+jamaica,2026-04-23,MOD16A2.061,ET_500m,37.9
+jamaica,2026-04-23,MOD16A2.061,PET_500m,54.3
 jamaica,2026-04-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2733133
 jamaica,2026-04-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.396794
 jamaica,2026-04-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.310878
+jamaica,2026-05-01,MOD16A2.061,ET_500m,31.2
+jamaica,2026-05-01,MOD16A2.061,PET_500m,58.8
 jamaica,2026-05-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3131434
 jamaica,2026-05-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3662645
 jamaica,2026-05-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2577231
+jamaica,2026-05-09,MOD13Q1.061,_250m_16_days_NDVI,0.7323
+jamaica,2026-05-09,MOD16A2.061,ET_500m,27.3
+jamaica,2026-05-09,MOD16A2.061,PET_500m,60.1
 jamaica,2026-05-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2327217
 jamaica,2026-05-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2836357
+jamaica,2026-05-17,MOD16A2.061,ET_500m,27.0
+jamaica,2026-05-17,MOD16A2.061,PET_500m,50.4
 jamaica,2026-05-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3598495
 jamaica,2026-05-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2054902
+jamaica,2026-05-20,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.33120310000000003
+jamaica,2026-05-21,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.33570859999999997
 jamaica,2026-05-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2596321
+jamaica,2026-05-22,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.33862332500000003
+jamaica,2026-05-23,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.33575742499999994
+jamaica,2026-05-24,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.33239032500000004
+jamaica,2026-05-25,MOD13Q1.061,_250m_16_days_NDVI,0.7006
+jamaica,2026-05-25,MOD16A2.061,ET_500m,27.5
+jamaica,2026-05-25,MOD16A2.061,PET_500m,45.2
 jamaica,2026-05-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.219475
+jamaica,2026-05-25,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3293558875
+jamaica,2026-05-26,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.32642978749999996
 jamaica,2026-05-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3091235
+jamaica,2026-05-27,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.322903075
+jamaica,2026-05-28,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3201601625
+jamaica,2026-05-29,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.31765073749999995
 jamaica,2026-05-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2287871
+jamaica,2026-05-30,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3157045625
+jamaica,2026-05-31,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3135204875
+jamaica,2026-06-01,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3107942
+jamaica,2026-06-02,MOD16A2.061,ET_500m,19.7
+jamaica,2026-06-02,MOD16A2.061,PET_500m,35.6
+jamaica,2026-06-02,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.308443525
+jamaica,2026-06-03,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.306135875
 jamaica,2026-06-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2898647
+jamaica,2026-06-04,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.30419433749999997
+jamaica,2026-06-05,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.30190131249999996
+jamaica,2026-06-06,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3051248125
 jamaica,2026-06-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2375398
+jamaica,2026-06-07,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.31488522500000005
+jamaica,2026-06-08,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3202878375
+jamaica,2026-06-09,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.343598525
+jamaica,2026-06-10,MOD13Q1.061,_250m_16_days_NDVI,0.675
+jamaica,2026-06-10,MOD16A2.061,ET_500m,25.3
+jamaica,2026-06-10,MOD16A2.061,PET_500m,37.8
 jamaica,2026-06-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2619289
+jamaica,2026-06-10,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.35349665
+jamaica,2026-06-11,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3487328625
 jamaica,2026-06-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4389429
+jamaica,2026-06-12,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.34491885
+jamaica,2026-06-13,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.341210175
+jamaica,2026-06-14,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3376292875
 jamaica,2026-06-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2713101
+jamaica,2026-06-15,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3341102125
+jamaica,2026-06-16,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.33116595000000004
+jamaica,2026-06-17,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.32807772500000004
+jamaica,2026-06-18,MOD16A2.061,ET_500m,23.9
+jamaica,2026-06-18,MOD16A2.061,PET_500m,39.3
 jamaica,2026-06-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1701635
+jamaica,2026-06-18,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3251995
+jamaica,2026-06-19,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.322665875
 jamaica,2026-06-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2916349
+jamaica,2026-06-20,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3196437875
+jamaica,2026-06-21,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3170745375
+jamaica,2026-06-22,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.314530725
 jamaica,2026-06-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2431619
+jamaica,2026-06-23,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.312282825
+jamaica,2026-06-24,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3162574125
+jamaica,2026-06-25,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3297098125
+jamaica,2026-06-26,MOD13Q1.061,_250m_16_days_NDVI,0.7062
+jamaica,2026-06-26,MOD16A2.061,ET_500m,26.2
+jamaica,2026-06-26,MOD16A2.061,PET_500m,39.4
 jamaica,2026-06-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1768343
+jamaica,2026-06-26,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.32504387500000004
+jamaica,2026-06-27,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.32152506249999996
 jamaica,2026-06-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2840133
+jamaica,2026-06-28,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3193595625
+jamaica,2026-06-29,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.31651852500000005
+jamaica,2026-06-30,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3141272
 jamaica,2026-07-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3038369
+jamaica,2026-07-01,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.312027425
+jamaica,2026-07-02,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3100351375
+jamaica,2026-07-03,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3071704875
+jamaica,2026-07-04,MOD16A2.061,ET_500m,35.9
+jamaica,2026-07-04,MOD16A2.061,PET_500m,57.6
 jamaica,2026-07-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2089477
+jamaica,2026-07-04,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3055246875
+jamaica,2026-07-05,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3039656625
 jamaica,2026-07-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3260143
+jamaica,2026-07-06,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.301894175
+jamaica,2026-07-07,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.29989987500000004
+jamaica,2026-07-08,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.29779527499999997
 jamaica,2026-07-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1912483
+jamaica,2026-07-09,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2957869875
+jamaica,2026-07-10,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2937406875
+jamaica,2026-07-11,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2916456125
+jamaica,2026-07-12,MOD13Q1.061,_250m_16_days_NDVI,0.6939
+jamaica,2026-07-12,MOD16A2.061,ET_500m,27.8
+jamaica,2026-07-12,MOD16A2.061,PET_500m,57.1
 jamaica,2026-07-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1798344
+jamaica,2026-07-12,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.28995437500000004
+jamaica,2026-07-13,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2884931625
 jamaica,2026-07-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3207061
+jamaica,2026-07-14,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.28671145
+jamaica,2026-07-15,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2850671
+jamaica,2026-07-16,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.28358767499999993
 jamaica,2026-07-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2117757
+jamaica,2026-07-17,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2826011875
+jamaica,2026-07-18,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2808949625
+jamaica,2026-07-19,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2793372375
+jamaica,2026-07-20,MOD16A2.061,ET_500m,30.8
+jamaica,2026-07-20,MOD16A2.061,PET_500m,56.5
 jamaica,2026-07-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2197465
+jamaica,2026-07-20,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.27906101250000004
+jamaica,2026-07-21,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2784923
 jamaica,2026-07-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3399592
+jamaica,2026-07-22,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2778177375
 jamaica,2026-07-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.205693
+jamaica,2026-07-23,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2760583
+jamaica,2026-07-24,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2747476625
 jamaica,2026-07-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2238898
+jamaica,2026-07-25,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.27325296250000003
+jamaica,2026-07-26,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.272268575
+jamaica,2026-07-27,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2707678125
+jamaica,2026-07-28,MOD13Q1.061,_250m_16_days_NDVI,0.778
+jamaica,2026-07-28,MOD16A2.061,ET_500m,30.4
+jamaica,2026-07-28,MOD16A2.061,PET_500m,58.3
 jamaica,2026-07-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1831618
+jamaica,2026-07-28,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.27247893749999996
+jamaica,2026-07-29,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.27670483749999997
+jamaica,2026-07-30,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2747194125
 jamaica,2026-07-31,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1367615
+jamaica,2026-07-31,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.27318363749999997
+jamaica,2026-08-01,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.27212526249999996
 jamaica,2026-08-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2359854
+jamaica,2026-08-02,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.27353714999999995
+jamaica,2026-08-03,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.27366015
+jamaica,2026-08-04,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.271581425
+jamaica,2026-08-05,MOD16A2.061,ET_500m,33.5
+jamaica,2026-08-05,MOD16A2.061,PET_500m,58.0
 jamaica,2026-08-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1993661
+jamaica,2026-08-05,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.27031615
+jamaica,2026-08-06,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.27594007499999995
 jamaica,2026-08-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2846704
+jamaica,2026-08-07,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2852047625
 jamaica,2026-08-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.167663
+jamaica,2026-08-08,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2822325125
+jamaica,2026-08-09,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2807572625
 jamaica,2026-08-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.280673
+jamaica,2026-08-10,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2800431875
+jamaica,2026-08-11,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2787058
+jamaica,2026-08-12,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2789956875
+jamaica,2026-08-13,MOD13Q1.061,_250m_16_days_NDVI,0.7763
+jamaica,2026-08-13,MOD16A2.061,ET_500m,36.9
+jamaica,2026-08-13,MOD16A2.061,PET_500m,57.2
 jamaica,2026-08-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1851756
+jamaica,2026-08-13,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.28588305
+jamaica,2026-08-14,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2833908375
 jamaica,2026-08-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3420365
+jamaica,2026-08-15,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.28094873750000005
+jamaica,2026-08-16,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2794309375
+jamaica,2026-08-17,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.27856563749999996
 jamaica,2026-08-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2436012
+jamaica,2026-08-18,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.277650975
+jamaica,2026-08-19,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2768395
+jamaica,2026-08-20,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2750594375
+jamaica,2026-08-21,MOD16A2.061,ET_500m,35.6
+jamaica,2026-08-21,MOD16A2.061,PET_500m,56.5
 jamaica,2026-08-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1841779
+jamaica,2026-08-21,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2738049125
+jamaica,2026-08-22,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.27252298750000004
 jamaica,2026-08-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2414196
+jamaica,2026-08-23,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2718918
+jamaica,2026-08-24,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.270611075
+jamaica,2026-08-25,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.26940922500000003
 jamaica,2026-08-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1963578
+jamaica,2026-08-26,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.270151575
+jamaica,2026-08-27,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.26926895
+jamaica,2026-08-28,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.26714315
+jamaica,2026-08-29,MOD13Q1.061,_250m_16_days_NDVI,0.8043
+jamaica,2026-08-29,MOD16A2.061,ET_500m,38.7
+jamaica,2026-08-29,MOD16A2.061,PET_500m,56.8
 jamaica,2026-08-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1711797
+jamaica,2026-08-29,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.26703879999999997
+jamaica,2026-08-30,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.26669077500000005
 jamaica,2026-08-31,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2842866
+jamaica,2026-08-31,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2655630625
+jamaica,2026-09-01,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2644861625
+jamaica,2026-09-02,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.27183205
 jamaica,2026-09-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2490662
+jamaica,2026-09-03,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.312526325
+jamaica,2026-09-04,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.31094065000000004
+jamaica,2026-09-05,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3219038375
+jamaica,2026-09-06,MOD16A2.061,ET_500m,27.7
+jamaica,2026-09-06,MOD16A2.061,PET_500m,55.7
 jamaica,2026-09-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.159853
+jamaica,2026-09-06,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3180311
+jamaica,2026-09-07,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3148227125
 jamaica,2026-09-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3002844
+jamaica,2026-09-08,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3126269625
+jamaica,2026-09-09,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.31010128750000004
+jamaica,2026-09-10,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.308239175
 jamaica,2026-09-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2157875
+jamaica,2026-09-11,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.31144122500000004
+jamaica,2026-09-12,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.316003775
+jamaica,2026-09-13,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.311934025
+jamaica,2026-09-14,MOD13Q1.061,_250m_16_days_NDVI,0.7633
+jamaica,2026-09-14,MOD16A2.061,ET_500m,23.8
+jamaica,2026-09-14,MOD16A2.061,PET_500m,46.9
 jamaica,2026-09-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1680746
+jamaica,2026-09-14,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3096317375
+jamaica,2026-09-15,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3077004375
 jamaica,2026-09-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4014283
+jamaica,2026-09-16,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3059464
+jamaica,2026-09-17,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3037893125
+jamaica,2026-09-18,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3024199625
 jamaica,2026-09-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2594314
+jamaica,2026-09-19,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3439054125
+jamaica,2026-09-20,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3693444625
+jamaica,2026-09-21,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.37356893750000003
+jamaica,2026-09-22,MOD16A2.061,ET_500m,18.8
+jamaica,2026-09-22,MOD16A2.061,PET_500m,44.4
 jamaica,2026-09-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2119542
+jamaica,2026-09-22,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.382424925
+jamaica,2026-09-23,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.38129132499999996
 jamaica,2026-09-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2899818
+jamaica,2026-09-24,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.37664405
+jamaica,2026-09-25,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.37297351250000005
+jamaica,2026-09-26,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.36977393750000004
 jamaica,2026-09-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2214011
+jamaica,2026-09-27,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.36835691249999997
+jamaica,2026-09-28,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3686678375
+jamaica,2026-09-29,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3640388625
+jamaica,2026-09-30,MOD13Q1.061,_250m_16_days_NDVI,0.7306
+jamaica,2026-09-30,MOD16A2.061,ET_500m,26.9
+jamaica,2026-09-30,MOD16A2.061,PET_500m,50.2
 jamaica,2026-09-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1873866
+jamaica,2026-09-30,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3620468375
+jamaica,2026-10-01,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.36097246250000004
 jamaica,2026-10-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2872694
+jamaica,2026-10-02,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3570277125
+jamaica,2026-10-03,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3584600625
+jamaica,2026-10-04,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.36242688749999996
 jamaica,2026-10-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2151448
+jamaica,2026-10-05,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.35954823750000003
+jamaica,2026-10-06,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.35610472500000007
+jamaica,2026-10-07,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.35286881249999996
+jamaica,2026-10-08,MOD16A2.061,ET_500m,31.8
+jamaica,2026-10-08,MOD16A2.061,PET_500m,44.6
 jamaica,2026-10-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2531575
+jamaica,2026-10-08,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.35155488749999997
+jamaica,2026-10-09,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.35787927499999994
 jamaica,2026-10-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3814098
+jamaica,2026-10-10,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.36242073750000003
+jamaica,2026-10-11,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.361535725
+jamaica,2026-10-12,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3702103625
 jamaica,2026-10-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2787365
+jamaica,2026-10-13,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3693711
+jamaica,2026-10-14,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.365359325
+jamaica,2026-10-15,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.36151306250000004
+jamaica,2026-10-16,MOD13Q1.061,_250m_16_days_NDVI,0.797
+jamaica,2026-10-16,MOD16A2.061,ET_500m,24.1
+jamaica,2026-10-16,MOD16A2.061,PET_500m,46.6
 jamaica,2026-10-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2051498
+jamaica,2026-10-16,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3836314875
+jamaica,2026-10-17,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3919751125
+jamaica,2026-10-18,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3866067125
+jamaica,2026-10-19,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.38220855000000004
+jamaica,2026-10-20,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.37835573749999996
 jamaica,2026-10-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2569982
+jamaica,2026-10-21,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.37486264999999996
+jamaica,2026-10-22,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.371560975
+jamaica,2026-10-23,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.37100723750000003
+jamaica,2026-10-24,MOD16A2.061,ET_500m,27.9
+jamaica,2026-10-24,MOD16A2.061,PET_500m,45.8
 jamaica,2026-10-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2312024
+jamaica,2026-10-24,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3919925375
+jamaica,2026-10-25,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.39033408750000004
 jamaica,2026-10-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4064407
+jamaica,2026-10-26,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.39085215000000006
 jamaica,2026-10-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2227936
+jamaica,2026-10-27,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.38668158750000003
+jamaica,2026-10-28,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.38302655
 jamaica,2026-10-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2627566
+jamaica,2026-10-29,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.379691575
+jamaica,2026-10-30,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3762498625
+jamaica,2026-10-31,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.37262196249999996
 jamaica,2026-11-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2198956
+jamaica,2026-11-01,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.370241775
+jamaica,2026-11-02,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.37092755
 jamaica,2026-11-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3500091
+jamaica,2026-11-03,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.37943492500000003
 jamaica,2026-11-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2186128
+jamaica,2026-11-04,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3910842375
+jamaica,2026-11-05,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.39322183749999995
 jamaica,2026-11-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.270718
+jamaica,2026-11-06,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.40924900000000003
+jamaica,2026-11-07,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.40417844999999997
+jamaica,2026-11-08,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3998377125
 jamaica,2026-11-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2527962
+jamaica,2026-11-09,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3969621625
+jamaica,2026-11-10,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.398173275
 jamaica,2026-11-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3393566
+jamaica,2026-11-11,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3997557875
 jamaica,2026-11-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1894317
+jamaica,2026-11-12,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.39586291249999994
+jamaica,2026-11-13,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.39273581250000006
 jamaica,2026-11-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2669338
+jamaica,2026-11-14,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3906237875
 trinidad,2023-11-01,MOD13Q1.061,_250m_16_days_NDVI,0.755
+trinidad,2023-11-09,MOD16A2.061,ET_500m,20.4
+trinidad,2023-11-09,MOD16A2.061,PET_500m,35.1
 trinidad,2023-11-17,MOD13Q1.061,_250m_16_days_NDVI,0.7763
-trinidad,2023-12-03,MOD13Q1.061,_250m_16_days_NDVI,0.6947
-trinidad,2023-12-19,MOD13Q1.061,_250m_16_days_NDVI,0.7666
-trinidad,2024-01-01,MOD13Q1.061,_250m_16_days_NDVI,0.7319
-trinidad,2024-01-17,MOD13Q1.061,_250m_16_days_NDVI,0.664
-trinidad,2024-02-02,MOD13Q1.061,_250m_16_days_NDVI,0.673
-trinidad,2024-02-18,MOD13Q1.061,_250m_16_days_NDVI,0.5548
-trinidad,2024-03-05,MOD13Q1.061,_250m_16_days_NDVI,0.483
-trinidad,2024-03-21,MOD13Q1.061,_250m_16_days_NDVI,0.3896
-trinidad,2024-04-06,MOD13Q1.061,_250m_16_days_NDVI,0.4591
-trinidad,2024-04-22,MOD13Q1.061,_250m_16_days_NDVI,0.5398
-trinidad,2024-05-08,MOD13Q1.061,_250m_16_days_NDVI,0.4257
-trinidad,2024-05-24,MOD13Q1.061,_250m_16_days_NDVI,0.5792
-trinidad,2024-06-09,MOD13Q1.061,_250m_16_days_NDVI,0.6404
-trinidad,2024-06-25,MOD13Q1.061,_250m_16_days_NDVI,0.8081
-trinidad,2024-07-11,MOD13Q1.061,_250m_16_days_NDVI,0.6513
-trinidad,2024-07-27,MOD13Q1.061,_250m_16_days_NDVI,0.7059
-trinidad,2024-08-12,MOD13Q1.061,_250m_16_days_NDVI,0.7503
-trinidad,2024-08-28,MOD13Q1.061,_250m_16_days_NDVI,0.7879
-trinidad,2024-09-13,MOD13Q1.061,_250m_16_days_NDVI,0.8189
-trinidad,2024-09-29,MOD13Q1.061,_250m_16_days_NDVI,0.7421
-trinidad,2024-10-15,MOD13Q1.061,_250m_16_days_NDVI,0.7527
-trinidad,2024-10-31,MOD13Q1.061,_250m_16_days_NDVI,0.7612
-trinidad,2024-11-16,MOD13Q1.061,_250m_16_days_NDVI,0.7825
-trinidad,2024-12-02,MOD13Q1.061,_250m_16_days_NDVI,0.7529
-trinidad,2024-12-18,MOD13Q1.061,_250m_16_days_NDVI,0.7322
-trinidad,2025-01-01,MOD13Q1.061,_250m_16_days_NDVI,0.6829
-trinidad,2025-01-17,MOD13Q1.061,_250m_16_days_NDVI,0.7984
-trinidad,2025-02-02,MOD13Q1.061,_250m_16_days_NDVI,0.6972
-trinidad,2025-02-18,MOD13Q1.061,_250m_16_days_NDVI,0.5743
-trinidad,2025-03-06,MOD13Q1.061,_250m_16_days_NDVI,0.5652
-trinidad,2025-03-22,MOD13Q1.061,_250m_16_days_NDVI,0.5762
-trinidad,2025-04-07,MOD13Q1.061,_250m_16_days_NDVI,0.5036
-trinidad,2025-04-23,MOD13Q1.061,_250m_16_days_NDVI,0.6219
-trinidad,2025-05-09,MOD13Q1.061,_250m_16_days_NDVI,0.5445
-trinidad,2025-05-25,MOD13Q1.061,_250m_16_days_NDVI,0.6934
-trinidad,2025-06-10,MOD13Q1.061,_250m_16_days_NDVI,0.521
-trinidad,2025-06-26,MOD13Q1.061,_250m_16_days_NDVI,0.5526
-trinidad,2025-07-12,MOD13Q1.061,_250m_16_days_NDVI,0.6089
-trinidad,2025-07-28,MOD13Q1.061,_250m_16_days_NDVI,0.6259
-trinidad,2025-08-13,MOD13Q1.061,_250m_16_days_NDVI,0.7092
-trinidad,2025-08-29,MOD13Q1.061,_250m_16_days_NDVI,0.6197
-trinidad,2025-09-14,MOD13Q1.061,_250m_16_days_NDVI,0.8005
-trinidad,2025-09-30,MOD13Q1.061,_250m_16_days_NDVI,0.6915
-trinidad,2025-10-16,MOD13Q1.061,_250m_16_days_NDVI,0.7749
-trinidad,2025-11-01,MOD13Q1.061,_250m_16_days_NDVI,0.7279
-trinidad,2025-11-17,MOD13Q1.061,_250m_16_days_NDVI,0.7616
-trinidad,2025-12-03,MOD13Q1.061,_250m_16_days_NDVI,0.6957
-trinidad,2025-12-19,MOD13Q1.061,_250m_16_days_NDVI,0.7319
-trinidad,2026-01-01,MOD13Q1.061,_250m_16_days_NDVI,0.7169
-trinidad,2026-01-17,MOD13Q1.061,_250m_16_days_NDVI,0.6571
-trinidad,2026-02-02,MOD13Q1.061,_250m_16_days_NDVI,0.6776
-trinidad,2026-02-18,MOD13Q1.061,_250m_16_days_NDVI,0.6024
-trinidad,2026-03-06,MOD13Q1.061,_250m_16_days_NDVI,0.4821
-trinidad,2026-03-22,MOD13Q1.061,_250m_16_days_NDVI,0.5557
-trinidad,2026-04-07,MOD13Q1.061,_250m_16_days_NDVI,0.521
-trinidad,2026-04-23,MOD13Q1.061,_250m_16_days_NDVI,0.6337
-trinidad,2026-05-09,MOD13Q1.061,_250m_16_days_NDVI,0.6044
-trinidad,2026-05-25,MOD13Q1.061,_250m_16_days_NDVI,0.5797
-trinidad,2026-06-10,MOD13Q1.061,_250m_16_days_NDVI,0.6916
-trinidad,2026-06-26,MOD13Q1.061,_250m_16_days_NDVI,0.7518
-trinidad,2026-07-12,MOD13Q1.061,_250m_16_days_NDVI,0.7324
-trinidad,2026-07-28,MOD13Q1.061,_250m_16_days_NDVI,0.7619
-trinidad,2026-08-13,MOD13Q1.061,_250m_16_days_NDVI,0.7917
-trinidad,2026-08-29,MOD13Q1.061,_250m_16_days_NDVI,0.7112
-trinidad,2026-09-14,MOD13Q1.061,_250m_16_days_NDVI,0.5958
-trinidad,2026-09-30,MOD13Q1.061,_250m_16_days_NDVI,0.769
-trinidad,2026-10-16,MOD13Q1.061,_250m_16_days_NDVI,0.7231
+trinidad,2023-11-17,MOD16A2.061,ET_500m,27.9
+trinidad,2023-11-17,MOD16A2.061,PET_500m,48.1
 trinidad,2023-11-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2023-11-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3664764
 trinidad,2023-11-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4395427
+trinidad,2023-11-25,MOD16A2.061,ET_500m,15.3
+trinidad,2023-11-25,MOD16A2.061,PET_500m,47.9
 trinidad,2023-11-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4932998
 trinidad,2023-12-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4966616
+trinidad,2023-12-03,MOD13Q1.061,_250m_16_days_NDVI,0.6947
+trinidad,2023-12-03,MOD16A2.061,ET_500m,20.7
+trinidad,2023-12-03,MOD16A2.061,PET_500m,40.9
 trinidad,2023-12-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2023-12-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.252172
 trinidad,2023-12-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2023-12-11,MOD16A2.061,ET_500m,20.8
+trinidad,2023-12-11,MOD16A2.061,PET_500m,39.9
 trinidad,2023-12-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2023-12-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4916362
 trinidad,2023-12-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2023-12-19,MOD13Q1.061,_250m_16_days_NDVI,0.7666
+trinidad,2023-12-19,MOD16A2.061,ET_500m,18.4
+trinidad,2023-12-19,MOD16A2.061,PET_500m,40.8
 trinidad,2023-12-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2023-12-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3296947
 trinidad,2023-12-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2023-12-27,MOD16A2.061,ET_500m,8.9
+trinidad,2023-12-27,MOD16A2.061,PET_500m,30.2
 trinidad,2023-12-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2023-12-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3786102
+trinidad,2024-01-01,MOD13Q1.061,_250m_16_days_NDVI,0.7319
+trinidad,2024-01-01,MOD16A2.061,ET_500m,15.7
+trinidad,2024-01-01,MOD16A2.061,PET_500m,47.1
 trinidad,2024-01-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-01-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-01-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3451141
+trinidad,2024-01-09,MOD16A2.061,ET_500m,17.0
+trinidad,2024-01-09,MOD16A2.061,PET_500m,47.0
 trinidad,2024-01-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.502445
 trinidad,2024-01-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-01-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.324376
+trinidad,2024-01-17,MOD13Q1.061,_250m_16_days_NDVI,0.664
+trinidad,2024-01-17,MOD16A2.061,ET_500m,15.9
+trinidad,2024-01-17,MOD16A2.061,PET_500m,51.6
 trinidad,2024-01-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.481756
 trinidad,2024-01-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-01-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3261954
+trinidad,2024-01-25,MOD16A2.061,ET_500m,14.2
+trinidad,2024-01-25,MOD16A2.061,PET_500m,50.3
 trinidad,2024-01-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4436492
 trinidad,2024-01-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-01-31,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.265875
+trinidad,2024-02-02,MOD13Q1.061,_250m_16_days_NDVI,0.673
+trinidad,2024-02-02,MOD16A2.061,ET_500m,16.4
+trinidad,2024-02-02,MOD16A2.061,PET_500m,48.0
 trinidad,2024-02-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4850684
 trinidad,2024-02-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-02-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3690867
+trinidad,2024-02-10,MOD16A2.061,ET_500m,12.7
+trinidad,2024-02-10,MOD16A2.061,PET_500m,54.6
 trinidad,2024-02-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-02-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-02-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3681878
+trinidad,2024-02-18,MOD13Q1.061,_250m_16_days_NDVI,0.5548
+trinidad,2024-02-18,MOD16A2.061,ET_500m,10.6
+trinidad,2024-02-18,MOD16A2.061,PET_500m,54.9
 trinidad,2024-02-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-02-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-02-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3844091
+trinidad,2024-02-26,MOD16A2.061,ET_500m,7.8
+trinidad,2024-02-26,MOD16A2.061,PET_500m,58.3
 trinidad,2024-02-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-03-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-03-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3862343
+trinidad,2024-03-05,MOD13Q1.061,_250m_16_days_NDVI,0.483
+trinidad,2024-03-05,MOD16A2.061,ET_500m,7.6
+trinidad,2024-03-05,MOD16A2.061,PET_500m,59.0
 trinidad,2024-03-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5045896
 trinidad,2024-03-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2335124
 trinidad,2024-03-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-03-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3780202
+trinidad,2024-03-13,MOD16A2.061,ET_500m,12.5
+trinidad,2024-03-13,MOD16A2.061,PET_500m,58.3
 trinidad,2024-03-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-03-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2546823
 trinidad,2024-03-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-03-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4818085
+trinidad,2024-03-21,MOD13Q1.061,_250m_16_days_NDVI,0.3896
+trinidad,2024-03-21,MOD16A2.061,ET_500m,8.7
+trinidad,2024-03-21,MOD16A2.061,PET_500m,59.0
 trinidad,2024-03-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-03-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2447235
 trinidad,2024-03-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-03-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2884339
+trinidad,2024-03-29,MOD16A2.061,ET_500m,11.4
+trinidad,2024-03-29,MOD16A2.061,PET_500m,50.4
 trinidad,2024-03-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-04-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-04-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.502766
+trinidad,2024-04-06,MOD13Q1.061,_250m_16_days_NDVI,0.4591
+trinidad,2024-04-06,MOD16A2.061,ET_500m,10.3
+trinidad,2024-04-06,MOD16A2.061,PET_500m,62.9
 trinidad,2024-04-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5262173
 trinidad,2024-04-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-04-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2728007
+trinidad,2024-04-14,MOD16A2.061,ET_500m,14.7
+trinidad,2024-04-14,MOD16A2.061,PET_500m,50.5
 trinidad,2024-04-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4708298
 trinidad,2024-04-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-04-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3327107
+trinidad,2024-04-22,MOD13Q1.061,_250m_16_days_NDVI,0.5398
+trinidad,2024-04-22,MOD16A2.061,ET_500m,13.1
+trinidad,2024-04-22,MOD16A2.061,PET_500m,59.5
 trinidad,2024-04-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-04-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-04-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2986272
+trinidad,2024-04-30,MOD16A2.061,ET_500m,14.7
+trinidad,2024-04-30,MOD16A2.061,PET_500m,49.7
 trinidad,2024-05-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4293892
 trinidad,2024-05-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-05-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2927164
+trinidad,2024-05-08,MOD13Q1.061,_250m_16_days_NDVI,0.4257
+trinidad,2024-05-08,MOD16A2.061,ET_500m,15.3
+trinidad,2024-05-08,MOD16A2.061,PET_500m,48.8
 trinidad,2024-05-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5294024
 trinidad,2024-05-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-05-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3261676
+trinidad,2024-05-16,MOD16A2.061,ET_500m,13.2
+trinidad,2024-05-16,MOD16A2.061,PET_500m,58.4
 trinidad,2024-05-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4688908
 trinidad,2024-05-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-05-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3627001
+trinidad,2024-05-24,MOD13Q1.061,_250m_16_days_NDVI,0.5792
+trinidad,2024-05-24,MOD16A2.061,ET_500m,18.9
+trinidad,2024-05-24,MOD16A2.061,PET_500m,49.0
 trinidad,2024-05-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-05-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-05-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4316471
+trinidad,2024-06-01,MOD16A2.061,ET_500m,20.3
+trinidad,2024-06-01,MOD16A2.061,PET_500m,43.4
 trinidad,2024-06-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5085032
 trinidad,2024-06-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-06-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.346232
+trinidad,2024-06-09,MOD13Q1.061,_250m_16_days_NDVI,0.6404
+trinidad,2024-06-09,MOD16A2.061,ET_500m,19.1
+trinidad,2024-06-09,MOD16A2.061,PET_500m,39.4
 trinidad,2024-06-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-06-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4489808
+trinidad,2024-06-17,MOD16A2.061,ET_500m,19.6
+trinidad,2024-06-17,MOD16A2.061,PET_500m,40.0
 trinidad,2024-06-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.251725
 trinidad,2024-06-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-06-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4522317
+trinidad,2024-06-25,MOD13Q1.061,_250m_16_days_NDVI,0.8081
+trinidad,2024-06-25,MOD16A2.061,ET_500m,19.9
+trinidad,2024-06-25,MOD16A2.061,PET_500m,34.3
 trinidad,2024-06-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5057314
 trinidad,2024-06-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2381319
 trinidad,2024-06-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-07-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4464219
+trinidad,2024-07-03,MOD16A2.061,ET_500m,23.3
+trinidad,2024-07-03,MOD16A2.061,PET_500m,42.1
 trinidad,2024-07-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-07-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2739437
 trinidad,2024-07-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-07-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3814522
+trinidad,2024-07-11,MOD13Q1.061,_250m_16_days_NDVI,0.6513
+trinidad,2024-07-11,MOD16A2.061,ET_500m,20.1
+trinidad,2024-07-11,MOD16A2.061,PET_500m,39.3
 trinidad,2024-07-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-07-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2755771
 trinidad,2024-07-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-07-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4304106
+trinidad,2024-07-19,MOD16A2.061,ET_500m,23.9
+trinidad,2024-07-19,MOD16A2.061,PET_500m,45.5
 trinidad,2024-07-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5079851
 trinidad,2024-07-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-07-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3302875
+trinidad,2024-07-27,MOD13Q1.061,_250m_16_days_NDVI,0.7059
+trinidad,2024-07-27,MOD16A2.061,ET_500m,21.2
+trinidad,2024-07-27,MOD16A2.061,PET_500m,47.9
 trinidad,2024-07-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4926666
 trinidad,2024-07-31,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-08-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3582411
+trinidad,2024-08-04,MOD16A2.061,ET_500m,20.9
+trinidad,2024-08-04,MOD16A2.061,PET_500m,38.4
 trinidad,2024-08-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-08-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-08-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4924531
+trinidad,2024-08-12,MOD13Q1.061,_250m_16_days_NDVI,0.7503
+trinidad,2024-08-12,MOD16A2.061,ET_500m,17.1
+trinidad,2024-08-12,MOD16A2.061,PET_500m,44.5
 trinidad,2024-08-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4795527
 trinidad,2024-08-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4812827
 trinidad,2024-08-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2847369
+trinidad,2024-08-20,MOD16A2.061,ET_500m,19.2
+trinidad,2024-08-20,MOD16A2.061,PET_500m,44.9
 trinidad,2024-08-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4418261
 trinidad,2024-08-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3443338
+trinidad,2024-08-28,MOD13Q1.061,_250m_16_days_NDVI,0.7879
+trinidad,2024-08-28,MOD16A2.061,ET_500m,21.4
+trinidad,2024-08-28,MOD16A2.061,PET_500m,37.7
 trinidad,2024-08-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-09-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-09-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3706855
+trinidad,2024-09-05,MOD16A2.061,ET_500m,19.1
+trinidad,2024-09-05,MOD16A2.061,PET_500m,43.8
 trinidad,2024-09-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4915737
 trinidad,2024-09-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2563576
 trinidad,2024-09-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-09-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3713969
+trinidad,2024-09-13,MOD13Q1.061,_250m_16_days_NDVI,0.8189
+trinidad,2024-09-13,MOD16A2.061,ET_500m,18.4
+trinidad,2024-09-13,MOD16A2.061,PET_500m,45.4
 trinidad,2024-09-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4981078
 trinidad,2024-09-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2096342
 trinidad,2024-09-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-09-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3635216
+trinidad,2024-09-21,MOD16A2.061,ET_500m,16.0
+trinidad,2024-09-21,MOD16A2.061,PET_500m,35.1
 trinidad,2024-09-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-09-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2253681
 trinidad,2024-09-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-09-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4324299
+trinidad,2024-09-29,MOD13Q1.061,_250m_16_days_NDVI,0.7421
+trinidad,2024-09-29,MOD16A2.061,ET_500m,18.5
+trinidad,2024-09-29,MOD16A2.061,PET_500m,32.9
 trinidad,2024-09-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5061252
 trinidad,2024-10-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-10-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3588237
+trinidad,2024-10-07,MOD16A2.061,ET_500m,17.9
+trinidad,2024-10-07,MOD16A2.061,PET_500m,31.5
 trinidad,2024-10-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-10-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2973626
 trinidad,2024-10-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-10-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4573315
+trinidad,2024-10-15,MOD13Q1.061,_250m_16_days_NDVI,0.7527
+trinidad,2024-10-15,MOD16A2.061,ET_500m,18.7
+trinidad,2024-10-15,MOD16A2.061,PET_500m,33.7
 trinidad,2024-10-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5268764
 trinidad,2024-10-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2396592
 trinidad,2024-10-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-10-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4112684
+trinidad,2024-10-23,MOD16A2.061,ET_500m,21.8
+trinidad,2024-10-23,MOD16A2.061,PET_500m,43.6
 trinidad,2024-10-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-10-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2770626
 trinidad,2024-10-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-10-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3160839
+trinidad,2024-10-31,MOD13Q1.061,_250m_16_days_NDVI,0.7612
+trinidad,2024-10-31,MOD16A2.061,ET_500m,15.6
+trinidad,2024-10-31,MOD16A2.061,PET_500m,35.6
 trinidad,2024-11-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5054711
 trinidad,2024-11-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-11-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3958491
+trinidad,2024-11-08,MOD16A2.061,ET_500m,18.1
+trinidad,2024-11-08,MOD16A2.061,PET_500m,33.6
 trinidad,2024-11-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-11-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-11-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4523732
+trinidad,2024-11-16,MOD13Q1.061,_250m_16_days_NDVI,0.7825
+trinidad,2024-11-16,MOD16A2.061,ET_500m,18.5
+trinidad,2024-11-16,MOD16A2.061,PET_500m,32.2
 trinidad,2024-11-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4556312
 trinidad,2024-11-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-11-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3642094
+trinidad,2024-11-24,MOD16A2.061,ET_500m,22.6
+trinidad,2024-11-24,MOD16A2.061,PET_500m,38.4
 trinidad,2024-11-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-11-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-11-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4891103
+trinidad,2024-12-02,MOD13Q1.061,_250m_16_days_NDVI,0.7529
+trinidad,2024-12-02,MOD16A2.061,ET_500m,16.9
+trinidad,2024-12-02,MOD16A2.061,PET_500m,47.9
 trinidad,2024-12-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-12-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2024-12-10,MOD16A2.061,ET_500m,22.8
+trinidad,2024-12-10,MOD16A2.061,PET_500m,36.0
 trinidad,2024-12-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-12-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-12-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.430349
+trinidad,2024-12-18,MOD13Q1.061,_250m_16_days_NDVI,0.7322
+trinidad,2024-12-18,MOD16A2.061,ET_500m,21.4
+trinidad,2024-12-18,MOD16A2.061,PET_500m,37.9
 trinidad,2024-12-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-12-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-12-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3209017
+trinidad,2024-12-26,MOD16A2.061,ET_500m,15.6
+trinidad,2024-12-26,MOD16A2.061,PET_500m,32.1
 trinidad,2024-12-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2024-12-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-01-01,MOD13Q1.061,_250m_16_days_NDVI,0.6829
+trinidad,2025-01-01,MOD16A2.061,ET_500m,18.6
+trinidad,2025-01-01,MOD16A2.061,PET_500m,41.8
 trinidad,2025-01-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3350725
 trinidad,2025-01-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-01-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-01-09,MOD16A2.061,ET_500m,17.8
+trinidad,2025-01-09,MOD16A2.061,PET_500m,46.7
 trinidad,2025-01-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4464296
 trinidad,2025-01-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-01-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-01-17,MOD13Q1.061,_250m_16_days_NDVI,0.7984
+trinidad,2025-01-17,MOD16A2.061,ET_500m,15.4
+trinidad,2025-01-17,MOD16A2.061,PET_500m,48.5
 trinidad,2025-01-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4237561
 trinidad,2025-01-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-01-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-01-25,MOD16A2.061,ET_500m,22.4
+trinidad,2025-01-25,MOD16A2.061,PET_500m,47.3
 trinidad,2025-01-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4388363
 trinidad,2025-01-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-01-31,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-02-02,MOD13Q1.061,_250m_16_days_NDVI,0.6972
+trinidad,2025-02-02,MOD16A2.061,ET_500m,16.6
+trinidad,2025-02-02,MOD16A2.061,PET_500m,48.7
 trinidad,2025-02-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4275836
 trinidad,2025-02-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-02-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-02-10,MOD16A2.061,ET_500m,12.4
+trinidad,2025-02-10,MOD16A2.061,PET_500m,52.2
 trinidad,2025-02-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4334186
 trinidad,2025-02-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-02-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3200437
 trinidad,2025-02-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-02-18,MOD13Q1.061,_250m_16_days_NDVI,0.5743
+trinidad,2025-02-18,MOD16A2.061,ET_500m,19.5
+trinidad,2025-02-18,MOD16A2.061,PET_500m,51.7
 trinidad,2025-02-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5147992
 trinidad,2025-02-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4552584
 trinidad,2025-02-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2709562
 trinidad,2025-02-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-02-26,MOD16A2.061,ET_500m,15.1
+trinidad,2025-02-26,MOD16A2.061,PET_500m,51.4
 trinidad,2025-02-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.396586
 trinidad,2025-03-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-03-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-03-06,MOD13Q1.061,_250m_16_days_NDVI,0.5652
+trinidad,2025-03-06,MOD16A2.061,ET_500m,13.3
+trinidad,2025-03-06,MOD16A2.061,PET_500m,55.6
 trinidad,2025-03-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3778103
 trinidad,2025-03-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-03-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-03-14,MOD16A2.061,ET_500m,13.0
+trinidad,2025-03-14,MOD16A2.061,PET_500m,55.2
 trinidad,2025-03-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2977463
 trinidad,2025-03-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4784988
 trinidad,2025-03-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1796644
 trinidad,2025-03-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-03-22,MOD13Q1.061,_250m_16_days_NDVI,0.5762
+trinidad,2025-03-22,MOD16A2.061,ET_500m,9.1
+trinidad,2025-03-22,MOD16A2.061,PET_500m,61.9
 trinidad,2025-03-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3206648
 trinidad,2025-03-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-03-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2528659
 trinidad,2025-03-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-03-30,MOD16A2.061,ET_500m,12.7
+trinidad,2025-03-30,MOD16A2.061,PET_500m,54.3
 trinidad,2025-03-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3700956
 trinidad,2025-04-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5189342
 trinidad,2025-04-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2655474
 trinidad,2025-04-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-04-07,MOD13Q1.061,_250m_16_days_NDVI,0.5036
+trinidad,2025-04-07,MOD16A2.061,ET_500m,16.1
+trinidad,2025-04-07,MOD16A2.061,PET_500m,55.0
 trinidad,2025-04-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.427501
 trinidad,2025-04-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5286939
 trinidad,2025-04-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-04-15,MOD16A2.061,ET_500m,14.4
+trinidad,2025-04-15,MOD16A2.061,PET_500m,55.1
 trinidad,2025-04-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2879526
 trinidad,2025-04-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5302262
 trinidad,2025-04-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-04-23,MOD13Q1.061,_250m_16_days_NDVI,0.6219
+trinidad,2025-04-23,MOD16A2.061,ET_500m,14.7
+trinidad,2025-04-23,MOD16A2.061,PET_500m,50.6
 trinidad,2025-04-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3843478
 trinidad,2025-04-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-04-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5201451
+trinidad,2025-05-01,MOD16A2.061,ET_500m,14.3
+trinidad,2025-05-01,MOD16A2.061,PET_500m,46.5
 trinidad,2025-05-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2991604
 trinidad,2025-05-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-05-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-05-09,MOD13Q1.061,_250m_16_days_NDVI,0.5445
+trinidad,2025-05-09,MOD16A2.061,ET_500m,17.3
+trinidad,2025-05-09,MOD16A2.061,PET_500m,52.0
 trinidad,2025-05-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2942549
 trinidad,2025-05-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4655006
 trinidad,2025-05-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-05-17,MOD16A2.061,ET_500m,16.3
+trinidad,2025-05-17,MOD16A2.061,PET_500m,43.6
 trinidad,2025-05-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4097747
 trinidad,2025-05-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-05-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-05-25,MOD13Q1.061,_250m_16_days_NDVI,0.6934
+trinidad,2025-05-25,MOD16A2.061,ET_500m,20.0
+trinidad,2025-05-25,MOD16A2.061,PET_500m,36.2
 trinidad,2025-05-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4998568
 trinidad,2025-05-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-05-31,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-06-02,MOD16A2.061,ET_500m,19.2
+trinidad,2025-06-02,MOD16A2.061,PET_500m,44.0
 trinidad,2025-06-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4460438
 trinidad,2025-06-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4604042
 trinidad,2025-06-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-06-10,MOD13Q1.061,_250m_16_days_NDVI,0.521
+trinidad,2025-06-10,MOD16A2.061,ET_500m,20.3
+trinidad,2025-06-10,MOD16A2.061,PET_500m,42.6
 trinidad,2025-06-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4048498
 trinidad,2025-06-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-06-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-06-18,MOD16A2.061,ET_500m,21.7
+trinidad,2025-06-18,MOD16A2.061,PET_500m,36.2
 trinidad,2025-06-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4944713
 trinidad,2025-06-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-06-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-06-26,MOD13Q1.061,_250m_16_days_NDVI,0.5526
+trinidad,2025-06-26,MOD16A2.061,ET_500m,25.2
+trinidad,2025-06-26,MOD16A2.061,PET_500m,49.0
 trinidad,2025-06-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4325661
 trinidad,2025-06-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-07-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-07-04,MOD16A2.061,ET_500m,21.6
+trinidad,2025-07-04,MOD16A2.061,PET_500m,41.9
 trinidad,2025-07-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3660469
 trinidad,2025-07-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5098101
 trinidad,2025-07-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-07-12,MOD13Q1.061,_250m_16_days_NDVI,0.6089
+trinidad,2025-07-12,MOD16A2.061,ET_500m,19.9
+trinidad,2025-07-12,MOD16A2.061,PET_500m,43.0
 trinidad,2025-07-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3778346
 trinidad,2025-07-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4844804
 trinidad,2025-07-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-07-20,MOD16A2.061,ET_500m,22.4
+trinidad,2025-07-20,MOD16A2.061,PET_500m,44.4
 trinidad,2025-07-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3649207
 trinidad,2025-07-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4782183
 trinidad,2025-07-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2985637
 trinidad,2025-07-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-07-28,MOD13Q1.061,_250m_16_days_NDVI,0.6259
+trinidad,2025-07-28,MOD16A2.061,ET_500m,20.9
+trinidad,2025-07-28,MOD16A2.061,PET_500m,43.5
 trinidad,2025-07-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3814142
 trinidad,2025-07-31,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4737284
 trinidad,2025-08-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1577855
 trinidad,2025-08-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-08-05,MOD16A2.061,ET_500m,21.8
+trinidad,2025-08-05,MOD16A2.061,PET_500m,38.5
 trinidad,2025-08-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3174213
 trinidad,2025-08-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-08-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3037236
 trinidad,2025-08-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-08-13,MOD13Q1.061,_250m_16_days_NDVI,0.7092
+trinidad,2025-08-13,MOD16A2.061,ET_500m,23.4
+trinidad,2025-08-13,MOD16A2.061,PET_500m,38.1
 trinidad,2025-08-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3374289
 trinidad,2025-08-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-08-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3145005
 trinidad,2025-08-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-08-21,MOD16A2.061,ET_500m,24.0
+trinidad,2025-08-21,MOD16A2.061,PET_500m,41.0
 trinidad,2025-08-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3093508
 trinidad,2025-08-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5091459
 trinidad,2025-08-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2332736
 trinidad,2025-08-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-08-29,MOD13Q1.061,_250m_16_days_NDVI,0.6197
+trinidad,2025-08-29,MOD16A2.061,ET_500m,22.7
+trinidad,2025-08-29,MOD16A2.061,PET_500m,38.7
 trinidad,2025-08-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3940536
 trinidad,2025-09-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4799252
 trinidad,2025-09-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-09-06,MOD16A2.061,ET_500m,21.1
+trinidad,2025-09-06,MOD16A2.061,PET_500m,34.0
 trinidad,2025-09-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3731817
 trinidad,2025-09-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4550506
 trinidad,2025-09-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-09-14,MOD13Q1.061,_250m_16_days_NDVI,0.8005
+trinidad,2025-09-14,MOD16A2.061,ET_500m,21.6
+trinidad,2025-09-14,MOD16A2.061,PET_500m,43.0
 trinidad,2025-09-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3679401
 trinidad,2025-09-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5016166
 trinidad,2025-09-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-09-22,MOD16A2.061,ET_500m,18.1
+trinidad,2025-09-22,MOD16A2.061,PET_500m,47.6
 trinidad,2025-09-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2766649
 trinidad,2025-09-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5270792
 trinidad,2025-09-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-09-30,MOD13Q1.061,_250m_16_days_NDVI,0.6915
+trinidad,2025-09-30,MOD16A2.061,ET_500m,18.6
+trinidad,2025-09-30,MOD16A2.061,PET_500m,43.5
 trinidad,2025-09-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2845283
 trinidad,2025-10-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5066812
 trinidad,2025-10-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-10-08,MOD16A2.061,ET_500m,17.8
+trinidad,2025-10-08,MOD16A2.061,PET_500m,31.0
 trinidad,2025-10-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3346033
 trinidad,2025-10-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-10-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2426473
 trinidad,2025-10-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-10-16,MOD13Q1.061,_250m_16_days_NDVI,0.7749
+trinidad,2025-10-16,MOD16A2.061,ET_500m,18.4
+trinidad,2025-10-16,MOD16A2.061,PET_500m,37.9
 trinidad,2025-10-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3111641
 trinidad,2025-10-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5128828
 trinidad,2025-10-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-10-24,MOD16A2.061,ET_500m,20.7
+trinidad,2025-10-24,MOD16A2.061,PET_500m,39.8
 trinidad,2025-10-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2788128
 trinidad,2025-10-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-10-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5088329
+trinidad,2025-11-01,MOD13Q1.061,_250m_16_days_NDVI,0.7279
+trinidad,2025-11-01,MOD16A2.061,ET_500m,16.6
+trinidad,2025-11-01,MOD16A2.061,PET_500m,40.7
 trinidad,2025-11-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3134674
 trinidad,2025-11-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4950736
 trinidad,2025-11-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-11-09,MOD16A2.061,ET_500m,20.1
+trinidad,2025-11-09,MOD16A2.061,PET_500m,50.6
 trinidad,2025-11-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3911759
 trinidad,2025-11-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-11-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-11-17,MOD13Q1.061,_250m_16_days_NDVI,0.7616
+trinidad,2025-11-17,MOD16A2.061,ET_500m,20.7
+trinidad,2025-11-17,MOD16A2.061,PET_500m,35.0
 trinidad,2025-11-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.378657
 trinidad,2025-11-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-11-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-11-25,MOD16A2.061,ET_500m,18.6
+trinidad,2025-11-25,MOD16A2.061,PET_500m,38.8
 trinidad,2025-11-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.433574
 trinidad,2025-11-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-12-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-12-03,MOD13Q1.061,_250m_16_days_NDVI,0.6957
+trinidad,2025-12-03,MOD16A2.061,ET_500m,20.0
+trinidad,2025-12-03,MOD16A2.061,PET_500m,36.0
 trinidad,2025-12-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3633532
 trinidad,2025-12-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-12-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2986314
 trinidad,2025-12-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-12-11,MOD16A2.061,ET_500m,13.7
+trinidad,2025-12-11,MOD16A2.061,PET_500m,48.3
 trinidad,2025-12-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5026743
 trinidad,2025-12-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2025-12-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2523147
 trinidad,2025-12-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-12-19,MOD13Q1.061,_250m_16_days_NDVI,0.7319
+trinidad,2025-12-19,MOD16A2.061,ET_500m,19.6
+trinidad,2025-12-19,MOD16A2.061,PET_500m,44.5
 trinidad,2025-12-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.392748
 trinidad,2025-12-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5034145
 trinidad,2025-12-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2439227
 trinidad,2025-12-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2025-12-27,MOD16A2.061,ET_500m,13.2
+trinidad,2025-12-27,MOD16A2.061,PET_500m,23.9
 trinidad,2025-12-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3555435
 trinidad,2025-12-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-01-01,MOD13Q1.061,_250m_16_days_NDVI,0.7169
+trinidad,2026-01-01,MOD16A2.061,ET_500m,16.4
+trinidad,2026-01-01,MOD16A2.061,PET_500m,43.8
 trinidad,2026-01-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3061403
 trinidad,2026-01-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-01-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3261116
 trinidad,2026-01-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-01-09,MOD16A2.061,ET_500m,19.5
+trinidad,2026-01-09,MOD16A2.061,PET_500m,42.0
 trinidad,2026-01-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2333018
 trinidad,2026-01-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-01-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3778698
 trinidad,2026-01-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-01-17,MOD13Q1.061,_250m_16_days_NDVI,0.6571
+trinidad,2026-01-17,MOD16A2.061,ET_500m,15.0
+trinidad,2026-01-17,MOD16A2.061,PET_500m,50.0
 trinidad,2026-01-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3487791
 trinidad,2026-01-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-01-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3281349
 trinidad,2026-01-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-01-25,MOD16A2.061,ET_500m,21.0
+trinidad,2026-01-25,MOD16A2.061,PET_500m,46.6
 trinidad,2026-01-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3061363
 trinidad,2026-01-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-01-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.449556
 trinidad,2026-01-31,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-02-02,MOD13Q1.061,_250m_16_days_NDVI,0.6776
+trinidad,2026-02-02,MOD16A2.061,ET_500m,14.6
+trinidad,2026-02-02,MOD16A2.061,PET_500m,50.2
 trinidad,2026-02-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-02-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4262092
 trinidad,2026-02-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-02-10,MOD16A2.061,ET_500m,17.6
+trinidad,2026-02-10,MOD16A2.061,PET_500m,51.3
 trinidad,2026-02-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-02-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3267525
 trinidad,2026-02-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4743401
+trinidad,2026-02-18,MOD13Q1.061,_250m_16_days_NDVI,0.6024
+trinidad,2026-02-18,MOD16A2.061,ET_500m,12.6
+trinidad,2026-02-18,MOD16A2.061,PET_500m,53.7
 trinidad,2026-02-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-02-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3876208
 trinidad,2026-02-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-02-26,MOD16A2.061,ET_500m,11.3
+trinidad,2026-02-26,MOD16A2.061,PET_500m,56.0
 trinidad,2026-02-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-03-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4010121
 trinidad,2026-03-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4716518
+trinidad,2026-03-06,MOD13Q1.061,_250m_16_days_NDVI,0.4821
+trinidad,2026-03-06,MOD16A2.061,ET_500m,15.7
+trinidad,2026-03-06,MOD16A2.061,PET_500m,52.1
 trinidad,2026-03-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.239998
 trinidad,2026-03-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-03-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-03-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-03-14,MOD16A2.061,ET_500m,11.9
+trinidad,2026-03-14,MOD16A2.061,PET_500m,55.0
 trinidad,2026-03-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2259629
 trinidad,2026-03-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-03-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.395462
 trinidad,2026-03-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-03-22,MOD13Q1.061,_250m_16_days_NDVI,0.5557
+trinidad,2026-03-22,MOD16A2.061,ET_500m,11.9
+trinidad,2026-03-22,MOD16A2.061,PET_500m,54.0
 trinidad,2026-03-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1518203
 trinidad,2026-03-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-03-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3698518
 trinidad,2026-03-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-03-30,MOD16A2.061,ET_500m,13.8
+trinidad,2026-03-30,MOD16A2.061,PET_500m,51.6
 trinidad,2026-03-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2370341
 trinidad,2026-03-31,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-04-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2915299
 trinidad,2026-04-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-04-07,MOD13Q1.061,_250m_16_days_NDVI,0.521
+trinidad,2026-04-07,MOD16A2.061,ET_500m,10.4
+trinidad,2026-04-07,MOD16A2.061,PET_500m,59.4
 trinidad,2026-04-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3085977
 trinidad,2026-04-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-04-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.433789
 trinidad,2026-04-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5274277
+trinidad,2026-04-15,MOD16A2.061,ET_500m,11.6
+trinidad,2026-04-15,MOD16A2.061,PET_500m,52.7
 trinidad,2026-04-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.254119
 trinidad,2026-04-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-04-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3369022
 trinidad,2026-04-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-04-23,MOD13Q1.061,_250m_16_days_NDVI,0.6337
+trinidad,2026-04-23,MOD16A2.061,ET_500m,14.3
+trinidad,2026-04-23,MOD16A2.061,PET_500m,53.0
 trinidad,2026-04-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2891856
 trinidad,2026-04-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-04-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4362718
 trinidad,2026-04-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-05-01,MOD16A2.061,ET_500m,11.4
+trinidad,2026-05-01,MOD16A2.061,PET_500m,57.4
 trinidad,2026-05-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1802957
 trinidad,2026-05-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-05-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2974054
 trinidad,2026-05-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4562933
+trinidad,2026-05-09,MOD13Q1.061,_250m_16_days_NDVI,0.6044
+trinidad,2026-05-09,MOD16A2.061,ET_500m,15.5
+trinidad,2026-05-09,MOD16A2.061,PET_500m,56.9
 trinidad,2026-05-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-05-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3105903
 trinidad,2026-05-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4755693
+trinidad,2026-05-17,MOD16A2.061,ET_500m,13.4
+trinidad,2026-05-17,MOD16A2.061,PET_500m,49.6
 trinidad,2026-05-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-05-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2832925
+trinidad,2026-05-20,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.16411172499999999
+trinidad,2026-05-21,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.1644363375
+trinidad,2026-05-22,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.16529109999999997
 trinidad,2026-05-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5067414
+trinidad,2026-05-23,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.16633907500000003
+trinidad,2026-05-24,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.16784719999999997
+trinidad,2026-05-25,MOD13Q1.061,_250m_16_days_NDVI,0.5797
+trinidad,2026-05-25,MOD16A2.061,ET_500m,19.9
+trinidad,2026-05-25,MOD16A2.061,PET_500m,44.3
+trinidad,2026-05-25,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.17102305
 trinidad,2026-05-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-05-26,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.169653325
+trinidad,2026-05-27,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.16862145
 trinidad,2026-05-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2923804
+trinidad,2026-05-28,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.16770960000000001
+trinidad,2026-05-29,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.16679475
+trinidad,2026-05-30,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.16816732499999998
 trinidad,2026-05-31,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-05-31,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.1749325375
+trinidad,2026-06-01,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.1761201125
+trinidad,2026-06-02,MOD16A2.061,ET_500m,16.5
+trinidad,2026-06-02,MOD16A2.061,PET_500m,43.0
+trinidad,2026-06-02,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.1748070625
 trinidad,2026-06-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-06-03,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.17433807499999998
+trinidad,2026-06-04,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.179507125
 trinidad,2026-06-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4263272
+trinidad,2026-06-05,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.1876663875
+trinidad,2026-06-06,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.19246156250000002
+trinidad,2026-06-07,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.20169551249999998
 trinidad,2026-06-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-06-08,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.209875225
+trinidad,2026-06-09,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2063381
+trinidad,2026-06-10,MOD13Q1.061,_250m_16_days_NDVI,0.6916
+trinidad,2026-06-10,MOD16A2.061,ET_500m,20.7
+trinidad,2026-06-10,MOD16A2.061,PET_500m,49.9
+trinidad,2026-06-10,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2058526125
 trinidad,2026-06-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-06-11,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.21962065000000003
+trinidad,2026-06-12,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2461029125
 trinidad,2026-06-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5249584
+trinidad,2026-06-13,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2398384125
+trinidad,2026-06-14,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2376994875
+trinidad,2026-06-15,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.23738475
 trinidad,2026-06-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5245833
+trinidad,2026-06-16,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2399641625
+trinidad,2026-06-17,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.24251407500000002
+trinidad,2026-06-18,MOD16A2.061,ET_500m,19.2
+trinidad,2026-06-18,MOD16A2.061,PET_500m,36.5
+trinidad,2026-06-18,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2451518625
 trinidad,2026-06-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-06-19,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.24769182499999998
+trinidad,2026-06-20,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2487514375
 trinidad,2026-06-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4503658
+trinidad,2026-06-21,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.253414875
+trinidad,2026-06-22,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2534803125
+trinidad,2026-06-23,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.250576275
 trinidad,2026-06-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-06-24,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2527121875
+trinidad,2026-06-25,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2515466875
+trinidad,2026-06-26,MOD13Q1.061,_250m_16_days_NDVI,0.7518
+trinidad,2026-06-26,MOD16A2.061,ET_500m,23.2
+trinidad,2026-06-26,MOD16A2.061,PET_500m,43.5
+trinidad,2026-06-26,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.247651325
 trinidad,2026-06-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-06-27,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2462687
+trinidad,2026-06-28,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.25072551249999997
 trinidad,2026-06-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3495134
+trinidad,2026-06-29,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2525384375
+trinidad,2026-06-30,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2568304375
+trinidad,2026-07-01,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.25548597500000003
 trinidad,2026-07-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-07-02,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.252669725
+trinidad,2026-07-03,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.25768623749999997
+trinidad,2026-07-04,MOD16A2.061,ET_500m,26.4
+trinidad,2026-07-04,MOD16A2.061,PET_500m,36.6
+trinidad,2026-07-04,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.25907695
 trinidad,2026-07-05,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-07-05,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.25634298749999995
+trinidad,2026-07-06,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.25849818750000003
 trinidad,2026-07-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3061653
+trinidad,2026-07-07,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2626226625
+trinidad,2026-07-08,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.26958175000000006
+trinidad,2026-07-09,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.27233424999999994
 trinidad,2026-07-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-07-10,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2715238875
+trinidad,2026-07-11,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2724653125
+trinidad,2026-07-12,MOD13Q1.061,_250m_16_days_NDVI,0.7324
+trinidad,2026-07-12,MOD16A2.061,ET_500m,25.4
+trinidad,2026-07-12,MOD16A2.061,PET_500m,36.0
+trinidad,2026-07-12,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.286994175
 trinidad,2026-07-13,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-07-13,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.291346575
+trinidad,2026-07-14,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.29089234999999997
 trinidad,2026-07-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3829354
+trinidad,2026-07-15,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.28738643750000004
+trinidad,2026-07-16,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.283374075
+trinidad,2026-07-17,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.281288925
 trinidad,2026-07-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-07-18,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.28110857499999997
+trinidad,2026-07-19,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2869208875
+trinidad,2026-07-20,MOD16A2.061,ET_500m,29.3
+trinidad,2026-07-20,MOD16A2.061,PET_500m,47.5
+trinidad,2026-07-20,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.28897921249999997
 trinidad,2026-07-21,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-07-21,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.285633425
+trinidad,2026-07-22,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.28419590000000006
 trinidad,2026-07-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3532463
+trinidad,2026-07-23,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.28266535
+trinidad,2026-07-24,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2823312625
+trinidad,2026-07-25,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.28488015
 trinidad,2026-07-26,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-07-26,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.28244617499999997
+trinidad,2026-07-27,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.279190675
+trinidad,2026-07-28,MOD13Q1.061,_250m_16_days_NDVI,0.7619
+trinidad,2026-07-28,MOD16A2.061,ET_500m,32.4
+trinidad,2026-07-28,MOD16A2.061,PET_500m,49.9
+trinidad,2026-07-28,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.279040225
 trinidad,2026-07-29,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5300441
+trinidad,2026-07-29,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2794056375
+trinidad,2026-07-30,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.27680988749999996
 trinidad,2026-07-31,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2965386
+trinidad,2026-07-31,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.27681521249999996
+trinidad,2026-08-01,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.27273558750000004
+trinidad,2026-08-02,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.270531175
 trinidad,2026-08-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4166816
+trinidad,2026-08-03,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.271111925
+trinidad,2026-08-04,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2689569125
+trinidad,2026-08-05,MOD16A2.061,ET_500m,31.1
+trinidad,2026-08-05,MOD16A2.061,PET_500m,47.8
+trinidad,2026-08-05,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.265982675
 trinidad,2026-08-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5029492
+trinidad,2026-08-06,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.262146125
+trinidad,2026-08-07,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2594631875
 trinidad,2026-08-08,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2699386
+trinidad,2026-08-08,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.25937485
+trinidad,2026-08-09,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2628434625
+trinidad,2026-08-10,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2601915125
 trinidad,2026-08-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4101287
+trinidad,2026-08-11,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2580148625
+trinidad,2026-08-12,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2588083125
+trinidad,2026-08-13,MOD13Q1.061,_250m_16_days_NDVI,0.7917
+trinidad,2026-08-13,MOD16A2.061,ET_500m,28.2
+trinidad,2026-08-13,MOD16A2.061,PET_500m,46.6
+trinidad,2026-08-13,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.259729475
 trinidad,2026-08-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-08-14,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2590378
+trinidad,2026-08-15,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.25963218750000006
 trinidad,2026-08-16,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3749424
+trinidad,2026-08-16,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.26150185
+trinidad,2026-08-17,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2605602625
+trinidad,2026-08-18,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2578450625
 trinidad,2026-08-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4283539
+trinidad,2026-08-19,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2543862
+trinidad,2026-08-20,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2528197375
+trinidad,2026-08-21,MOD16A2.061,ET_500m,30.3
+trinidad,2026-08-21,MOD16A2.061,PET_500m,48.0
+trinidad,2026-08-21,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.25221372499999994
 trinidad,2026-08-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-08-22,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.252663675
+trinidad,2026-08-23,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.25443574999999996
 trinidad,2026-08-24,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3427497
+trinidad,2026-08-24,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.254802975
+trinidad,2026-08-25,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2523194
+trinidad,2026-08-26,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2509178875
 trinidad,2026-08-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4881599
+trinidad,2026-08-27,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2521257
+trinidad,2026-08-28,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.251731775
+trinidad,2026-08-29,MOD13Q1.061,_250m_16_days_NDVI,0.7112
+trinidad,2026-08-29,MOD16A2.061,ET_500m,29.7
+trinidad,2026-08-29,MOD16A2.061,PET_500m,51.9
+trinidad,2026-08-29,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.25104757499999997
 trinidad,2026-08-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-08-30,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.248624375
+trinidad,2026-08-31,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2482901125
 trinidad,2026-09-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3555722
+trinidad,2026-09-01,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.24821266250000001
+trinidad,2026-09-02,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.24409160000000002
+trinidad,2026-09-03,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.24314461249999997
 trinidad,2026-09-04,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4643557
+trinidad,2026-09-04,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.24323740000000002
+trinidad,2026-09-05,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.241017
+trinidad,2026-09-06,MOD16A2.061,ET_500m,26.7
+trinidad,2026-09-06,MOD16A2.061,PET_500m,45.7
 trinidad,2026-09-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2389856
+trinidad,2026-09-06,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.23715191249999998
 trinidad,2026-09-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-09-07,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.23464540000000003
+trinidad,2026-09-08,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.23246491250000004
 trinidad,2026-09-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3100852
+trinidad,2026-09-09,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.23370818749999997
+trinidad,2026-09-10,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.24324435000000003
+trinidad,2026-09-11,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2548234875
 trinidad,2026-09-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-09-12,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.25666995
+trinidad,2026-09-13,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.257200725
+trinidad,2026-09-14,MOD13Q1.061,_250m_16_days_NDVI,0.5958
+trinidad,2026-09-14,MOD16A2.061,ET_500m,23.1
+trinidad,2026-09-14,MOD16A2.061,PET_500m,52.0
 trinidad,2026-09-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2139226
+trinidad,2026-09-14,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.25333442500000003
 trinidad,2026-09-15,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-09-15,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.25137263749999994
+trinidad,2026-09-16,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2495041375
 trinidad,2026-09-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3091829
+trinidad,2026-09-17,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2467290625
+trinidad,2026-09-18,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.24640493749999998
+trinidad,2026-09-19,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2449521625
 trinidad,2026-09-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.523265
+trinidad,2026-09-20,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2412850625
+trinidad,2026-09-21,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.236697575
+trinidad,2026-09-22,MOD16A2.061,ET_500m,24.8
+trinidad,2026-09-22,MOD16A2.061,PET_500m,43.0
 trinidad,2026-09-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.1937376
+trinidad,2026-09-22,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.232934575
 trinidad,2026-09-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-09-23,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2308778375
+trinidad,2026-09-24,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.230235975
 trinidad,2026-09-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2960746
+trinidad,2026-09-25,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.22880085
+trinidad,2026-09-26,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2279206125
+trinidad,2026-09-27,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2310583375
 trinidad,2026-09-28,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.461305
+trinidad,2026-09-28,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.22888207500000002
+trinidad,2026-09-29,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.22711411250000002
+trinidad,2026-09-30,MOD13Q1.061,_250m_16_days_NDVI,0.769
+trinidad,2026-09-30,MOD16A2.061,ET_500m,23.1
+trinidad,2026-09-30,MOD16A2.061,PET_500m,46.0
+trinidad,2026-09-30,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.22577059999999996
 trinidad,2026-10-01,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-10-01,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.226451
+trinidad,2026-10-02,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2228114
 trinidad,2026-10-03,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4348897
+trinidad,2026-10-03,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.22160400000000002
+trinidad,2026-10-04,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.22158065
+trinidad,2026-10-05,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2273232
 trinidad,2026-10-06,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-10-06,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.22906006249999997
+trinidad,2026-10-07,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2253053375
+trinidad,2026-10-08,MOD16A2.061,ET_500m,25.4
+trinidad,2026-10-08,MOD16A2.061,PET_500m,46.4
+trinidad,2026-10-08,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2226715125
 trinidad,2026-10-09,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-10-09,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.22290006249999997
+trinidad,2026-10-10,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2324006
 trinidad,2026-10-11,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3508021
+trinidad,2026-10-11,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.256387425
+trinidad,2026-10-12,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.25172586250000006
+trinidad,2026-10-13,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2493836
 trinidad,2026-10-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-10-14,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.24765301249999996
+trinidad,2026-10-15,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2449053875
+trinidad,2026-10-16,MOD13Q1.061,_250m_16_days_NDVI,0.7231
+trinidad,2026-10-16,MOD16A2.061,ET_500m,23.2
+trinidad,2026-10-16,MOD16A2.061,PET_500m,50.3
+trinidad,2026-10-16,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2414577125
 trinidad,2026-10-17,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-10-17,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2372586125
+trinidad,2026-10-18,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.23472835000000003
+trinidad,2026-10-19,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2335421625
+trinidad,2026-10-20,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.23374056249999997
+trinidad,2026-10-21,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2323074
 trinidad,2026-10-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4963301
+trinidad,2026-10-22,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.22900575
+trinidad,2026-10-23,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2248585375
+trinidad,2026-10-24,MOD16A2.061,ET_500m,27.0
+trinidad,2026-10-24,MOD16A2.061,PET_500m,46.6
+trinidad,2026-10-24,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.22233768750000002
 trinidad,2026-10-25,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-10-25,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2230825125
+trinidad,2026-10-26,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.221838175
 trinidad,2026-10-27,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3379758
+trinidad,2026-10-27,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2195368
+trinidad,2026-10-28,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.21966596250000003
+trinidad,2026-10-29,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2216639125
 trinidad,2026-10-30,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4690255
+trinidad,2026-10-30,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2224031125
+trinidad,2026-10-31,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.22085803750000002
+trinidad,2026-11-01,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.22138467499999998
 trinidad,2026-11-02,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-11-02,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2219483625
+trinidad,2026-11-03,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.22201759999999998
+trinidad,2026-11-04,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.22089535000000002
+trinidad,2026-11-05,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2182645625
+trinidad,2026-11-06,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.21631686250000004
 trinidad,2026-11-07,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.4323023
+trinidad,2026-11-07,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2132376
+trinidad,2026-11-08,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.21025490000000002
+trinidad,2026-11-09,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.20741747500000002
 trinidad,2026-11-10,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
+trinidad,2026-11-10,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2063245375
+trinidad,2026-11-11,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.20876916250000002
 trinidad,2026-11-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3266556
-jamaica,2023-11-09 00:00:00,MOD16A2.061,ET_500m,24.9
-jamaica,2023-11-09 00:00:00,MOD16A2.061,PET_500m,30.3
-jamaica,2023-11-17 00:00:00,MOD16A2.061,ET_500m,28.6
-jamaica,2023-11-17 00:00:00,MOD16A2.061,PET_500m,39.7
-jamaica,2023-11-25 00:00:00,MOD16A2.061,ET_500m,28.0
-jamaica,2023-11-25 00:00:00,MOD16A2.061,PET_500m,40.4
-jamaica,2023-12-03 00:00:00,MOD16A2.061,ET_500m,31.2
-jamaica,2023-12-03 00:00:00,MOD16A2.061,PET_500m,40.9
-jamaica,2023-12-11 00:00:00,MOD16A2.061,ET_500m,19.8
-jamaica,2023-12-11 00:00:00,MOD16A2.061,PET_500m,32.6
-jamaica,2023-12-19 00:00:00,MOD16A2.061,ET_500m,25.5
-jamaica,2023-12-19 00:00:00,MOD16A2.061,PET_500m,37.1
-jamaica,2023-12-27 00:00:00,MOD16A2.061,ET_500m,14.8
-jamaica,2023-12-27 00:00:00,MOD16A2.061,PET_500m,19.6
-jamaica,2024-01-01 00:00:00,MOD16A2.061,ET_500m,29.3
-jamaica,2024-01-01 00:00:00,MOD16A2.061,PET_500m,40.2
-jamaica,2024-01-09 00:00:00,MOD16A2.061,ET_500m,30.0
-jamaica,2024-01-09 00:00:00,MOD16A2.061,PET_500m,41.2
-jamaica,2024-01-17 00:00:00,MOD16A2.061,ET_500m,22.8
-jamaica,2024-01-17 00:00:00,MOD16A2.061,PET_500m,42.7
-jamaica,2024-01-25 00:00:00,MOD16A2.061,ET_500m,18.2
-jamaica,2024-01-25 00:00:00,MOD16A2.061,PET_500m,42.8
-jamaica,2024-02-02 00:00:00,MOD16A2.061,ET_500m,16.5
-jamaica,2024-02-02 00:00:00,MOD16A2.061,PET_500m,44.1
-jamaica,2024-02-10 00:00:00,MOD16A2.061,ET_500m,22.7
-jamaica,2024-02-10 00:00:00,MOD16A2.061,PET_500m,47.3
-jamaica,2024-02-18 00:00:00,MOD16A2.061,ET_500m,23.1
-jamaica,2024-02-18 00:00:00,MOD16A2.061,PET_500m,46.9
-jamaica,2024-02-26 00:00:00,MOD16A2.061,ET_500m,23.6
-jamaica,2024-02-26 00:00:00,MOD16A2.061,PET_500m,50.3
-jamaica,2024-03-05 00:00:00,MOD16A2.061,ET_500m,17.8
-jamaica,2024-03-05 00:00:00,MOD16A2.061,PET_500m,54.4
-jamaica,2024-03-13 00:00:00,MOD16A2.061,ET_500m,16.0
-jamaica,2024-03-13 00:00:00,MOD16A2.061,PET_500m,53.7
-jamaica,2024-03-21 00:00:00,MOD16A2.061,ET_500m,30.4
-jamaica,2024-03-21 00:00:00,MOD16A2.061,PET_500m,55.3
-jamaica,2024-03-29 00:00:00,MOD16A2.061,ET_500m,19.0
-jamaica,2024-03-29 00:00:00,MOD16A2.061,PET_500m,58.3
-jamaica,2024-04-06 00:00:00,MOD16A2.061,ET_500m,25.6
-jamaica,2024-04-06 00:00:00,MOD16A2.061,PET_500m,60.0
-jamaica,2024-04-14 00:00:00,MOD16A2.061,ET_500m,31.1
-jamaica,2024-04-14 00:00:00,MOD16A2.061,PET_500m,58.7
-jamaica,2024-04-22 00:00:00,MOD16A2.061,ET_500m,27.4
-jamaica,2024-04-22 00:00:00,MOD16A2.061,PET_500m,58.8
-jamaica,2024-04-30 00:00:00,MOD16A2.061,ET_500m,29.8
-jamaica,2024-04-30 00:00:00,MOD16A2.061,PET_500m,54.5
-jamaica,2024-05-08 00:00:00,MOD16A2.061,ET_500m,33.0
-jamaica,2024-05-08 00:00:00,MOD16A2.061,PET_500m,48.5
-jamaica,2024-05-16 00:00:00,MOD16A2.061,ET_500m,28.1
-jamaica,2024-05-16 00:00:00,MOD16A2.061,PET_500m,36.5
-jamaica,2024-05-24 00:00:00,MOD16A2.061,ET_500m,20.3
-jamaica,2024-05-24 00:00:00,MOD16A2.061,PET_500m,43.1
-jamaica,2024-06-01 00:00:00,MOD16A2.061,ET_500m,23.7
-jamaica,2024-06-01 00:00:00,MOD16A2.061,PET_500m,31.2
-jamaica,2024-06-09 00:00:00,MOD16A2.061,ET_500m,27.0
-jamaica,2024-06-09 00:00:00,MOD16A2.061,PET_500m,39.1
-jamaica,2024-06-17 00:00:00,MOD16A2.061,ET_500m,24.8
-jamaica,2024-06-17 00:00:00,MOD16A2.061,PET_500m,39.6
-jamaica,2024-06-25 00:00:00,MOD16A2.061,ET_500m,25.8
-jamaica,2024-06-25 00:00:00,MOD16A2.061,PET_500m,37.5
-jamaica,2024-07-03 00:00:00,MOD16A2.061,ET_500m,22.0
-jamaica,2024-07-03 00:00:00,MOD16A2.061,PET_500m,33.5
-jamaica,2024-07-11 00:00:00,MOD16A2.061,ET_500m,29.7
-jamaica,2024-07-11 00:00:00,MOD16A2.061,PET_500m,37.6
-jamaica,2024-07-19 00:00:00,MOD16A2.061,ET_500m,29.1
-jamaica,2024-07-19 00:00:00,MOD16A2.061,PET_500m,40.2
-jamaica,2024-07-27 00:00:00,MOD16A2.061,ET_500m,27.1
-jamaica,2024-07-27 00:00:00,MOD16A2.061,PET_500m,34.7
-jamaica,2024-08-04 00:00:00,MOD16A2.061,ET_500m,25.8
-jamaica,2024-08-04 00:00:00,MOD16A2.061,PET_500m,38.2
-jamaica,2024-08-12 00:00:00,MOD16A2.061,ET_500m,28.0
-jamaica,2024-08-12 00:00:00,MOD16A2.061,PET_500m,40.8
-jamaica,2024-08-20 00:00:00,MOD16A2.061,ET_500m,29.9
-jamaica,2024-08-20 00:00:00,MOD16A2.061,PET_500m,40.5
-jamaica,2024-08-28 00:00:00,MOD16A2.061,ET_500m,22.2
-jamaica,2024-08-28 00:00:00,MOD16A2.061,PET_500m,37.0
-jamaica,2024-09-05 00:00:00,MOD16A2.061,ET_500m,34.3
-jamaica,2024-09-05 00:00:00,MOD16A2.061,PET_500m,44.5
-jamaica,2024-09-13 00:00:00,MOD16A2.061,ET_500m,21.1
-jamaica,2024-09-13 00:00:00,MOD16A2.061,PET_500m,39.0
-jamaica,2024-09-21 00:00:00,MOD16A2.061,ET_500m,23.1
-jamaica,2024-09-21 00:00:00,MOD16A2.061,PET_500m,30.4
-jamaica,2024-09-29 00:00:00,MOD16A2.061,ET_500m,23.7
-jamaica,2024-09-29 00:00:00,MOD16A2.061,PET_500m,34.3
-jamaica,2024-10-07 00:00:00,MOD16A2.061,ET_500m,27.6
-jamaica,2024-10-07 00:00:00,MOD16A2.061,PET_500m,36.5
-jamaica,2024-10-15 00:00:00,MOD16A2.061,ET_500m,25.7
-jamaica,2024-10-15 00:00:00,MOD16A2.061,PET_500m,32.5
-jamaica,2024-10-23 00:00:00,MOD16A2.061,ET_500m,20.3
-jamaica,2024-10-23 00:00:00,MOD16A2.061,PET_500m,31.0
-jamaica,2024-10-31 00:00:00,MOD16A2.061,ET_500m,27.5
-jamaica,2024-10-31 00:00:00,MOD16A2.061,PET_500m,34.0
-jamaica,2024-11-08 00:00:00,MOD16A2.061,ET_500m,25.4
-jamaica,2024-11-08 00:00:00,MOD16A2.061,PET_500m,32.2
-jamaica,2024-11-16 00:00:00,MOD16A2.061,ET_500m,27.3
-jamaica,2024-11-16 00:00:00,MOD16A2.061,PET_500m,39.0
-jamaica,2024-11-24 00:00:00,MOD16A2.061,ET_500m,17.8
-jamaica,2024-11-24 00:00:00,MOD16A2.061,PET_500m,25.2
-jamaica,2024-12-02 00:00:00,MOD16A2.061,ET_500m,27.7
-jamaica,2024-12-02 00:00:00,MOD16A2.061,PET_500m,34.2
-jamaica,2024-12-10 00:00:00,MOD16A2.061,ET_500m,30.2
-jamaica,2024-12-10 00:00:00,MOD16A2.061,PET_500m,37.9
-jamaica,2024-12-18 00:00:00,MOD16A2.061,ET_500m,19.0
-jamaica,2024-12-18 00:00:00,MOD16A2.061,PET_500m,31.2
-jamaica,2024-12-26 00:00:00,MOD16A2.061,ET_500m,15.3
-jamaica,2024-12-26 00:00:00,MOD16A2.061,PET_500m,19.8
-jamaica,2025-01-01 00:00:00,MOD16A2.061,ET_500m,23.7
-jamaica,2025-01-01 00:00:00,MOD16A2.061,PET_500m,33.8
-jamaica,2025-01-09 00:00:00,MOD16A2.061,ET_500m,24.1
-jamaica,2025-01-09 00:00:00,MOD16A2.061,PET_500m,37.2
-jamaica,2025-01-17 00:00:00,MOD16A2.061,ET_500m,22.6
-jamaica,2025-01-17 00:00:00,MOD16A2.061,PET_500m,39.6
-jamaica,2025-01-25 00:00:00,MOD16A2.061,ET_500m,25.2
-jamaica,2025-01-25 00:00:00,MOD16A2.061,PET_500m,42.8
-jamaica,2025-02-02 00:00:00,MOD16A2.061,ET_500m,19.2
-jamaica,2025-02-02 00:00:00,MOD16A2.061,PET_500m,45.1
-jamaica,2025-02-10 00:00:00,MOD16A2.061,ET_500m,21.6
-jamaica,2025-02-10 00:00:00,MOD16A2.061,PET_500m,45.9
-jamaica,2025-02-18 00:00:00,MOD16A2.061,ET_500m,19.3
-jamaica,2025-02-18 00:00:00,MOD16A2.061,PET_500m,47.5
-jamaica,2025-02-26 00:00:00,MOD16A2.061,ET_500m,27.2
-jamaica,2025-02-26 00:00:00,MOD16A2.061,PET_500m,50.5
-jamaica,2025-03-06 00:00:00,MOD16A2.061,ET_500m,29.3
-jamaica,2025-03-06 00:00:00,MOD16A2.061,PET_500m,50.7
-jamaica,2025-03-14 00:00:00,MOD16A2.061,ET_500m,27.6
-jamaica,2025-03-14 00:00:00,MOD16A2.061,PET_500m,53.7
-jamaica,2025-03-22 00:00:00,MOD16A2.061,ET_500m,20.7
-jamaica,2025-03-22 00:00:00,MOD16A2.061,PET_500m,56.0
-jamaica,2025-03-30 00:00:00,MOD16A2.061,ET_500m,15.8
-jamaica,2025-03-30 00:00:00,MOD16A2.061,PET_500m,58.8
-jamaica,2025-04-07 00:00:00,MOD16A2.061,ET_500m,26.5
-jamaica,2025-04-07 00:00:00,MOD16A2.061,PET_500m,54.0
-jamaica,2025-04-15 00:00:00,MOD16A2.061,ET_500m,27.5
-jamaica,2025-04-15 00:00:00,MOD16A2.061,PET_500m,57.1
-jamaica,2025-04-23 00:00:00,MOD16A2.061,ET_500m,38.8
-jamaica,2025-04-23 00:00:00,MOD16A2.061,PET_500m,57.7
-jamaica,2025-05-01 00:00:00,MOD16A2.061,ET_500m,25.5
-jamaica,2025-05-01 00:00:00,MOD16A2.061,PET_500m,58.7
-jamaica,2025-05-09 00:00:00,MOD16A2.061,ET_500m,37.2
-jamaica,2025-05-09 00:00:00,MOD16A2.061,PET_500m,54.7
-jamaica,2025-05-17 00:00:00,MOD16A2.061,ET_500m,38.0
-jamaica,2025-05-17 00:00:00,MOD16A2.061,PET_500m,56.5
-jamaica,2025-05-25 00:00:00,MOD16A2.061,ET_500m,28.7
-jamaica,2025-05-25 00:00:00,MOD16A2.061,PET_500m,42.6
-jamaica,2025-06-02 00:00:00,MOD16A2.061,ET_500m,27.5
-jamaica,2025-06-02 00:00:00,MOD16A2.061,PET_500m,40.9
-jamaica,2025-06-10 00:00:00,MOD16A2.061,ET_500m,24.3
-jamaica,2025-06-10 00:00:00,MOD16A2.061,PET_500m,40.6
-jamaica,2025-06-18 00:00:00,MOD16A2.061,ET_500m,25.2
-jamaica,2025-06-18 00:00:00,MOD16A2.061,PET_500m,34.9
-jamaica,2025-06-26 00:00:00,MOD16A2.061,ET_500m,25.3
-jamaica,2025-06-26 00:00:00,MOD16A2.061,PET_500m,40.6
-jamaica,2025-07-04 00:00:00,MOD16A2.061,ET_500m,27.4
-jamaica,2025-07-04 00:00:00,MOD16A2.061,PET_500m,42.1
-jamaica,2025-07-12 00:00:00,MOD16A2.061,ET_500m,19.1
-jamaica,2025-07-12 00:00:00,MOD16A2.061,PET_500m,42.3
-jamaica,2025-07-20 00:00:00,MOD16A2.061,ET_500m,29.3
-jamaica,2025-07-20 00:00:00,MOD16A2.061,PET_500m,43.9
-jamaica,2025-07-28 00:00:00,MOD16A2.061,ET_500m,31.2
-jamaica,2025-07-28 00:00:00,MOD16A2.061,PET_500m,45.0
-jamaica,2025-08-05 00:00:00,MOD16A2.061,ET_500m,26.2
-jamaica,2025-08-05 00:00:00,MOD16A2.061,PET_500m,41.4
-jamaica,2025-08-13 00:00:00,MOD16A2.061,ET_500m,29.5
-jamaica,2025-08-13 00:00:00,MOD16A2.061,PET_500m,41.5
-jamaica,2025-08-21 00:00:00,MOD16A2.061,ET_500m,28.2
-jamaica,2025-08-21 00:00:00,MOD16A2.061,PET_500m,36.8
-jamaica,2025-08-29 00:00:00,MOD16A2.061,ET_500m,26.7
-jamaica,2025-08-29 00:00:00,MOD16A2.061,PET_500m,36.4
-jamaica,2025-09-06 00:00:00,MOD16A2.061,ET_500m,24.6
-jamaica,2025-09-06 00:00:00,MOD16A2.061,PET_500m,39.9
-jamaica,2025-09-14 00:00:00,MOD16A2.061,ET_500m,22.3
-jamaica,2025-09-14 00:00:00,MOD16A2.061,PET_500m,35.4
-jamaica,2025-09-22 00:00:00,MOD16A2.061,ET_500m,21.5
-jamaica,2025-09-22 00:00:00,MOD16A2.061,PET_500m,36.2
-jamaica,2025-09-30 00:00:00,MOD16A2.061,ET_500m,18.9
-jamaica,2025-09-30 00:00:00,MOD16A2.061,PET_500m,32.3
-jamaica,2025-10-08 00:00:00,MOD16A2.061,ET_500m,23.3
-jamaica,2025-10-08 00:00:00,MOD16A2.061,PET_500m,25.8
-jamaica,2025-10-16 00:00:00,MOD16A2.061,ET_500m,23.7
-jamaica,2025-10-16 00:00:00,MOD16A2.061,PET_500m,26.5
-jamaica,2025-10-24 00:00:00,MOD16A2.061,ET_500m,24.3
-jamaica,2025-10-24 00:00:00,MOD16A2.061,PET_500m,29.4
-jamaica,2025-11-01 00:00:00,MOD16A2.061,ET_500m,22.0
-jamaica,2025-11-01 00:00:00,MOD16A2.061,PET_500m,36.1
-jamaica,2025-11-09 00:00:00,MOD16A2.061,ET_500m,22.0
-jamaica,2025-11-09 00:00:00,MOD16A2.061,PET_500m,36.2
-jamaica,2025-11-17 00:00:00,MOD16A2.061,ET_500m,22.8
-jamaica,2025-11-17 00:00:00,MOD16A2.061,PET_500m,38.2
-jamaica,2025-11-25 00:00:00,MOD16A2.061,ET_500m,22.7
-jamaica,2025-11-25 00:00:00,MOD16A2.061,PET_500m,37.0
-jamaica,2025-12-03 00:00:00,MOD16A2.061,ET_500m,24.7
-jamaica,2025-12-03 00:00:00,MOD16A2.061,PET_500m,36.4
-jamaica,2025-12-11 00:00:00,MOD16A2.061,ET_500m,23.5
-jamaica,2025-12-11 00:00:00,MOD16A2.061,PET_500m,33.6
-jamaica,2025-12-19 00:00:00,MOD16A2.061,ET_500m,22.9
-jamaica,2025-12-19 00:00:00,MOD16A2.061,PET_500m,37.8
-jamaica,2025-12-27 00:00:00,MOD16A2.061,ET_500m,13.3
-jamaica,2025-12-27 00:00:00,MOD16A2.061,PET_500m,22.5
-jamaica,2026-01-01 00:00:00,MOD16A2.061,ET_500m,22.5
-jamaica,2026-01-01 00:00:00,MOD16A2.061,PET_500m,34.3
-jamaica,2026-01-09 00:00:00,MOD16A2.061,ET_500m,19.4
-jamaica,2026-01-09 00:00:00,MOD16A2.061,PET_500m,36.8
-jamaica,2026-01-17 00:00:00,MOD16A2.061,ET_500m,23.9
-jamaica,2026-01-17 00:00:00,MOD16A2.061,PET_500m,36.6
-jamaica,2026-01-25 00:00:00,MOD16A2.061,ET_500m,15.8
-jamaica,2026-01-25 00:00:00,MOD16A2.061,PET_500m,41.3
-jamaica,2026-02-02 00:00:00,MOD16A2.061,ET_500m,23.5
-jamaica,2026-02-02 00:00:00,MOD16A2.061,PET_500m,39.6
-jamaica,2026-02-10 00:00:00,MOD16A2.061,ET_500m,26.5
-jamaica,2026-02-10 00:00:00,MOD16A2.061,PET_500m,43.8
-jamaica,2026-02-18 00:00:00,MOD16A2.061,ET_500m,16.4
-jamaica,2026-02-18 00:00:00,MOD16A2.061,PET_500m,47.7
-jamaica,2026-02-26 00:00:00,MOD16A2.061,ET_500m,29.8
-jamaica,2026-02-26 00:00:00,MOD16A2.061,PET_500m,46.4
-jamaica,2026-03-06 00:00:00,MOD16A2.061,ET_500m,28.3
-jamaica,2026-03-06 00:00:00,MOD16A2.061,PET_500m,41.4
-jamaica,2026-03-14 00:00:00,MOD16A2.061,ET_500m,32.6
-jamaica,2026-03-14 00:00:00,MOD16A2.061,PET_500m,50.1
-jamaica,2026-03-22 00:00:00,MOD16A2.061,ET_500m,31.4
-jamaica,2026-03-22 00:00:00,MOD16A2.061,PET_500m,47.1
-jamaica,2026-03-30 00:00:00,MOD16A2.061,ET_500m,33.8
-jamaica,2026-03-30 00:00:00,MOD16A2.061,PET_500m,51.5
-jamaica,2026-04-07 00:00:00,MOD16A2.061,ET_500m,26.7
-jamaica,2026-04-07 00:00:00,MOD16A2.061,PET_500m,57.4
-jamaica,2026-04-15 00:00:00,MOD16A2.061,ET_500m,35.9
-jamaica,2026-04-15 00:00:00,MOD16A2.061,PET_500m,56.5
-jamaica,2026-04-23 00:00:00,MOD16A2.061,ET_500m,37.9
-jamaica,2026-04-23 00:00:00,MOD16A2.061,PET_500m,54.3
-jamaica,2026-05-01 00:00:00,MOD16A2.061,ET_500m,31.2
-jamaica,2026-05-01 00:00:00,MOD16A2.061,PET_500m,58.8
-jamaica,2026-05-09 00:00:00,MOD16A2.061,ET_500m,27.3
-jamaica,2026-05-09 00:00:00,MOD16A2.061,PET_500m,60.1
-jamaica,2026-05-17 00:00:00,MOD16A2.061,ET_500m,27.0
-jamaica,2026-05-17 00:00:00,MOD16A2.061,PET_500m,50.4
-jamaica,2026-05-25 00:00:00,MOD16A2.061,ET_500m,27.5
-jamaica,2026-05-25 00:00:00,MOD16A2.061,PET_500m,45.2
-jamaica,2026-06-02 00:00:00,MOD16A2.061,ET_500m,19.7
-jamaica,2026-06-02 00:00:00,MOD16A2.061,PET_500m,35.6
-jamaica,2026-06-10 00:00:00,MOD16A2.061,ET_500m,25.3
-jamaica,2026-06-10 00:00:00,MOD16A2.061,PET_500m,37.8
-jamaica,2026-06-18 00:00:00,MOD16A2.061,ET_500m,23.9
-jamaica,2026-06-18 00:00:00,MOD16A2.061,PET_500m,39.3
-jamaica,2026-06-26 00:00:00,MOD16A2.061,ET_500m,26.2
-jamaica,2026-06-26 00:00:00,MOD16A2.061,PET_500m,39.4
-jamaica,2026-07-04 00:00:00,MOD16A2.061,ET_500m,35.9
-jamaica,2026-07-04 00:00:00,MOD16A2.061,PET_500m,57.6
-jamaica,2026-07-12 00:00:00,MOD16A2.061,ET_500m,27.8
-jamaica,2026-07-12 00:00:00,MOD16A2.061,PET_500m,57.1
-jamaica,2026-07-20 00:00:00,MOD16A2.061,ET_500m,30.8
-jamaica,2026-07-20 00:00:00,MOD16A2.061,PET_500m,56.5
-jamaica,2026-07-28 00:00:00,MOD16A2.061,ET_500m,30.4
-jamaica,2026-07-28 00:00:00,MOD16A2.061,PET_500m,58.3
-jamaica,2026-08-05 00:00:00,MOD16A2.061,ET_500m,33.5
-jamaica,2026-08-05 00:00:00,MOD16A2.061,PET_500m,58.0
-jamaica,2026-08-13 00:00:00,MOD16A2.061,ET_500m,36.9
-jamaica,2026-08-13 00:00:00,MOD16A2.061,PET_500m,57.2
-jamaica,2026-08-21 00:00:00,MOD16A2.061,ET_500m,35.6
-jamaica,2026-08-21 00:00:00,MOD16A2.061,PET_500m,56.5
-jamaica,2026-08-29 00:00:00,MOD16A2.061,ET_500m,38.7
-jamaica,2026-08-29 00:00:00,MOD16A2.061,PET_500m,56.8
-jamaica,2026-09-06 00:00:00,MOD16A2.061,ET_500m,27.7
-jamaica,2026-09-06 00:00:00,MOD16A2.061,PET_500m,55.7
-jamaica,2026-09-14 00:00:00,MOD16A2.061,ET_500m,23.8
-jamaica,2026-09-14 00:00:00,MOD16A2.061,PET_500m,46.9
-jamaica,2026-09-22 00:00:00,MOD16A2.061,ET_500m,18.8
-jamaica,2026-09-22 00:00:00,MOD16A2.061,PET_500m,44.4
-jamaica,2026-09-30 00:00:00,MOD16A2.061,ET_500m,26.9
-jamaica,2026-09-30 00:00:00,MOD16A2.061,PET_500m,50.2
-jamaica,2026-10-08 00:00:00,MOD16A2.061,ET_500m,31.8
-jamaica,2026-10-08 00:00:00,MOD16A2.061,PET_500m,44.6
-jamaica,2026-10-16 00:00:00,MOD16A2.061,ET_500m,24.1
-jamaica,2026-10-16 00:00:00,MOD16A2.061,PET_500m,46.6
-jamaica,2026-10-24 00:00:00,MOD16A2.061,ET_500m,27.9
-jamaica,2026-10-24 00:00:00,MOD16A2.061,PET_500m,45.8
-trinidad,2023-11-09 00:00:00,MOD16A2.061,ET_500m,20.4
-trinidad,2023-11-09 00:00:00,MOD16A2.061,PET_500m,35.1
-trinidad,2023-11-17 00:00:00,MOD16A2.061,ET_500m,27.9
-trinidad,2023-11-17 00:00:00,MOD16A2.061,PET_500m,48.1
-trinidad,2023-11-25 00:00:00,MOD16A2.061,ET_500m,15.3
-trinidad,2023-11-25 00:00:00,MOD16A2.061,PET_500m,47.9
-trinidad,2023-12-03 00:00:00,MOD16A2.061,ET_500m,20.7
-trinidad,2023-12-03 00:00:00,MOD16A2.061,PET_500m,40.9
-trinidad,2023-12-11 00:00:00,MOD16A2.061,ET_500m,20.8
-trinidad,2023-12-11 00:00:00,MOD16A2.061,PET_500m,39.9
-trinidad,2023-12-19 00:00:00,MOD16A2.061,ET_500m,18.4
-trinidad,2023-12-19 00:00:00,MOD16A2.061,PET_500m,40.8
-trinidad,2023-12-27 00:00:00,MOD16A2.061,ET_500m,8.9
-trinidad,2023-12-27 00:00:00,MOD16A2.061,PET_500m,30.2
-trinidad,2024-01-01 00:00:00,MOD16A2.061,ET_500m,15.7
-trinidad,2024-01-01 00:00:00,MOD16A2.061,PET_500m,47.1
-trinidad,2024-01-09 00:00:00,MOD16A2.061,ET_500m,17.0
-trinidad,2024-01-09 00:00:00,MOD16A2.061,PET_500m,47.0
-trinidad,2024-01-17 00:00:00,MOD16A2.061,ET_500m,15.9
-trinidad,2024-01-17 00:00:00,MOD16A2.061,PET_500m,51.6
-trinidad,2024-01-25 00:00:00,MOD16A2.061,ET_500m,14.2
-trinidad,2024-01-25 00:00:00,MOD16A2.061,PET_500m,50.3
-trinidad,2024-02-02 00:00:00,MOD16A2.061,ET_500m,16.4
-trinidad,2024-02-02 00:00:00,MOD16A2.061,PET_500m,48.0
-trinidad,2024-02-10 00:00:00,MOD16A2.061,ET_500m,12.7
-trinidad,2024-02-10 00:00:00,MOD16A2.061,PET_500m,54.6
-trinidad,2024-02-18 00:00:00,MOD16A2.061,ET_500m,10.6
-trinidad,2024-02-18 00:00:00,MOD16A2.061,PET_500m,54.9
-trinidad,2024-02-26 00:00:00,MOD16A2.061,ET_500m,7.8
-trinidad,2024-02-26 00:00:00,MOD16A2.061,PET_500m,58.3
-trinidad,2024-03-05 00:00:00,MOD16A2.061,ET_500m,7.6
-trinidad,2024-03-05 00:00:00,MOD16A2.061,PET_500m,59.0
-trinidad,2024-03-13 00:00:00,MOD16A2.061,ET_500m,12.5
-trinidad,2024-03-13 00:00:00,MOD16A2.061,PET_500m,58.3
-trinidad,2024-03-21 00:00:00,MOD16A2.061,ET_500m,8.7
-trinidad,2024-03-21 00:00:00,MOD16A2.061,PET_500m,59.0
-trinidad,2024-03-29 00:00:00,MOD16A2.061,ET_500m,11.4
-trinidad,2024-03-29 00:00:00,MOD16A2.061,PET_500m,50.4
-trinidad,2024-04-06 00:00:00,MOD16A2.061,ET_500m,10.3
-trinidad,2024-04-06 00:00:00,MOD16A2.061,PET_500m,62.9
-trinidad,2024-04-14 00:00:00,MOD16A2.061,ET_500m,14.7
-trinidad,2024-04-14 00:00:00,MOD16A2.061,PET_500m,50.5
-trinidad,2024-04-22 00:00:00,MOD16A2.061,ET_500m,13.1
-trinidad,2024-04-22 00:00:00,MOD16A2.061,PET_500m,59.5
-trinidad,2024-04-30 00:00:00,MOD16A2.061,ET_500m,14.7
-trinidad,2024-04-30 00:00:00,MOD16A2.061,PET_500m,49.7
-trinidad,2024-05-08 00:00:00,MOD16A2.061,ET_500m,15.3
-trinidad,2024-05-08 00:00:00,MOD16A2.061,PET_500m,48.8
-trinidad,2024-05-16 00:00:00,MOD16A2.061,ET_500m,13.2
-trinidad,2024-05-16 00:00:00,MOD16A2.061,PET_500m,58.4
-trinidad,2024-05-24 00:00:00,MOD16A2.061,ET_500m,18.9
-trinidad,2024-05-24 00:00:00,MOD16A2.061,PET_500m,49.0
-trinidad,2024-06-01 00:00:00,MOD16A2.061,ET_500m,20.3
-trinidad,2024-06-01 00:00:00,MOD16A2.061,PET_500m,43.4
-trinidad,2024-06-09 00:00:00,MOD16A2.061,ET_500m,19.1
-trinidad,2024-06-09 00:00:00,MOD16A2.061,PET_500m,39.4
-trinidad,2024-06-17 00:00:00,MOD16A2.061,ET_500m,19.6
-trinidad,2024-06-17 00:00:00,MOD16A2.061,PET_500m,40.0
-trinidad,2024-06-25 00:00:00,MOD16A2.061,ET_500m,19.9
-trinidad,2024-06-25 00:00:00,MOD16A2.061,PET_500m,34.3
-trinidad,2024-07-03 00:00:00,MOD16A2.061,ET_500m,23.3
-trinidad,2024-07-03 00:00:00,MOD16A2.061,PET_500m,42.1
-trinidad,2024-07-11 00:00:00,MOD16A2.061,ET_500m,20.1
-trinidad,2024-07-11 00:00:00,MOD16A2.061,PET_500m,39.3
-trinidad,2024-07-19 00:00:00,MOD16A2.061,ET_500m,23.9
-trinidad,2024-07-19 00:00:00,MOD16A2.061,PET_500m,45.5
-trinidad,2024-07-27 00:00:00,MOD16A2.061,ET_500m,21.2
-trinidad,2024-07-27 00:00:00,MOD16A2.061,PET_500m,47.9
-trinidad,2024-08-04 00:00:00,MOD16A2.061,ET_500m,20.9
-trinidad,2024-08-04 00:00:00,MOD16A2.061,PET_500m,38.4
-trinidad,2024-08-12 00:00:00,MOD16A2.061,ET_500m,17.1
-trinidad,2024-08-12 00:00:00,MOD16A2.061,PET_500m,44.5
-trinidad,2024-08-20 00:00:00,MOD16A2.061,ET_500m,19.2
-trinidad,2024-08-20 00:00:00,MOD16A2.061,PET_500m,44.9
-trinidad,2024-08-28 00:00:00,MOD16A2.061,ET_500m,21.4
-trinidad,2024-08-28 00:00:00,MOD16A2.061,PET_500m,37.7
-trinidad,2024-09-05 00:00:00,MOD16A2.061,ET_500m,19.1
-trinidad,2024-09-05 00:00:00,MOD16A2.061,PET_500m,43.8
-trinidad,2024-09-13 00:00:00,MOD16A2.061,ET_500m,18.4
-trinidad,2024-09-13 00:00:00,MOD16A2.061,PET_500m,45.4
-trinidad,2024-09-21 00:00:00,MOD16A2.061,ET_500m,16.0
-trinidad,2024-09-21 00:00:00,MOD16A2.061,PET_500m,35.1
-trinidad,2024-09-29 00:00:00,MOD16A2.061,ET_500m,18.5
-trinidad,2024-09-29 00:00:00,MOD16A2.061,PET_500m,32.9
-trinidad,2024-10-07 00:00:00,MOD16A2.061,ET_500m,17.9
-trinidad,2024-10-07 00:00:00,MOD16A2.061,PET_500m,31.5
-trinidad,2024-10-15 00:00:00,MOD16A2.061,ET_500m,18.7
-trinidad,2024-10-15 00:00:00,MOD16A2.061,PET_500m,33.7
-trinidad,2024-10-23 00:00:00,MOD16A2.061,ET_500m,21.8
-trinidad,2024-10-23 00:00:00,MOD16A2.061,PET_500m,43.6
-trinidad,2024-10-31 00:00:00,MOD16A2.061,ET_500m,15.6
-trinidad,2024-10-31 00:00:00,MOD16A2.061,PET_500m,35.6
-trinidad,2024-11-08 00:00:00,MOD16A2.061,ET_500m,18.1
-trinidad,2024-11-08 00:00:00,MOD16A2.061,PET_500m,33.6
-trinidad,2024-11-16 00:00:00,MOD16A2.061,ET_500m,18.5
-trinidad,2024-11-16 00:00:00,MOD16A2.061,PET_500m,32.2
-trinidad,2024-11-24 00:00:00,MOD16A2.061,ET_500m,22.6
-trinidad,2024-11-24 00:00:00,MOD16A2.061,PET_500m,38.4
-trinidad,2024-12-02 00:00:00,MOD16A2.061,ET_500m,16.9
-trinidad,2024-12-02 00:00:00,MOD16A2.061,PET_500m,47.9
-trinidad,2024-12-10 00:00:00,MOD16A2.061,ET_500m,22.8
-trinidad,2024-12-10 00:00:00,MOD16A2.061,PET_500m,36.0
-trinidad,2024-12-18 00:00:00,MOD16A2.061,ET_500m,21.4
-trinidad,2024-12-18 00:00:00,MOD16A2.061,PET_500m,37.9
-trinidad,2024-12-26 00:00:00,MOD16A2.061,ET_500m,15.6
-trinidad,2024-12-26 00:00:00,MOD16A2.061,PET_500m,32.1
-trinidad,2025-01-01 00:00:00,MOD16A2.061,ET_500m,18.6
-trinidad,2025-01-01 00:00:00,MOD16A2.061,PET_500m,41.8
-trinidad,2025-01-09 00:00:00,MOD16A2.061,ET_500m,17.8
-trinidad,2025-01-09 00:00:00,MOD16A2.061,PET_500m,46.7
-trinidad,2025-01-17 00:00:00,MOD16A2.061,ET_500m,15.4
-trinidad,2025-01-17 00:00:00,MOD16A2.061,PET_500m,48.5
-trinidad,2025-01-25 00:00:00,MOD16A2.061,ET_500m,22.4
-trinidad,2025-01-25 00:00:00,MOD16A2.061,PET_500m,47.3
-trinidad,2025-02-02 00:00:00,MOD16A2.061,ET_500m,16.6
-trinidad,2025-02-02 00:00:00,MOD16A2.061,PET_500m,48.7
-trinidad,2025-02-10 00:00:00,MOD16A2.061,ET_500m,12.4
-trinidad,2025-02-10 00:00:00,MOD16A2.061,PET_500m,52.2
-trinidad,2025-02-18 00:00:00,MOD16A2.061,ET_500m,19.5
-trinidad,2025-02-18 00:00:00,MOD16A2.061,PET_500m,51.7
-trinidad,2025-02-26 00:00:00,MOD16A2.061,ET_500m,15.1
-trinidad,2025-02-26 00:00:00,MOD16A2.061,PET_500m,51.4
-trinidad,2025-03-06 00:00:00,MOD16A2.061,ET_500m,13.3
-trinidad,2025-03-06 00:00:00,MOD16A2.061,PET_500m,55.6
-trinidad,2025-03-14 00:00:00,MOD16A2.061,ET_500m,13.0
-trinidad,2025-03-14 00:00:00,MOD16A2.061,PET_500m,55.2
-trinidad,2025-03-22 00:00:00,MOD16A2.061,ET_500m,9.1
-trinidad,2025-03-22 00:00:00,MOD16A2.061,PET_500m,61.9
-trinidad,2025-03-30 00:00:00,MOD16A2.061,ET_500m,12.7
-trinidad,2025-03-30 00:00:00,MOD16A2.061,PET_500m,54.3
-trinidad,2025-04-07 00:00:00,MOD16A2.061,ET_500m,16.1
-trinidad,2025-04-07 00:00:00,MOD16A2.061,PET_500m,55.0
-trinidad,2025-04-15 00:00:00,MOD16A2.061,ET_500m,14.4
-trinidad,2025-04-15 00:00:00,MOD16A2.061,PET_500m,55.1
-trinidad,2025-04-23 00:00:00,MOD16A2.061,ET_500m,14.7
-trinidad,2025-04-23 00:00:00,MOD16A2.061,PET_500m,50.6
-trinidad,2025-05-01 00:00:00,MOD16A2.061,ET_500m,14.3
-trinidad,2025-05-01 00:00:00,MOD16A2.061,PET_500m,46.5
-trinidad,2025-05-09 00:00:00,MOD16A2.061,ET_500m,17.3
-trinidad,2025-05-09 00:00:00,MOD16A2.061,PET_500m,52.0
-trinidad,2025-05-17 00:00:00,MOD16A2.061,ET_500m,16.3
-trinidad,2025-05-17 00:00:00,MOD16A2.061,PET_500m,43.6
-trinidad,2025-05-25 00:00:00,MOD16A2.061,ET_500m,20.0
-trinidad,2025-05-25 00:00:00,MOD16A2.061,PET_500m,36.2
-trinidad,2025-06-02 00:00:00,MOD16A2.061,ET_500m,19.2
-trinidad,2025-06-02 00:00:00,MOD16A2.061,PET_500m,44.0
-trinidad,2025-06-10 00:00:00,MOD16A2.061,ET_500m,20.3
-trinidad,2025-06-10 00:00:00,MOD16A2.061,PET_500m,42.6
-trinidad,2025-06-18 00:00:00,MOD16A2.061,ET_500m,21.7
-trinidad,2025-06-18 00:00:00,MOD16A2.061,PET_500m,36.2
-trinidad,2025-06-26 00:00:00,MOD16A2.061,ET_500m,25.2
-trinidad,2025-06-26 00:00:00,MOD16A2.061,PET_500m,49.0
-trinidad,2025-07-04 00:00:00,MOD16A2.061,ET_500m,21.6
-trinidad,2025-07-04 00:00:00,MOD16A2.061,PET_500m,41.9
-trinidad,2025-07-12 00:00:00,MOD16A2.061,ET_500m,19.9
-trinidad,2025-07-12 00:00:00,MOD16A2.061,PET_500m,43.0
-trinidad,2025-07-20 00:00:00,MOD16A2.061,ET_500m,22.4
-trinidad,2025-07-20 00:00:00,MOD16A2.061,PET_500m,44.4
-trinidad,2025-07-28 00:00:00,MOD16A2.061,ET_500m,20.9
-trinidad,2025-07-28 00:00:00,MOD16A2.061,PET_500m,43.5
-trinidad,2025-08-05 00:00:00,MOD16A2.061,ET_500m,21.8
-trinidad,2025-08-05 00:00:00,MOD16A2.061,PET_500m,38.5
-trinidad,2025-08-13 00:00:00,MOD16A2.061,ET_500m,23.4
-trinidad,2025-08-13 00:00:00,MOD16A2.061,PET_500m,38.1
-trinidad,2025-08-21 00:00:00,MOD16A2.061,ET_500m,24.0
-trinidad,2025-08-21 00:00:00,MOD16A2.061,PET_500m,41.0
-trinidad,2025-08-29 00:00:00,MOD16A2.061,ET_500m,22.7
-trinidad,2025-08-29 00:00:00,MOD16A2.061,PET_500m,38.7
-trinidad,2025-09-06 00:00:00,MOD16A2.061,ET_500m,21.1
-trinidad,2025-09-06 00:00:00,MOD16A2.061,PET_500m,34.0
-trinidad,2025-09-14 00:00:00,MOD16A2.061,ET_500m,21.6
-trinidad,2025-09-14 00:00:00,MOD16A2.061,PET_500m,43.0
-trinidad,2025-09-22 00:00:00,MOD16A2.061,ET_500m,18.1
-trinidad,2025-09-22 00:00:00,MOD16A2.061,PET_500m,47.6
-trinidad,2025-09-30 00:00:00,MOD16A2.061,ET_500m,18.6
-trinidad,2025-09-30 00:00:00,MOD16A2.061,PET_500m,43.5
-trinidad,2025-10-08 00:00:00,MOD16A2.061,ET_500m,17.8
-trinidad,2025-10-08 00:00:00,MOD16A2.061,PET_500m,31.0
-trinidad,2025-10-16 00:00:00,MOD16A2.061,ET_500m,18.4
-trinidad,2025-10-16 00:00:00,MOD16A2.061,PET_500m,37.9
-trinidad,2025-10-24 00:00:00,MOD16A2.061,ET_500m,20.7
-trinidad,2025-10-24 00:00:00,MOD16A2.061,PET_500m,39.8
-trinidad,2025-11-01 00:00:00,MOD16A2.061,ET_500m,16.6
-trinidad,2025-11-01 00:00:00,MOD16A2.061,PET_500m,40.7
-trinidad,2025-11-09 00:00:00,MOD16A2.061,ET_500m,20.1
-trinidad,2025-11-09 00:00:00,MOD16A2.061,PET_500m,50.6
-trinidad,2025-11-17 00:00:00,MOD16A2.061,ET_500m,20.7
-trinidad,2025-11-17 00:00:00,MOD16A2.061,PET_500m,35.0
-trinidad,2025-11-25 00:00:00,MOD16A2.061,ET_500m,18.6
-trinidad,2025-11-25 00:00:00,MOD16A2.061,PET_500m,38.8
-trinidad,2025-12-03 00:00:00,MOD16A2.061,ET_500m,20.0
-trinidad,2025-12-03 00:00:00,MOD16A2.061,PET_500m,36.0
-trinidad,2025-12-11 00:00:00,MOD16A2.061,ET_500m,13.7
-trinidad,2025-12-11 00:00:00,MOD16A2.061,PET_500m,48.3
-trinidad,2025-12-19 00:00:00,MOD16A2.061,ET_500m,19.6
-trinidad,2025-12-19 00:00:00,MOD16A2.061,PET_500m,44.5
-trinidad,2025-12-27 00:00:00,MOD16A2.061,ET_500m,13.2
-trinidad,2025-12-27 00:00:00,MOD16A2.061,PET_500m,23.9
-trinidad,2026-01-01 00:00:00,MOD16A2.061,ET_500m,16.4
-trinidad,2026-01-01 00:00:00,MOD16A2.061,PET_500m,43.8
-trinidad,2026-01-09 00:00:00,MOD16A2.061,ET_500m,19.5
-trinidad,2026-01-09 00:00:00,MOD16A2.061,PET_500m,42.0
-trinidad,2026-01-17 00:00:00,MOD16A2.061,ET_500m,15.0
-trinidad,2026-01-17 00:00:00,MOD16A2.061,PET_500m,50.0
-trinidad,2026-01-25 00:00:00,MOD16A2.061,ET_500m,21.0
-trinidad,2026-01-25 00:00:00,MOD16A2.061,PET_500m,46.6
-trinidad,2026-02-02 00:00:00,MOD16A2.061,ET_500m,14.6
-trinidad,2026-02-02 00:00:00,MOD16A2.061,PET_500m,50.2
-trinidad,2026-02-10 00:00:00,MOD16A2.061,ET_500m,17.6
-trinidad,2026-02-10 00:00:00,MOD16A2.061,PET_500m,51.3
-trinidad,2026-02-18 00:00:00,MOD16A2.061,ET_500m,12.6
-trinidad,2026-02-18 00:00:00,MOD16A2.061,PET_500m,53.7
-trinidad,2026-02-26 00:00:00,MOD16A2.061,ET_500m,11.3
-trinidad,2026-02-26 00:00:00,MOD16A2.061,PET_500m,56.0
-trinidad,2026-03-06 00:00:00,MOD16A2.061,ET_500m,15.7
-trinidad,2026-03-06 00:00:00,MOD16A2.061,PET_500m,52.1
-trinidad,2026-03-14 00:00:00,MOD16A2.061,ET_500m,11.9
-trinidad,2026-03-14 00:00:00,MOD16A2.061,PET_500m,55.0
-trinidad,2026-03-22 00:00:00,MOD16A2.061,ET_500m,11.9
-trinidad,2026-03-22 00:00:00,MOD16A2.061,PET_500m,54.0
-trinidad,2026-03-30 00:00:00,MOD16A2.061,ET_500m,13.8
-trinidad,2026-03-30 00:00:00,MOD16A2.061,PET_500m,51.6
-trinidad,2026-04-07 00:00:00,MOD16A2.061,ET_500m,10.4
-trinidad,2026-04-07 00:00:00,MOD16A2.061,PET_500m,59.4
-trinidad,2026-04-15 00:00:00,MOD16A2.061,ET_500m,11.6
-trinidad,2026-04-15 00:00:00,MOD16A2.061,PET_500m,52.7
-trinidad,2026-04-23 00:00:00,MOD16A2.061,ET_500m,14.3
-trinidad,2026-04-23 00:00:00,MOD16A2.061,PET_500m,53.0
-trinidad,2026-05-01 00:00:00,MOD16A2.061,ET_500m,11.4
-trinidad,2026-05-01 00:00:00,MOD16A2.061,PET_500m,57.4
-trinidad,2026-05-09 00:00:00,MOD16A2.061,ET_500m,15.5
-trinidad,2026-05-09 00:00:00,MOD16A2.061,PET_500m,56.9
-trinidad,2026-05-17 00:00:00,MOD16A2.061,ET_500m,13.4
-trinidad,2026-05-17 00:00:00,MOD16A2.061,PET_500m,49.6
-trinidad,2026-05-25 00:00:00,MOD16A2.061,ET_500m,19.9
-trinidad,2026-05-25 00:00:00,MOD16A2.061,PET_500m,44.3
-trinidad,2026-06-02 00:00:00,MOD16A2.061,ET_500m,16.5
-trinidad,2026-06-02 00:00:00,MOD16A2.061,PET_500m,43.0
-trinidad,2026-06-10 00:00:00,MOD16A2.061,ET_500m,20.7
-trinidad,2026-06-10 00:00:00,MOD16A2.061,PET_500m,49.9
-trinidad,2026-06-18 00:00:00,MOD16A2.061,ET_500m,19.2
-trinidad,2026-06-18 00:00:00,MOD16A2.061,PET_500m,36.5
-trinidad,2026-06-26 00:00:00,MOD16A2.061,ET_500m,23.2
-trinidad,2026-06-26 00:00:00,MOD16A2.061,PET_500m,43.5
-trinidad,2026-07-04 00:00:00,MOD16A2.061,ET_500m,26.4
-trinidad,2026-07-04 00:00:00,MOD16A2.061,PET_500m,36.6
-trinidad,2026-07-12 00:00:00,MOD16A2.061,ET_500m,25.4
-trinidad,2026-07-12 00:00:00,MOD16A2.061,PET_500m,36.0
-trinidad,2026-07-20 00:00:00,MOD16A2.061,ET_500m,29.3
-trinidad,2026-07-20 00:00:00,MOD16A2.061,PET_500m,47.5
-trinidad,2026-07-28 00:00:00,MOD16A2.061,ET_500m,32.4
-trinidad,2026-07-28 00:00:00,MOD16A2.061,PET_500m,49.9
-trinidad,2026-08-05 00:00:00,MOD16A2.061,ET_500m,31.1
-trinidad,2026-08-05 00:00:00,MOD16A2.061,PET_500m,47.8
-trinidad,2026-08-13 00:00:00,MOD16A2.061,ET_500m,28.2
-trinidad,2026-08-13 00:00:00,MOD16A2.061,PET_500m,46.6
-trinidad,2026-08-21 00:00:00,MOD16A2.061,ET_500m,30.3
-trinidad,2026-08-21 00:00:00,MOD16A2.061,PET_500m,48.0
-trinidad,2026-08-29 00:00:00,MOD16A2.061,ET_500m,29.7
-trinidad,2026-08-29 00:00:00,MOD16A2.061,PET_500m,51.9
-trinidad,2026-09-06 00:00:00,MOD16A2.061,ET_500m,26.7
-trinidad,2026-09-06 00:00:00,MOD16A2.061,PET_500m,45.7
-trinidad,2026-09-14 00:00:00,MOD16A2.061,ET_500m,23.1
-trinidad,2026-09-14 00:00:00,MOD16A2.061,PET_500m,52.0
-trinidad,2026-09-22 00:00:00,MOD16A2.061,ET_500m,24.8
-trinidad,2026-09-22 00:00:00,MOD16A2.061,PET_500m,43.0
-trinidad,2026-09-30 00:00:00,MOD16A2.061,ET_500m,23.1
-trinidad,2026-09-30 00:00:00,MOD16A2.061,PET_500m,46.0
-trinidad,2026-10-08 00:00:00,MOD16A2.061,ET_500m,25.4
-trinidad,2026-10-08 00:00:00,MOD16A2.061,PET_500m,46.4
-trinidad,2026-10-16 00:00:00,MOD16A2.061,ET_500m,23.2
-trinidad,2026-10-16 00:00:00,MOD16A2.061,PET_500m,50.3
-trinidad,2026-10-24 00:00:00,MOD16A2.061,ET_500m,27.0
-trinidad,2026-10-24 00:00:00,MOD16A2.061,PET_500m,46.6
+trinidad,2026-11-12,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.21109424999999998
+trinidad,2026-11-13,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.21113333750000002
+trinidad,2026-11-14,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.21025727499999997
