@@ -108,7 +108,8 @@ def shell(depth, key):
     with st.container(key="topbar"):
         c1, c2, c3 = st.columns([3.2, 1, 1])
         mode = profile.MODES[p["mode"]]
-        c1.markdown(f'<div class="al-kicker">FarmFit · Caribbean farm resilience · {mode}</div>'
+        caribbean = p.get("lat") is not None and news.region_of(p["lat"], p["lon"]) == "Caribbean"
+        c1.markdown(f'<div class="al-kicker">FarmFit · {"Caribbean farm" if caribbean else "Farm"} resilience · {mode}</div>'
                     f'<div style="font:600 1.2rem Fraunces,serif;color:{art.INK}">{p.get("name") or p.get("place") or "My farm"}'
                     f'<span style="font:400 .85rem InterVar,sans-serif;color:{art.INK2}"> · {p["lat"]:.3f}°, {p["lon"]:.3f}°</span></div>',
                     unsafe_allow_html=True)
@@ -1233,35 +1234,51 @@ def officer_dashboard(reports):
 # News & learning (+ assistant)
 # ---------------------------------------------------------------------------
 
-@st.cache_data(ttl=3 * 3600, show_spinner=False)
-def load_news(region):
-    try:
-        return news.headlines(region)
-    except Exception:  # noqa: BLE001
-        return None
+@st.cache_data(ttl=7 * 86400, show_spinner=False)
+def farm_location(lat, lon, place):
+    return news.locate(lat, lon, place)
+
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def load_news(scopes):
+    return news.news_for(list(scopes))
 
 
 def page_news():
     shell("water", "news")
     p, b = P(), bundle()
-    hero("News & learning", "What's happening in Caribbean farming, and who to ask")
+    loc = farm_location(round(b["lat"], 2), round(b["lon"], 2), p.get("place") or "")
+    country, region = loc["country"], loc["region"]
+    where = country or region
+    hero("News & learning", f"What's happening in farming in {where}, and who to ask")
     with st.container(key="layer_news"):
         left, right = st.columns([1.3, 1], gap="large")
         with left:
             st.markdown(art.heading("Agriculture news"), unsafe_allow_html=True)
-            region = st.segmented_control("Region", list(news.QUERIES), default="Trinidad and Tobago" if b["lat"] < 13 else "Jamaica",
-                                          label_visibility="collapsed")
-            items = load_news(region or "Caribbean region")
-            if items:
-                for it in items:
+            tabs = [x for x in dict.fromkeys([country, region, "World"]) if x]
+            pick = st.segmented_control("Region", tabs, default=tabs[0], label_visibility="collapsed") or tabs[0]
+            chain = tabs[tabs.index(pick):]  # if nothing for the country, fall back to the region, then the world
+            scopes = tuple((k, news.query_for("world" if k == "World" else "place", k)) for k in chain)
+            with st.spinner("Finding the latest farming news…"):
+                res = load_news(scopes)
+            if res:
+                if res["key"] != pick:
+                    st.caption(f"No recent farming headlines for {pick}; showing {res['key']}.")
+                for it in res["items"]:
                     st.markdown(f"**[{it['title']}]({it['link']})**  \n<span style='font-size:.8rem;color:{art.INK2}'>"
-                                f"{it['source']} · {it['date']}</span>", unsafe_allow_html=True)
-                st.caption("Headlines via Google News; each links to the original publisher.")
+                                f"{' · '.join(x for x in (it['source'], it['date']) if x)}</span>", unsafe_allow_html=True)
+                if res["how"] == "live":
+                    st.caption("Latest headlines via Google News or Bing News; each links to the original publisher.")
+                else:
+                    st.caption(f"Most recent saved headlines (updated {res['fetched']}). Each links to the original publisher.")
             else:
-                st.info("News headlines are not reachable right now.")
+                st.markdown("Worth reading while we fetch the latest headlines:")
+                for name, url, what in news.FURTHER_READING:
+                    st.markdown(f"**[{name}]({url})**  \n<span style='font-size:.82rem;color:{art.INK2}'>{what}</span>",
+                                unsafe_allow_html=True)
         with right:
             st.markdown(art.heading("Official sources"), unsafe_allow_html=True)
-            for name, url, what in news.OFFICIAL:
+            for name, url, what in news.official_for(country, region, b["lat"], b["lon"]):
                 st.markdown(f"[{name}]({url})  \n<span style='font-size:.82rem;color:{art.INK2}'>{what}</span>", unsafe_allow_html=True)
         if p["mode"] == "garden":
             st.markdown(art.heading("Beginner guides"), unsafe_allow_html=True)
