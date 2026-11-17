@@ -454,3 +454,81 @@ def test_generate_falls_back_when_a_model_is_retired(monkeypatch):
     assistant._CACHE.clear()
     text, info = assistant.ask("k", [], "q", "brief", model="gemini-old")
     assert text == "hi" and info["model"] == "gemini-9.0-flash"
+
+
+def _fake_ibtracs(path):
+    rows = ["SID,SEASON,BASIN,NAME,ISO_TIME,LAT,LON,WMO_WIND,USA_WIND,USA_RMW",
+            " ,Year, , , ,degrees_north,degrees_east,kts,kts,nmile"]
+    # a west Pacific typhoon passing over a Philippine farm at 14N 121E
+    for i, (la, lo) in enumerate([(12.0, 128.0), (12.8, 125.5), (13.6, 123.0), (14.0, 121.0), (14.5, 118.5), (15.0, 116.0)]):
+        rows.append(f"2020001N12128,2020,WP,GONI,2020-10-31 {['00','06','12','18'][i % 4]}:00:00,{la},{lo},100,120,15")
+    rows.append("2020001N12128,2020,WP,GONI,2020-10-31 03:00:00,13.0,125.0,100,120,15")  # not synoptic: dropped
+    # an unnamed South Indian storm with only a 10-minute WMO wind
+    for i, (la, lo) in enumerate([(-15.0, 60.0), (-16.0, 58.0), (-17.0, 56.0)]):
+        rows.append(f"1985002S15060,1985,SI,NOT_NAMED,1985-02-01 {['00','06','12'][i]}:00:00,{la},{lo},44, ,")
+    rows.append("1965001N10100,1965,WP,OLD,1965-01-01 00:00:00,10,100,50,50,")  # before 1971: dropped
+    path.write_text("\n".join(rows) + "\n")
+
+
+def test_build_global_tracks(tmp_path):
+    import pandas as pd
+    from scripts import refresh_data
+    src = tmp_path / "ibtracs.csv"
+    _fake_ibtracs(src)
+    out = refresh_data.build_global_tracks(src, tmp_path / "g.csv.gz")
+    assert set(out["storm_id"]) == {"2020001N12128", "1985002S15060"}
+    assert len(out[out["storm_id"] == "2020001N12128"]) == 6
+    unnamed = out[out["storm_id"] == "1985002S15060"]
+    assert unnamed["name"].iloc[0] == "UNNAMED" and abs(unnamed["wind_kt"].iloc[0] - 50) < 1  # 44 / 0.88
+    assert len(pd.read_csv(tmp_path / "g.csv.gz")) == len(out)
+
+
+def test_global_storm_exposure_and_nearest(tmp_path, monkeypatch):
+    from scripts import refresh_data
+    from fieldshift import storms
+    src = tmp_path / "ibtracs.csv"
+    _fake_ibtracs(src)
+    refresh_data.build_global_tracks(src, tmp_path / "g.csv.gz")
+    monkeypatch.setattr(storms, "GLOBAL_FILE", tmp_path / "g.csv.gz")
+    storms.load_global.cache_clear()
+    try:
+        assert storms.source_for(14.0, 121.0) == "global"
+        assert storms.source_for(18.05, -77.72) == "atlantic"
+        imp = storms.storm_impacts(14.0, 121.0)
+        assert list(imp["name"]) == ["GONI"] and imp["site_wind_kt"].iloc[0] > 64
+        assert len(storms.storm_track("2020001N12128")) == 6
+        # a farm far from any track still gets its nearest storms, with distances
+        near = storms.nearest_storms(20.0, 121.0, max_km=3000)
+        assert near["name"].iloc[0] == "GONI" and 500 < near["closest_km"].iloc[0] < 800
+        assert storms.storm_impacts(20.0, 121.0).empty
+    finally:
+        storms.load_global.cache_clear()
+
+
+def test_news_location_and_saved_fallback(tmp_path, monkeypatch):
+    from fieldshift import news
+    assert news.region_of(10.6, -61.4) == "Caribbean"
+    assert news.region_of(1.0, -52.0) == "South America"
+    assert news.region_of(14.0, 121.0) == "Southeast Asia"
+    assert news.country_from_place("Caroni, Trinidad") == "Trinidad and Tobago"
+    assert news.query_for("place", "Brazil") == 'agriculture OR farmers OR crops "Brazil"'
+    bing_xml = ('<rss xmlns:News="https://www.bing.com/news/search?q=x&amp;format=rss"><channel><item><title>Rains help soy</title>'
+                '<link>https://example.org/a</link><pubDate>Mon, 16 Nov 2026 10:00:00 GMT</pubDate><News:Source>Reuters</News:Source>'
+                '</item></channel></rss>')
+    assert news.parse_rss(bing_xml)[0]["source"] == "Reuters"
+
+    def down(*a, **k):
+        raise RuntimeError("offline")
+    monkeypatch.setattr(news, "google", down)
+    monkeypatch.setattr(news, "bing", down)
+    assert news.news_for([("Brazil", "q"), ("World", "q")], folder=tmp_path) is None
+    news.save_cache("World", [{"title": "t", "link": "l", "source": "s", "date": "2026-11-16"}], tmp_path)
+    res = news.news_for([("Brazil", "q"), ("South America", "q"), ("World", "q")], folder=tmp_path)
+    assert res["how"] == "saved" and res["key"] == "World" and res["items"][0]["title"] == "t"
+    monkeypatch.setattr(news, "google", lambda q, limit=8: [{"title": "live", "link": "l", "source": "s", "date": ""}])
+    res = news.news_for([("Brazil", "q")], folder=tmp_path)
+    assert res["how"] == "live" and (tmp_path / "brazil.json").exists()
+    off = [n for n, _, _ in news.official_for("Philippines", "Southeast Asia", 14.0, 121.0)]
+    assert "Joint Typhoon Warning Center" in off and "NAMDEVCO" not in off
+    tt = [n for n, _, _ in news.official_for("Trinidad and Tobago", "Caribbean", 10.6, -61.4)]
+    assert "NAMDEVCO" in tt and "RADA (Jamaica)" not in tt

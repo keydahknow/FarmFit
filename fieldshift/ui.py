@@ -161,6 +161,11 @@ def load_forecast(lat, lon, day_key):
     return water.forecast(lat, lon)
 
 
+@st.cache_data(ttl=86400, show_spinner=False)
+def load_nearest_storms(lat, lon):
+    return storms.nearest_storms(lat, lon, n=6)
+
+
 @st.cache_data(ttl=900, show_spinner=False)
 def load_active_storms(slot):
     return stormwatch.active_storms()
@@ -940,7 +945,7 @@ def render_shift(bundle):
 # STORM READY
 # ---------------------------------------------------------------------------
 
-def make_map(lat, lon, impacts=None, date_str=None, height=380, top_storms=6, key="map", show_layer=None, live=None, zoom=6):
+def make_map(lat, lon, impacts=None, date_str=None, height=380, top_storms=6, key="map", show_layer=None, live=None, zoom=6, nearby=None):
     m = folium.Map(location=[lat, lon], zoom_start=zoom, control_scale=True, tiles=None)
     folium.TileLayer("OpenStreetMap", name="Street map").add_to(m)
     folium.TileLayer(tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -956,6 +961,15 @@ def make_map(lat, lon, impacts=None, date_str=None, height=380, top_storms=6, ke
             tr = storms.storm_track(s["storm_id"])
             folium.PolyLine(tr[["lat", "lon"]].to_numpy().tolist(), color=CAT_COLORS.get(s["site_category"], "#9aa3ad"),
                             weight=3, opacity=.9, tooltip=f"{s['name'].title()} {s['year']}: ≈ {s['site_wind_kt']:.0f} kt at the farm").add_to(g)
+        g.add_to(m)
+    if nearby is not None and len(nearby):
+        g = folium.FeatureGroup(name="Nearest storms on record (NOAA)", show=True)
+        for _, s in nearby.iterrows():
+            tr = storms.storm_track(s["storm_id"])
+            if len(tr) < 2:
+                continue
+            folium.PolyLine(tr[["lat", "lon"]].to_numpy().tolist(), color="#7d8a99", weight=2.5, opacity=.85, dash_array="6 5",
+                            tooltip=f"{s['name'].title()} {s['year']}: {s['storm_category']}, closest {s['closest_km']:,.0f} km from the farm").add_to(g)
         g.add_to(m)
     for s in live or []:
         folium.CircleMarker([s["lat"], s["lon"]], radius=10, color=art.TERRA, fill=True, fill_opacity=.8,
@@ -992,6 +1006,10 @@ def render_storm(bundle):
     elif live is None:
         st.markdown(f'<div class="al-storm">{art.stamp("feed unavailable", "ready")} &nbsp;Could not reach the NHC feed. '
                     'Check nhc.noaa.gov and your national met service.</div>', unsafe_allow_html=True)
+    elif not (lat >= 0 and -180 <= lon <= -20):
+        st.markdown(f'<div class="al-storm">{art.stamp("other region", "calm")} &nbsp;NOAA\'s hurricane center covers the Atlantic and '
+                    'eastern Pacific. For storm warnings at this farm, follow your national weather service (see the News page).</div>',
+                    unsafe_allow_html=True)
     else:
         st.markdown(f'<div class="al-storm">{art.stamp(t("all clear", lg), "calm")} &nbsp;{t("No active tropical storms in the Atlantic right now.", lg)}</div>',
                     unsafe_allow_html=True)
@@ -1012,25 +1030,55 @@ def render_storm(bundle):
     top = imp.iloc[0] if len(imp) else None
     st.markdown(art.heading(f"{t('How exposed is this farm?', lg)} NOAA, {summ['period']}"), unsafe_allow_html=True)
     rp = summ["return_period_storm_force"]
-    st.markdown(art.figures([
-        ("Storm-force wind here", f"1 in {rp:.0f} yrs" if rp else "none", f"{summ['storm_force_events']} events since 1971", "terra"),
-        ("Hurricane-force wind", f"{summ['hurricane_force_events']}", "events since 1971", None),
-        ("Riskiest months", ", ".join(summ["peak_months"]) or "—", "when storm-force wind arrived", None),
-        ("Strongest here", f"{top['name'].title()} {top['year']}" if top is not None else "—",
-         f"≈ {top['site_wind_kt']:.0f} kt at the farm" if top is not None else "", "terra"),
-    ]), unsafe_allow_html=True)
+    calm = summ["storm_force_events"] == 0
+    nearby = load_nearest_storms(lat, lon) if calm else None
+    near1 = nearby.iloc[0] if nearby is not None and len(nearby) else None
+    src = "NOAA IBTrACS, every ocean basin" if storms.source_for(lat, lon) == "global" else "NOAA HURDAT2, Atlantic"
+    if calm:
+        st.markdown(art.figures([
+            ("Storm-force wind here", "None on record", "since 1971: outside the main storm belts", "leaf"),
+            ("Storm tracks within 500 km", f"{len(imp)}", "any strength, since 1950", None),
+            ("Nearest storm on record", f"{near1['name'].title()} {near1['year']}" if near1 is not None else "Over 3,000 km away",
+             f"closest {near1['closest_km']:,.0f} km · {near1['storm_category']}" if near1 is not None else "no storm tracks nearby", None),
+            ("What still matters here", "Heavy rain", "drought and heat: see Weather and the risk gauges", "terra"),
+        ]), unsafe_allow_html=True)
+    else:
+        st.markdown(art.figures([
+            ("Storm-force wind here", f"1 in {rp:.0f} yrs" if rp else "none", f"{summ['storm_force_events']} events since 1971", "terra"),
+            ("Hurricane-force wind", f"{summ['hurricane_force_events']}", "events since 1971", None),
+            ("Riskiest months", ", ".join(summ["peak_months"]) or "—", "when storm-force wind arrived", None),
+            ("Strongest here", f"{top['name'].title()} {top['year']}" if top is not None else "—",
+             f"≈ {top['site_wind_kt']:.0f} kt at the farm" if top is not None else "", "terra"),
+        ]), unsafe_allow_html=True)
     left, right = st.columns([1.5, 1], gap="large")
     with left:
-        make_map(lat, lon, imp, key="storm_map", live=live or [])
+        far = near1["closest_km"] if near1 is not None else 0
+        make_map(lat, lon, imp, key="storm_map", live=live or [], nearby=nearby,
+                 zoom=6 if not calm else (5 if far < 700 else 4 if far < 1600 else 3))
     with right:
         t8 = imp.head(8).copy()
+        if calm and nearby is not None and len(nearby):
+            n8 = nearby.copy()
+            n8["Storm"] = n8["name"].str.title() + " " + n8["year"].astype(str)
+            n8["Closest to farm"] = n8["closest_km"].round(-1).astype(int).map("{:,} km".format)
+            n8["Strength"] = n8["storm_category"]
+            st.markdown("**Nearest storms on record**")
+            st.dataframe(n8[["Storm", "Closest to farm", "Strength"]], hide_index=True, use_container_width=True, height=228)
+            st.caption(f"No tropical storm has brought damaging wind here since 1971 ({src}). The dashed tracks show the "
+                       "closest storms, so you can see how far away the storm belt is. Heavy rain from distant systems "
+                       "and drought still matter: they are covered on the Weather page.")
+        elif calm:
+            st.caption(f"No tropical storm track has come within 3,000 km of this farm since 1971 ({src}). "
+                       "Heavy rain, drought and heat are covered on the Weather page.")
         if len(t8):
             prov = t8["provisional"].fillna(False).astype(bool) if "provisional" in t8 else False
             t8["Storm"] = t8["name"].str.title() + " " + t8["year"].astype(str) + np.where(prov, " *", "")
             t8["Wind here"] = t8["site_wind_kt"].round(0).astype(int).astype(str) + " kt"
             t8["Category here"] = t8["site_category"]
             st.dataframe(t8[["Storm", "Wind here", "Category here"]], hide_index=True, use_container_width=True, height=318)
-        st.caption("Wind at the farm is estimated from the NOAA track with a modified Rankine vortex. It is an exposure screen, not a forecast. * provisional.")
+        if len(t8):
+            st.caption(f"Wind at the farm is estimated from the NOAA track ({src}) with a modified Rankine vortex. "
+                       "It is an exposure screen, not a forecast. * provisional.")
 
     st.markdown(art.heading(t("Stress-test your calendar", lg)), unsafe_allow_html=True)
     allplans = {"current": current, **plans}

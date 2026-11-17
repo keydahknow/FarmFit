@@ -33,7 +33,7 @@ sys.path.insert(0, str(ROOT))
 import pandas as pd  # noqa: E402
 import requests  # noqa: E402
 
-from fieldshift import earthdata, enso, market, power, soil_terrain  # noqa: E402
+from fieldshift import earthdata, enso, market, news, power, soil_terrain  # noqa: E402
 
 CACHE = power.CACHE_DIR  # honours FIELDSHIFT_CACHE_DIR
 FARMS = ROOT / "data" / "farms.json"
@@ -41,6 +41,8 @@ IBTRACS_URL = ("https://www.ncei.noaa.gov/data/international-best-track-archive-
                "v04r01/access/csv/ibtracs.last3years.list.v04r01.csv")
 RECENT_TRACKS = ROOT / "data" / "ibtracs_recent.csv"
 HURDAT = ROOT / "data" / "hurdat2_caribbean.csv"
+IBTRACS_ALL_URL = IBTRACS_URL.replace("ibtracs.last3years.list", "ibtracs.ALL.list")
+GLOBAL_TRACKS = ROOT / "data" / "ibtracs_global.csv.gz"
 
 
 def now():
@@ -285,6 +287,67 @@ def refresh_ibtracs(manifest):
         record(manifest, "NOAA IBTrACS (current season)", "failed", error=str(error)[:300])
 
 
+def build_global_tracks(csv_path, out_path=GLOBAL_TRACKS, start_year=1971):
+    """Reduce the full IBTrACS file to 6-hourly fixes since start_year, every ocean basin."""
+    keep = {"SID", "SEASON", "BASIN", "NAME", "ISO_TIME", "LAT", "LON", "USA_WIND", "WMO_WIND", "USA_RMW"}
+    parts = []
+    for chunk in pd.read_csv(csv_path, skiprows=[1], low_memory=False, keep_default_na=False, na_values=["", " "],
+                             usecols=lambda c: c in keep, chunksize=200_000):
+        chunk["SEASON"] = pd.to_numeric(chunk["SEASON"], errors="coerce")
+        chunk = chunk[chunk["SEASON"] >= start_year]
+        if chunk.empty:
+            continue
+        t = pd.to_datetime(chunk["ISO_TIME"], errors="coerce")
+        chunk = chunk[t.dt.hour.isin([0, 6, 12, 18]) & (t.dt.minute == 0)]
+        for col in ("LAT", "LON", "USA_WIND", "WMO_WIND", "USA_RMW"):
+            chunk[col] = pd.to_numeric(chunk[col], errors="coerce")
+        # US agencies report 1-minute winds; other agencies 10-minute. Convert 10-min to 1-min (WMO factor 0.88).
+        wind = chunk["USA_WIND"].fillna(chunk["WMO_WIND"] / 0.88)
+        parts.append(pd.DataFrame({
+            "storm_id": chunk["SID"], "name": chunk["NAME"].str.upper().replace({"NOT_NAMED": "UNNAMED"}),
+            "year": pd.to_datetime(chunk["ISO_TIME"]).dt.year, "time": pd.to_datetime(chunk["ISO_TIME"]).dt.strftime("%Y-%m-%dT%H:%M"),
+            "basin": chunk["BASIN"], "lat": chunk["LAT"].round(2), "lon": chunk["LON"].round(2),
+            "wind_kt": wind.round(0), "rmw_nm": chunk["USA_RMW"],
+        }).dropna(subset=["wind_kt", "lat", "lon"]))
+    out = pd.concat(parts, ignore_index=True)
+    out.to_csv(out_path, index=False, compression="gzip")
+    return out
+
+
+def refresh_news(manifest):
+    """Save fresh headlines for the pilot countries, the Caribbean and the world,
+    so the News page always has recent headlines even when live feeds fail."""
+    got = {}
+    for key, q in news.PRESETS.items():
+        items, how = news.fetch(key, q, limit=10)
+        got[key] = len(items or [])
+    ok = sum(1 for v in got.values() if v)
+    record(manifest, "Farming news headlines (saved copy)", status_of(ok, len(got)), counts=got)
+
+
+def refresh_ibtracs_global(manifest, max_age_days=30):
+    """Global storm history so farms outside the Atlantic get real exposure. Rebuilt monthly."""
+    name = "NOAA IBTrACS (all basins, 1971+)"
+    try:
+        if GLOBAL_TRACKS.exists():
+            age = (datetime.now(timezone.utc).timestamp() - GLOBAL_TRACKS.stat().st_mtime) / 86400
+            prev = manifest["datasets"].get(name, {})
+            if prev.get("status") == "ok" and age < max_age_days:
+                return
+        tmp = ROOT / "ibtracs_all.tmp.csv"
+        with requests.get(IBTRACS_ALL_URL, stream=True, timeout=300) as r:
+            r.raise_for_status()
+            with open(tmp, "wb") as f:
+                for block in r.iter_content(1 << 20):
+                    f.write(block)
+        out = build_global_tracks(tmp)
+        tmp.unlink(missing_ok=True)
+        record(manifest, name, "ok", storms=int(out["storm_id"].nunique()), rows=len(out),
+               years=f"{int(out['year'].min())}-{int(out['year'].max())}", basins=sorted(out["basin"].dropna().unique().tolist()))
+    except Exception as error:  # noqa: BLE001
+        record(manifest, name, "failed", error=str(error)[:300])
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--quick", action="store_true", help="skip the AppEEARS task")
@@ -306,6 +369,8 @@ def main():
     if not args.quick:
         refresh_appeears(farms, manifest, args.appeears_wait)
     refresh_ibtracs(manifest)
+    refresh_ibtracs_global(manifest)
+    refresh_news(manifest)
     refresh_enso(manifest)
     refresh_market(manifest)
 
