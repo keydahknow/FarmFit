@@ -64,15 +64,42 @@ def encode(p):
     return base64.urlsafe_b64encode(raw).decode().rstrip("=")
 
 
+def clean(p):
+    """Make a profile from a link or file safe to use: unknown choices fall back to defaults,
+    coordinates must be numbers on the globe. Returns None if it can't be a farm."""
+    d = new(p.get("mode") if p.get("mode") in MODES else "farm")
+    d.update({k: v for k, v in p.items() if k in FIELDS})
+    d["mode"] = d["mode"] if d["mode"] in MODES else "farm"
+    for key, options in (("water", WATER), ("soil_type", SOIL_TYPES), ("size_unit", list(SIZE_UNITS))):
+        if d.get(key) not in options:
+            d[key] = options[0]
+    for key, options in (("equipment", EQUIPMENT), ("garden_space", GARDEN_SPACES)):
+        d[key] = [x for x in (d.get(key) or []) if x in options] if isinstance(d.get(key), list) else []
+    d["crops"] = [str(c) for c in d.get("crops") or []][:6] if isinstance(d.get("crops"), list) else []
+    try:
+        d["lat"], d["lon"] = float(d["lat"]), float(d["lon"])
+    except (TypeError, ValueError):
+        return None
+    if not (-90 <= d["lat"] <= 90 and -180 <= d["lon"] <= 180):
+        return None
+    for key in ("size", "ph", "sun_hours"):
+        try:
+            d[key] = float(d[key]) if d.get(key) not in (None, "") else None
+        except (TypeError, ValueError):
+            d[key] = None
+    for key in ("name", "place", "notes"):
+        d[key] = str(d.get(key) or "")[:200]
+    d["wet_field"] = bool(d.get("wet_field"))
+    return d if complete(d) else None
+
+
 def decode(s):
     try:
         raw = zlib.decompress(base64.urlsafe_b64decode(s + "=" * (-len(s) % 4)))
         data = json.loads(raw)
     except Exception:  # noqa: BLE001
         return None
-    p = new(data.get("mode", "farm"))
-    p.update({k: v for k, v in data.items() if k in FIELDS})
-    return p if complete(p) else None
+    return clean(data) if isinstance(data, dict) else None
 
 
 def from_json(text):
@@ -80,9 +107,7 @@ def from_json(text):
         data = json.loads(text)
     except Exception:  # noqa: BLE001
         return None
-    p = new(data.get("mode", "farm"))
-    p.update({k: v for k, v in data.items() if k in FIELDS})
-    return p if complete(p) else None
+    return clean(data) if isinstance(data, dict) else None
 
 
 def to_json(p):

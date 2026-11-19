@@ -1019,8 +1019,8 @@ def resilience(b):
     st.markdown(art.heading("Crops that stand up to wind best") + badge("model"), unsafe_allow_html=True)
     d = crops[crops["harvest_value"] > 0].copy()
     d["wind"] = d[["wind_seedling", "wind_vegetative", "wind_reproductive", "wind_mature"]].mean(axis=1)
-    d = d.reset_index().rename(columns={"index": "crop"})
-    d["crop"] = d[d.columns[0]]
+    # the crop table is indexed by crop *and* keeps a crop column, so drop the index rather than insert it again
+    d = d.reset_index(drop=True) if "crop" in d.columns else d.rename_axis("crop").reset_index()
     d = d.sort_values("wind")
     st.altair_chart(alt.Chart(d).mark_bar().encode(
         x=alt.X("wind:Q", title="share of the crop a hurricane typically destroys (FarmFit estimate)", axis=alt.Axis(format="%")),
