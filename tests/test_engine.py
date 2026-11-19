@@ -532,3 +532,14 @@ def test_news_location_and_saved_fallback(tmp_path, monkeypatch):
     assert "Joint Typhoon Warning Center" in off and "NAMDEVCO" not in off
     tt = [n for n, _, _ in news.official_for("Trinidad and Tobago", "Caribbean", 10.6, -61.4)]
     assert "NAMDEVCO" in tt and "RADA (Jamaica)" not in tt
+
+
+def test_profile_from_a_damaged_link_is_made_safe():
+    import json
+    from fieldshift import profile
+    p = profile.from_json(json.dumps({"mode": "garden", "lat": "10.6", "lon": -61.4, "water": "hose", "soil_type": "moon dust",
+                                      "size_unit": "furlongs", "equipment": ["Rain tank", "laser"], "crops": "Tomato", "size": "big"}))
+    assert p["water"] == profile.WATER[0] and p["soil_type"] == profile.SOIL_TYPES[0] and p["size_unit"] == "acres"
+    assert p["equipment"] == ["Rain tank"] and p["crops"] == [] and p["size"] is None and p["lat"] == 10.6
+    assert profile.from_json(json.dumps({"lat": 200, "lon": 0})) is None
+    assert profile.decode(profile.encode(p)) == p
