@@ -668,10 +668,7 @@ jamaica,2026-05-17,MOD16A2.061,ET_500m,27.0
 jamaica,2026-05-17,MOD16A2.061,PET_500m,50.4
 jamaica,2026-05-19,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.3598495
 jamaica,2026-05-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2054902
-jamaica,2026-05-20,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.33120310000000003
-jamaica,2026-05-21,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.33570859999999997
 jamaica,2026-05-22,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2596321
-jamaica,2026-05-22,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.33862332500000003
 jamaica,2026-05-23,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.33575742499999994
 jamaica,2026-05-24,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.33239032500000004
 jamaica,2026-05-25,MOD13Q1.061,_250m_16_days_NDVI,0.7006
@@ -967,6 +964,8 @@ jamaica,2026-11-12,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.39586291249999994
 jamaica,2026-11-13,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.39273581250000006
 jamaica,2026-11-14,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2669338
 jamaica,2026-11-14,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.3906237875
+jamaica,2026-11-15,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.388075225
+jamaica,2026-11-16,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.38538858750000005
 trinidad,2023-11-01,MOD13Q1.061,_250m_16_days_NDVI,0.755
 trinidad,2023-11-09,MOD16A2.061,ET_500m,20.4
 trinidad,2023-11-09,MOD16A2.061,PET_500m,35.1
@@ -1638,9 +1637,6 @@ trinidad,2026-05-17,MOD16A2.061,ET_500m,13.4
 trinidad,2026-05-17,MOD16A2.061,PET_500m,49.6
 trinidad,2026-05-18,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5322688
 trinidad,2026-05-20,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.2832925
-trinidad,2026-05-20,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.16411172499999999
-trinidad,2026-05-21,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.1644363375
-trinidad,2026-05-22,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.16529109999999997
 trinidad,2026-05-23,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,0.5067414
 trinidad,2026-05-23,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.16633907500000003
 trinidad,2026-05-24,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.16784719999999997
@@ -1934,3 +1930,5 @@ trinidad,2026-11-12,SPL3SMP_E.006,Soil_Moisture_Retrieval_Data_AM_soil_moisture,
 trinidad,2026-11-12,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.21109424999999998
 trinidad,2026-11-13,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.21113333750000002
 trinidad,2026-11-14,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.21025727499999997
+trinidad,2026-11-15,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2070449375
+trinidad,2026-11-16,SPL4SMGP.008,Geophysical_Data_sm_rootzone,0.2037250875
