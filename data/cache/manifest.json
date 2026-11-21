@@ -1,34 +1,34 @@
 {
   "datasets": {
     "NASA POWER": {
-      "updated": "2026-11-20T17:45:40+00:00",
+      "updated": "2026-11-21T16:45:17+00:00",
       "status": "ok",
       "farms": 2,
       "period": "1996-2025 + last 45 days"
     },
     "ISRIC SoilGrids": {
-      "updated": "2026-11-20T17:45:40+00:00",
+      "updated": "2026-11-21T16:45:17+00:00",
       "status": "ok",
       "farms": 2,
       "errors": []
     },
     "NASA SRTM": {
-      "updated": "2026-11-20T17:45:40+00:00",
+      "updated": "2026-11-21T16:45:17+00:00",
       "status": "ok",
       "farms": 2
     },
     "GPM IMERG": {
-      "updated": "2026-11-20T18:04:30+00:00",
+      "updated": "2026-11-21T16:49:19+00:00",
       "status": "partial",
       "farms": 1,
       "note": "IMERG V07 daily: Final (gauge-adjusted) where available, else Late (~1 day behind)",
       "errors": [
-        "jamaica 2026-07-23..2026-11-19: OPeNDAP: no values || Giovanni: GPM_3IMERGDF_07_precipitation: HTTP 404 'Data, GPM_3IMERGDF_07_precipitation, was not found for the requested time range 2026-07-23T00:00:00/2026-11-19T23:59:59.'; GPM_3IMERGHH_07_precipitation: HTTP 404 'Data, GPM_3IMERGHH_07_precipitation, was not found for the requested time range 2026-07-23T00:00:00/2026-11-19T23:59:59.'",
-        "trinidad 2026-07-23..2026-11-19: OPeNDAP: 2026-07-23 late: HTTPSConnectionPool(host='gpm1.gesdisc.eosdis.nasa.gov', port=443): Max retries exceeded with url: /opendap/GPM_L3/GPM_3IMERGDL.07/2026/07/3B-DAY-L.MS.MRG.3IMER || Giovanni: GPM_3IMERGDF_07_precipitation: HTTP 404 'Data, GPM_3IMERGDF_07_precipitation, was not found for the requested time range 2026-07-23T00:00:00/2026-11-19T23:59:59.'; GPM_3IMERGHH_07_precipitation: HTTP 404 'Data, GPM_3IMERGHH_07_precipitation, was not found for the requested time range 2026-07-23T00:00:00/2026-11-19T23:59:59.'"
+        "jamaica 2026-07-24..2026-11-20: OPeNDAP: no values || Giovanni: GPM_3IMERGDF_07_precipitation: HTTP 404 'Data, GPM_3IMERGDF_07_precipitation, was not found for the requested time range 2026-07-24T00:00:00/2026-11-20T23:59:59.'; GPM_3IMERGHH_07_precipitation: HTTP 404 'Data, GPM_3IMERGHH_07_precipitation, was not found for the requested time range 2026-07-24T00:00:00/2026-11-20T23:59:59.'",
+        "trinidad 2026-07-24..2026-11-20: OPeNDAP: 2026-07-24 final: HTTPSConnectionPool(host='gpm1.gesdisc.eosdis.nasa.gov', port=443): Max retries exceeded with url: /opendap/GPM_L3/GPM_3IMERGDF.07/2026/07/3B-DAY.MS.MRG.3IMERG. || Giovanni: GPM_3IMERGDF_07_precipitation: HTTP 404 'Data, GPM_3IMERGDF_07_precipitation, was not found for the requested time range 2026-07-24T00:00:00/2026-11-20T23:59:59.'; GPM_3IMERGHH_07_precipitation: HTTP 404 'Data, GPM_3IMERGHH_07_precipitation, was not found for the requested time range 2026-07-24T00:00:00/2026-11-20T23:59:59.'"
       ]
     },
     "NOAA IBTrACS (current season)": {
-      "updated": "2026-11-20T18:04:35+00:00",
+      "updated": "2026-11-21T16:49:20+00:00",
       "status": "ok",
       "storms": 8,
       "seasons_after": 2025,
@@ -42,12 +42,12 @@
         "ISAIAS",
         "JOSEPHINE"
       ],
-      "rows": 25035,
+      "rows": 25075,
       "latest_season": 2027,
       "atlantic_new": 458
     },
     "NASA AppEEARS (SMAP, MODIS NDVI + ET)": {
-      "updated": "2026-11-20T18:04:34+00:00",
+      "updated": "2026-11-21T16:49:19+00:00",
       "status": "ok",
       "groups": {
         "core": {
@@ -83,14 +83,14 @@
       "pending": []
     },
     "NOAA ENSO (ONI)": {
-      "updated": "2026-11-20T18:04:36+00:00",
+      "updated": "2026-11-21T16:49:21+00:00",
       "status": "ok",
       "latest": "ASO 2026",
       "anomaly": 2.46,
       "phase": "El Ni\u00f1o"
     },
     "NAMDEVCO wholesale prices": {
-      "updated": "2026-11-20T18:04:37+00:00",
+      "updated": "2026-11-21T16:49:22+00:00",
       "status": "failed",
       "error": "HTTPSConnectionPool(host='data.gov.tt', port=443): Max retries exceeded with url: /api/3/action/package_search?q=namdevco+wholesale+prices&rows=30 (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl"
     },
@@ -111,7 +111,7 @@
       ]
     },
     "Farming news headlines (saved copy)": {
-      "updated": "2026-11-20T18:04:36+00:00",
+      "updated": "2026-11-21T16:49:21+00:00",
       "status": "ok",
       "counts": {
         "Trinidad and Tobago": 10,
@@ -125,6 +125,6 @@
     "jamaica",
     "trinidad"
   ],
-  "generated": "2026-11-20T18:04:37+00:00",
+  "generated": "2026-11-21T16:49:22+00:00",
   "appeears_tasks": {}
 }
