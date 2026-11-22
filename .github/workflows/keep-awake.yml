@@ -1,0 +1,48 @@
+name: Keep app awake
+
+# Streamlit Community Cloud puts apps to sleep after 12 hours without visitors.
+# This opens the live app every 4 hours (and wakes it if needed) until KEEP_AWAKE_UNTIL.
+on:
+  schedule:
+    - cron: "23 */4 * * *"
+  workflow_dispatch:
+
+env:
+  APP_URL: https://hurricanetoharvest.streamlit.app/?farm=trinidad
+  KEEP_AWAKE_UNTIL: "2026-12-31"
+
+jobs:
+  visit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Still in the keep-awake period?
+        id: when
+        run: |
+          if [[ "$(date -u +%F)" > "$KEEP_AWAKE_UNTIL" ]]; then
+            echo "Keep-awake period ended on $KEEP_AWAKE_UNTIL; skipping."
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+        if: steps.when.outputs.run == 'true'
+      - uses: actions/setup-python@v5
+        if: steps.when.outputs.run == 'true'
+        with:
+          python-version: "3.12"
+      - name: Install a headless browser
+        if: steps.when.outputs.run == 'true'
+        run: |
+          pip install playwright==1.*
+          python -m playwright install --with-deps chromium
+      - name: Visit the app
+        if: steps.when.outputs.run == 'true'
+        run: python scripts/keep_awake.py
+      - name: Save a screenshot if it failed
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: keep-awake-failure
+          path: keep_awake_failure.png
+          if-no-files-found: ignore
